@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">民宿商家版</string>
+    <string name="draw_open">open</string>
+    <string name="draw_close">close</string>
+</resources>

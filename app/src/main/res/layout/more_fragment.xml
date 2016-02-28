@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowBackground"
+    android:orientation="vertical">
+
+
+        <!--<com.geometryfinance.view.PullToLinearLayout-->
+            <!--android:layout_width="100dp"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:background="@color/blue_background"></com.geometryfinance.view.PullToLinearLayout>-->
+        <hotel.convenient.com.view.LinearLayoutMenu
+            android:id="@+id/miv_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:nextPageSrc="@mipmap/ic_has_next_page"
+            app:menuTitle="关于民宿系统"
+            app:lineUp="gone"
+            app:lineDown="gap"
+            app:img="@drawable/icon_guanyu"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            />
+        <hotel.convenient.com.view.LinearLayoutMenu
+            android:id="@+id/miv_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:nextPageSrc="@mipmap/ic_has_next_page"
+            app:menuTitle="新闻公告"
+            app:lineUp="gone"
+            app:lineDown="gap"
+            app:img="@drawable/icon_gonggao"
+            />
+
+        <hotel.convenient.com.view.LinearLayoutMenu
+            android:id="@+id/miv_innermess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:nextPageSrc="@mipmap/ic_has_next_page"
+            app:menuTitle="站内信息"
+            app:lineUp="gone"
+            app:lineDown="gap"
+            app:img="@drawable/icon_xinxi"
+            />
+        <hotel.convenient.com.view.LinearLayoutMenu
+            android:id="@+id/tv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:nextPageSrc="@mipmap/ic_has_next_page"
+            app:menuTitle="客服热线"
+            app:lineUp="gone"
+            app:lineDown="gone"
+            app:img="@drawable/icon_kefu"
+            app:menuMsg="400-133-8998"
+            />
+
+</LinearLayout>

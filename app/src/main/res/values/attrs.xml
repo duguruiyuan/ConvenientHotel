@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LinearLayoutMenu">
+        <attr name="nextPageSrc" format="reference" />
+        <attr name="menuTitle" format="string" />
+        <attr name="menuMsg" format="string" />
+        <attr name="titleColor" format="color" />
+        <attr name="titleSize" format="dimension" />
+        <attr name="msgColor" format="color" />
+        <attr name="msgSize" format="dimension" />
+        <attr name="showArrow" format="boolean" />
+        <attr name="lineUp" >
+            <enum name="fill" value="2"></enum>
+            <enum name="gap" value="3"></enum>
+            <enum name="gone" value="4"></enum>
+        </attr>
+        <attr name="lineDown" >
+            <enum name="fill" value="0"></enum>
+            <enum name="gap" value="1"></enum>
+            <enum name="gone" value="5"></enum>
+        </attr>
+        <attr name="menuMsgIcon" format="reference"/>
+        <attr name="img" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="MoreItemView">
+        <attr name="drawic" format="reference"/>
+        <attr name="texttit" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="expandrl">
+        <attr name="itemtitle" format="string"/>
+    </declare-styleable>
+
+    
+    <declare-styleable name="LinearLayoutEditText">
+        <!--左边的图标-->
+        <attr name="nameIcon" format="reference"/>
+        <!--右边按钮的名字  可以设置按钮点击事件-->
+        <attr name="button_name" format="string"/>
+        <!--左边显示要输入内容的名称-->
+        <attr name="text_name" format="string"/>
+        <!--左边显示要输入内容的名称 的宽度-->
+        <attr name="text_name_width" format="dimension"/>
+        <!--edit的提示信息-->
+        <attr name="edit_text_hint" format="string"/>
+        <!--edit的显示信息 设置后则该edit不能输入内容-->
+        <attr name="edit_text" format="string"/>
+        <!--edit显示文字的颜色-->
+        <attr name="edit_text_color" format="reference"/>
+        <!--edit的提示信息的颜色-->
+        <attr name="edit_hint_color" format="reference"/>
+        <!--左边显示要输入内容的名称的颜色-->
+        <attr name="name_text_color" format="reference"/>
+        <!--左边显示要输入内容的名称的大小-->
+        <attr name="name_text_size" format="dimension"/>
+        <!--edit文字的大小-->
+        <attr name="edit_text_size" format="dimension"/>
+        <!--是否可以有清空功能-->
+        <attr name="isCancel" format="boolean"/>
+        <!--整个控件的背景色-->
+        <attr name="item_background" format="reference"/>
+        <!--是否显示上分隔线-->
+        <attr name="showTopLine" format="boolean"/>
+        <!--是否显示下分隔线-->
+        <attr name="showBottomLine" format="boolean"/>
+        <!--是否是密码输入-->
+        <attr name="isPassword" format="boolean"/>
+        <attr name="hideEditText" format="boolean"/>
+        <attr name="backgroundDrawable" format="reference"/>
+        <attr name="itemHeight" format="dimension"/>
+        <!--输入框右边的图标-->
+        <attr name="edit_text_image" format="reference"/>
+    </declare-styleable>
+</resources>
