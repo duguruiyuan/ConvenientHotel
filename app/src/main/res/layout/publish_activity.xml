@@ -26,7 +26,7 @@
         app:text_name="房间面积"
         app:edit_text_hint="发布的房间面积"
         app:text_name_width="60dp"
-        android:id="@+id/phone" />
+        android:id="@+id/room_area" />
     <hotel.convenient.com.view.LinearLayoutEditTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,10 +63,40 @@
         app:text_name="门牌号"
         app:edit_text_hint="填写门牌号"
         app:text_name_width="60dp"
-        app:edit_text_image="@drawable/dropdown"
         android:id="@+id/house_number"
         app:edit_text_color="@color/loginPageTextColor"
         />
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        >
+        <LinearLayout
+            android:id="@+id/ll_add_image_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/ll_add_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/rectangle_box_dash"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableTop="@drawable/add"
+                    android:text="添加房间照片"
+                    android:drawablePadding="5dp"
+                    android:textColor="@color/gray_color"
+                    />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </HorizontalScrollView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/confirm_height"

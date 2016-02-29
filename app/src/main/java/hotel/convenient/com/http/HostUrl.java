@@ -47,4 +47,6 @@ public class HostUrl {
     public static final String URL_REGISTER = "/dealer/register";
 
     public static final String URL_GET_ROOM_INFO = "/dealer/get_room_info";
+
+    public static final String URL_POST_PUBLISH_ROOM = "/dealer/post_publish_room";
 }
