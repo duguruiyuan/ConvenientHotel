@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,12 +20,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -89,7 +84,6 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         @Override
         public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
             if (resultJson.getCode() == CODE_SUCCESS) {
-                addListener();
                 String data1 = JSONObject.parseObject(result).getJSONArray("data").toString();
                 List<PickType> data = JSONObject.parseArray(data1, PickType.class);
                 LogUtils.e(data.toString());
@@ -99,6 +93,17 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
             }
         }
     };
+    
+    private SimpleCallback simpleCallbackByUpload = new SimpleCallback(this) {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if (resultJson.getCode() == CODE_SUCCESS) {
+                    JSONObject data = JSONObject.parseObject(result).getJSONObject("data");
+                } else {
+                    showShortToast(resultJson.getMsg());
+                } 
+            }
+        };
     @Override
     public void initData(Bundle savedInstanceState) {
         showBackPressed();
@@ -108,6 +113,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         chooseCity.disableInput();
         roomType.disableInput();
         chooseCityMap.disableInput();
+        addListener();
     }
     public void getRoomInfoByHttp(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_GET_ROOM_INFO);
@@ -184,20 +190,28 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
                 startOpenImageByPhotograph(IMAGE_PHOTOGRAPH_CODE);
                 break;
             case R.id.next_confirm:
-
+                uploadByHttp();
                 break;
         }
     }
-//    private void uploadByHttp(){
-//        String nameText = name.getText();
-//        String areaText = area.getText();
-//        String chooseCityMapText = chooseCityMap.getText();
-//        house_number
-//        llAddImageGroup
-//        RequestParams params = new RequestParams(HostUrl.HOST+ HostUrl.URL_POST_PUBLISH_ROOM);
-//        params.addBodyParameter("", );
-//        HttpUtils.post(params, simpleCallback);
-//    }
+    private void uploadByHttp(){
+        String nameText = name.getText();
+        String areaText = area.getText();
+        String chooseCityMapText = chooseCityMap.getText();
+        String house_numberText = house_number.getText();
+        RequestParams params = new RequestParams(HostUrl.HOST+ HostUrl.URL_POST_PUBLISH_ROOM);
+        params.addBodyParameter("name",nameText );
+        params.addBodyParameter("room_area",areaText );
+        params.addBodyParameter("room_type",selectRoomType+"" );
+        params.addBodyParameter("room_province",selectedProvince );
+        params.addBodyParameter("room_city",selectCity );
+        params.addBodyParameter("room_address_detail",chooseCityMapText ); 
+        params.addBodyParameter("room_house_number",house_numberText );
+        for (int i = 0; i < fileList.size(); i++) {
+            params.addBodyParameter("room_image",fileList.get(i) );
+        }
+        HttpUtils.post(params, simpleCallbackByUpload);
+    }
     /**
      * 从本地相册获取图片
      * @return
