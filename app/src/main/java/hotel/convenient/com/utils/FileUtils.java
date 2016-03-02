@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Created by Gyb on 2015/12/30 10:45
@@ -42,8 +41,14 @@ public class FileUtils {
         if(result.exists()){
             File[] list = result.listFiles()[0].listFiles();
             for (File file:list){
-                LogUtils.e("缓存文件已删除"+ file.getAbsolutePath());
-                file.deleteOnExit();
+                if(file.exists()){
+                    if (file.delete()) {
+                        LogUtils.e("缓存文件已删除" + file.getAbsolutePath());
+                    } else {
+                        LogUtils.e("缓存文件删除失败" + file.getAbsolutePath());
+                    } 
+                    
+                }
             }
         }
     }
@@ -89,8 +94,9 @@ public class FileUtils {
             e.printStackTrace();
         }finally {
             try {
-                if(out!=null)
-                out.close();
+                if(out!=null){
+                    out.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

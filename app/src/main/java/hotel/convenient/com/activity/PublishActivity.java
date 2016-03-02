@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,6 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private Button nextConfirm;
     private LinearLayout llAddImageGroup;
     private LinearLayout llAddImage;
-    private Button next_confirm;
 
     private List<ImageViewCanDelete> imageViewCanDeletes = new ArrayList<>();
 
@@ -78,15 +78,13 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     public static final int TAG_CROP = 15;
     private Uri imageUri;
     private File file;
-    private List<File> fileList = new ArrayList<>();
-
+    private SparseArray<File> fileSparseArray = new SparseArray<>();
     private SimpleCallback simpleCallback = new SimpleCallback(this) {
         @Override
         public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
             if (resultJson.getCode() == CODE_SUCCESS) {
                 String data1 = JSONObject.parseObject(result).getJSONArray("data").toString();
                 List<PickType> data = JSONObject.parseArray(data1, PickType.class);
-                LogUtils.e(data.toString());
                 typePickerDialog.setList(data);
             } else {
                 showShortToast(resultJson.getMsg());
@@ -109,11 +107,11 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         showBackPressed();
         setTitle("填写发布信息");
         findView();
+        addListener();
         getRoomInfoByHttp();
         chooseCity.disableInput();
         roomType.disableInput();
         chooseCityMap.disableInput();
-        addListener();
     }
     public void getRoomInfoByHttp(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_GET_ROOM_INFO);
@@ -128,6 +126,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         roomType.setOnClickListener(this);
         chooseCityMap.setOnClickListener(this);
         llAddImage.setOnClickListener(this);
+        nextConfirm.setOnClickListener(this);
     }
 
 
@@ -160,6 +159,9 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.next_confirm:
+                uploadByHttp();
+                break;
             case R.id.choose_city_map:
                 if(isEmpty(selectCity)){
                     showShortToast("请先选择所在地");
@@ -189,9 +191,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
                 closeDialog();
                 startOpenImageByPhotograph(IMAGE_PHOTOGRAPH_CODE);
                 break;
-            case R.id.next_confirm:
-                uploadByHttp();
-                break;
+            
         }
     }
     private void uploadByHttp(){
@@ -207,8 +207,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         params.addBodyParameter("room_city",selectCity );
         params.addBodyParameter("room_address_detail",chooseCityMapText ); 
         params.addBodyParameter("room_house_number",house_numberText );
-        for (int i = 0; i < fileList.size(); i++) {
-            params.addBodyParameter("room_image",fileList.get(i) );
+        for (int i = 0; i < fileSparseArray.size(); i++) {
+            params.addBodyParameter("room_image",fileSparseArray.valueAt(i) );
         }
         HttpUtils.post(params, simpleCallbackByUpload);
     }
@@ -232,8 +232,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         getAlbum.putExtra("aspectX", 1);
         getAlbum.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
-        getAlbum.putExtra("outputX", 300);
-        getAlbum.putExtra("outputY", 300);
+        getAlbum.putExtra("outputX", 800);
+        getAlbum.putExtra("outputY", 800);
         getAlbum.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
         startActivityForResult(getAlbum, TAG_CROP);
     }
@@ -275,15 +275,10 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
                 e.printStackTrace();
             }
 
-            imageViewCanDeletes.get(imageViewCanDeletes.size()-1).setImageBitmap(bitmap);
+            ImageViewCanDelete imageViewCanDelete = imageViewCanDeletes.get(imageViewCanDeletes.size() - 1);
+            imageViewCanDelete.setImageBitmap(bitmap);
             File file = FileUtils.saveBitmap2file(this,bitmap, "room"+imageViewCanDeletes.size()+".jpg");
-//            File file = FileUtils.saveInputStream2File(this,imageUri,"room"+imageViewCanDeletes.size()+".jpg");
-//            try {
-//                imageViewCanDeletes.get(imageViewCanDeletes.size()-1).setImageBitmap(BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri)));
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            }
-            fileList.add(file);
+            fileSparseArray.put(imageViewCanDeletes.size() - 1,file);
         }
     }
     /**
@@ -300,8 +295,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 300);
-        intent.putExtra("outputY", 300);
+        intent.putExtra("outputX", 800);
+        intent.putExtra("outputY", 800);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
         // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CUT
         startActivityForResult(intent, code);
@@ -328,7 +323,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
 
     @Override
     public void onDeleteClick(View view) {
-        fileList.remove((int)view.getTag());
+        fileSparseArray.remove((int)view.getTag());
         llAddImageGroup.removeView(view);
         imageViewCanDeletes.remove(view);
     }

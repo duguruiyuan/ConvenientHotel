@@ -6,6 +6,7 @@ import org.xutils.http.app.RequestTracker;
 import org.xutils.http.request.UriRequest;
 
 import java.io.EOFException;
+import java.io.IOException;
 import java.net.SocketException;
 
 import hotel.convenient.com.utils.LogUtils;
@@ -66,9 +67,16 @@ public abstract class CommonCallback implements RequestTracker,Callback.Progress
 //            ex.printStackTrace();
             // 碰到后  直接重新请求
             HttpUtils.post(request.getParams(),this);
+            return;
         }else if(ex instanceof SocketException){
             // 碰到后  直接重新请求
             HttpUtils.post(request.getParams(),this);
+            return;
+        }else if(ex instanceof IOException){
+            // 碰到后  直接重新请求
+            if(ex.getMessage().equals("unexpected end of stream"))
+            HttpUtils.post(request.getParams(),this);
+            return;
         } else{ // 其他错误
             LogUtils.defaultLog("服务器未知错误" + ex);
             ex.printStackTrace();
