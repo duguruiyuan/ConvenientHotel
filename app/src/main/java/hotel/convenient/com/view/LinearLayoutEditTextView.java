@@ -233,8 +233,10 @@ public class LinearLayoutEditTextView extends LinearLayout {
             input_text.setText(msg);
             input_text.setTextColor(color);
             disableInput();
+            setText(msg);
         }
     }
+        
     private void initView(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.linearlayout_edittext_item,this);
         input_value = (EditText) view.findViewById(R.id.input_value);

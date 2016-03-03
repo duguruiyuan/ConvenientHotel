@@ -1,6 +1,7 @@
 package hotel.convenient.com.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +25,10 @@ import org.xutils.view.annotation.ContentView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +37,7 @@ import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Address;
 import hotel.convenient.com.domain.PickType;
+import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.ResultJson;
@@ -39,6 +45,7 @@ import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.FileUtils;
 import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.utils.TextUtils;
 import hotel.convenient.com.view.CityPickerDialog;
 import hotel.convenient.com.view.CityPickerDialog.OnCityInfoListener;
 import hotel.convenient.com.view.ImageViewCanDelete;
@@ -59,6 +66,11 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private Button nextConfirm;
     private LinearLayout llAddImageGroup;
     private LinearLayout llAddImage;
+    private LinearLayoutEditTextView roomPrice;
+    private LinearLayoutEditTextView choosePublishEndDate;
+
+    
+
 
     private List<ImageViewCanDelete> imageViewCanDeletes = new ArrayList<>();
 
@@ -66,11 +78,12 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private TypePickerDialog typePickerDialog;
     private String selectedProvince;
     private String selectCity;
-    private int selectRoomType;
+    private int selectRoomType=-1;
     private Address address;
     private View loadAlertDialog;
     private TextView load_choose_local_image;
     private TextView load_photograph;
+    private DatePicker datePicker;
 
     private final String IMAGE_TYPE = "image/*";
     private final int IMAGE_LOCAL_CODE = 10;
@@ -78,6 +91,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     public static final int TAG_CROP = 15;
     private Uri imageUri;
     private File file;
+    private Calendar today;
     private SparseArray<File> fileSparseArray = new SparseArray<>();
     private SimpleCallback simpleCallback = new SimpleCallback(this) {
         @Override
@@ -112,6 +126,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         chooseCity.disableInput();
         roomType.disableInput();
         chooseCityMap.disableInput();
+        choosePublishEndDate.disableInput();
     }
     public void getRoomInfoByHttp(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_GET_ROOM_INFO);
@@ -127,6 +142,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         chooseCityMap.setOnClickListener(this);
         llAddImage.setOnClickListener(this);
         nextConfirm.setOnClickListener(this);
+        choosePublishEndDate.setOnClickListener(this);
     }
 
 
@@ -140,7 +156,20 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         house_number = (LinearLayoutEditTextView) findViewById(R.id.house_number);
         llAddImageGroup = (LinearLayout) findViewById(R.id.ll_add_image_group);
         llAddImage = (LinearLayout) findViewById(R.id.ll_add_image);
+        roomPrice = (LinearLayoutEditTextView) findViewById(R.id.room_price);
+        choosePublishEndDate = (LinearLayoutEditTextView) findViewById(R.id.choose_publish_end_date);
         initLoadDialog();
+        today = new GregorianCalendar();
+        today.add(Calendar.WEEK_OF_MONTH,1);
+        //时间选择器
+        datePicker = new DatePicker(this);
+        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
+            @Override
+            public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                
+            }
+        });
+        datePicker.setCalendarViewShown(false);
     }
 
     @Override
@@ -191,22 +220,91 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
                 closeDialog();
                 startOpenImageByPhotograph(IMAGE_PHOTOGRAPH_CODE);
                 break;
+            case R.id.choose_publish_end_date:  //选择日期
+                
+                showAlertDialog("选择结束日期", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int year = datePicker.getYear();
+                        int month = datePicker.getMonth();
+                        int day = datePicker.getDayOfMonth();
+                        GregorianCalendar calendar = new GregorianCalendar(year, month, day);
+                        today = new GregorianCalendar();
+                        today.add(Calendar.DAY_OF_MONTH,6);
+                        if(today.after(calendar)){
+                            showShortToast("发布的持续时间必须大于7天");
+                            return;
+                        }
+                        choosePublishEndDate.setInputText(new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime()));
+                    }
+                },datePicker);
+                break;
             
         }
     }
     private void uploadByHttp(){
         String nameText = name.getText();
         String areaText = area.getText();
+        String roomPriceText = roomPrice.getText();
         String chooseCityMapText = chooseCityMap.getText();
         String house_numberText = house_number.getText();
+        String choosePublishEndDateText = choosePublishEndDate.getText();
+        if(isEmpty(nameText)){
+            showShortToast("房子名称不能为空");
+            return;
+        }
+        if(isEmpty(areaText)){
+            showShortToast("房间面积不能为空");
+            return;
+        }
+        if(!TextUtils.checkMoney(areaText)){
+            showShortToast("房间面积格式错误");
+            return;
+        }
+        if(isEmpty(roomPriceText)){
+            showShortToast("房间价格不能为空");
+            return;
+        }
+        if(!TextUtils.checkMoney(roomPriceText)){
+            showShortToast("房间价格格式错误");
+            return;
+        }
+        if(selectRoomType==-1){
+            showShortToast("请选择房间类型");
+            return;
+        }
+        if(isEmpty(selectedProvince)){
+            showShortToast("请选择房间所在地");
+            return;
+        }
+        if(isEmpty(chooseCityMapText)){
+            showShortToast("请选择详细地址");
+            return;
+        }
+        if(isEmpty(house_numberText)){
+            showShortToast("门派号不能为空");
+            return;
+        }
+        if(isEmpty(choosePublishEndDateText)){
+            showShortToast("结束日期不能为空");
+            return;
+        }
+        if(fileSparseArray.size()<1){
+            showShortToast("至少需要上传一张房间照片");
+            return;
+        }
         RequestParams params = new RequestParams(HostUrl.HOST+ HostUrl.URL_POST_PUBLISH_ROOM);
-        params.addBodyParameter("name",nameText );
-        params.addBodyParameter("room_area",areaText );
-        params.addBodyParameter("room_type",selectRoomType+"" );
-        params.addBodyParameter("room_province",selectedProvince );
-        params.addBodyParameter("room_city",selectCity );
-        params.addBodyParameter("room_address_detail",chooseCityMapText ); 
-        params.addBodyParameter("room_house_number",house_numberText );
+        Publish publish = new Publish();
+        publish.setName(nameText);
+        publish.setRoom_area(areaText);
+        publish.setRoom_price(roomPriceText);
+        publish.setRoom_type(selectRoomType+"");
+        publish.setRoom_province(selectedProvince);
+        publish.setRoom_city(selectCity);
+        publish.setRoom_address_detail(chooseCityMapText);
+        publish.setRoom_house_number(house_numberText);
+        publish.setPublish_end_time(choosePublishEndDateText);
+        params.addBodyParameter("json",JSONObject.toJSONString(publish));
         for (int i = 0; i < fileSparseArray.size(); i++) {
             params.addBodyParameter("room_image",fileSparseArray.valueAt(i) );
         }
@@ -256,7 +354,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 address = (Address) data.getSerializableExtra("address");
-                chooseCityMap.setInputText(address.getDistrict()+address.getStreet()+address.getStreetNumber());
+                chooseCityMap.setInputText(address.getDistrict()+address.getStreet());
+                house_number.setText(address.getStreetNumber());
             }
         }
         //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口

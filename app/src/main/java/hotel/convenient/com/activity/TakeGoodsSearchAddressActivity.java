@@ -129,7 +129,11 @@ public class TakeGoodsSearchAddressActivity extends BaseActivity {
 								if(result.getAllSuggestions()!=null&&result.getAllSuggestions().size()!=0){
 									for(SuggestionInfo suggestionInfo:result.getAllSuggestions()){
 										String city = suggestionInfo.city;
-										if(city.contains(TakeGoodsSearchAddressActivity.this.city)){
+										if(city==null){
+											if(flag){
+												flag =false;
+											}
+										}else if(city.contains(TakeGoodsSearchAddressActivity.this.city)){
 											String district = suggestionInfo.district;
 											resultName = suggestionInfo.key;
 											LatLng latlng = suggestionInfo.pt;
@@ -168,8 +172,6 @@ public class TakeGoodsSearchAddressActivity extends BaseActivity {
 						}
 					}
 				});
-				//local.destory();
-				
 			}
 			
 			@Override

@@ -2,12 +2,9 @@ package hotel.convenient.com.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Environment;
 import android.os.StatFs;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -56,26 +53,6 @@ public class FileUtils {
     private static boolean existsSdcard(Context context) {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
-
-    public static File saveInputStream2File(Context context,Uri imageUri,String filename){
-        File file = new File(getCacheDir(context),filename) ;
-        try {
-            BufferedInputStream inputStream = new BufferedInputStream(context.getContentResolver().openInputStream(imageUri));
-            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file));
-            byte[] bytes = new byte[1024];
-            int len;
-            while((len=inputStream.read(bytes))!=-1){
-                outputStream.write(bytes,0,len);
-            }
-            inputStream.close();
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return file;
-    }
     public static File saveBitmap2file(Context context,Bitmap bitmap,String filename){
         FileOutputStream out = null;
         File file = null;
@@ -97,7 +74,7 @@ public class FileUtils {
                 if(out!=null){
                     out.close();
                 }
-            } catch (IOException e) {
+            } catch (IOException e) { 
                 e.printStackTrace();
             }
         }
