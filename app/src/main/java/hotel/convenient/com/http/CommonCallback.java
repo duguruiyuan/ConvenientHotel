@@ -74,7 +74,7 @@ public abstract class CommonCallback implements RequestTracker,Callback.Progress
             return;
         }else if(ex instanceof IOException){
             // 碰到后  直接重新请求
-            if(ex.getMessage().equals("unexpected end of stream"))
+            if("unexpected end of stream".equals(ex.getMessage()))
             HttpUtils.post(request.getParams(),this);
             return;
         } else{ // 其他错误

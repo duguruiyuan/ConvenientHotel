@@ -2,6 +2,8 @@ package hotel.convenient.com.domain;
 
 public class Publish {
 	private int id;
+	private int dealerid;
+	private int userid;
 	private String name;
 	private String room_area ;
 	private String room_price ;
@@ -14,6 +16,49 @@ public class Publish {
 	private String dir_path;
 	private String image_name;
 	private String publish_end_time;
+	private double longitude;
+	private double latitude;
+	
+	public int getDealerid() {
+		return dealerid;
+	}
+
+	public void setDealerid(int dealerid) {
+		this.dealerid = dealerid;
+	}
+
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
 
 	public void setPublish_end_time(String publish_end_time) {
 		this.publish_end_time = publish_end_time;
@@ -23,7 +68,6 @@ public class Publish {
 
 		return publish_end_time;
 	}
-
 	public int getId() {
 		return id;
 	}

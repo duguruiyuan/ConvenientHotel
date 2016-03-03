@@ -68,12 +68,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private LinearLayout llAddImage;
     private LinearLayoutEditTextView roomPrice;
     private LinearLayoutEditTextView choosePublishEndDate;
-
-    
-
-
     private List<ImageViewCanDelete> imageViewCanDeletes = new ArrayList<>();
-
     private CityPickerDialog cityPickerDialog;
     private TypePickerDialog typePickerDialog;
     private String selectedProvince;
@@ -304,6 +299,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         publish.setRoom_address_detail(chooseCityMapText);
         publish.setRoom_house_number(house_numberText);
         publish.setPublish_end_time(choosePublishEndDateText);
+        publish.setLatitude(address.getLatitude());
+        publish.setLongitude(address.getLongitude());
         params.addBodyParameter("json",JSONObject.toJSONString(publish));
         for (int i = 0; i < fileSparseArray.size(); i++) {
             params.addBodyParameter("room_image",fileSparseArray.valueAt(i) );
