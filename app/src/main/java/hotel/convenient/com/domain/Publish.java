@@ -1,0 +1,100 @@
+package hotel.convenient.com.domain;
+
+public class Publish {
+	private int id;
+	private String name;
+	private String room_area ;
+	private String room_price ;
+	private String room_type ;
+	private String room_province;
+	private String room_city;
+	private String room_address_detail;
+	private String room_house_number;
+	private String room_publish_end_date;
+	private String dir_path;
+	private String image_name;
+	private String publish_end_time;
+
+	public void setPublish_end_time(String publish_end_time) {
+		this.publish_end_time = publish_end_time;
+	}
+
+	public String getPublish_end_time() {
+
+		return publish_end_time;
+	}
+
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getRoom_area() {
+		return room_area;
+	}
+	public void setRoom_area(String room_area) {
+		this.room_area = room_area;
+	}
+	public String getRoom_price() {
+		return room_price;
+	}
+	public void setRoom_price(String room_price) {
+		this.room_price = room_price;
+	}
+	public String getRoom_type() {
+		return room_type;
+	}
+	public void setRoom_type(String room_type) {
+		this.room_type = room_type;
+	}
+	public String getRoom_province() {
+		return room_province;
+	}
+	public void setRoom_province(String room_province) {
+		this.room_province = room_province;
+	}
+	public String getRoom_city() {
+		return room_city;
+	}
+	public void setRoom_city(String room_city) {
+		this.room_city = room_city;
+	}
+	public String getRoom_address_detail() {
+		return room_address_detail;
+	}
+	public void setRoom_address_detail(String room_address_detail) {
+		this.room_address_detail = room_address_detail;
+	}
+	public String getRoom_house_number() {
+		return room_house_number;
+	}
+	public void setRoom_house_number(String room_house_number) {
+		this.room_house_number = room_house_number;
+	}
+	public String getRoom_publish_end_date() {
+		return room_publish_end_date;
+	}
+	public void setRoom_publish_end_date(String room_publish_end_date) {
+		this.room_publish_end_date = room_publish_end_date;
+	}
+	public String getDir_path() {
+		return dir_path;
+	}
+	public void setDir_path(String dir_path) {
+		this.dir_path = dir_path;
+	}
+	public String getImage_name() {
+		return image_name;
+	}
+	public void setImage_name(String image_name) {
+		this.image_name = image_name;
+	}
+	
+}
