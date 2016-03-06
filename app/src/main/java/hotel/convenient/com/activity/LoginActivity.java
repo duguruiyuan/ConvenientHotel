@@ -41,6 +41,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         setTitle("登录");
+        showBackPressed();
         intentData = getIntent().getStringExtra(STATE_LOGOUT);
     }
     @Event({R.id.login_confirm,R.id.login_find_password,R.id.login_register})

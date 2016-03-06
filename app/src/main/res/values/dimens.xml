@@ -7,7 +7,7 @@
     
     <!--confirm左右两边的默认间隔-->
     <dimen name="confirm_horizontal_margin">12dp</dimen>
-    <dimen name="confirm_height">44dp</dimen>
+    <dimen name="confirm_height">40dp</dimen>
     <dimen name="confirm_vertical_margin">24dp</dimen>
 
     <dimen name="account_map_item_height">35dp</dimen>

@@ -12,13 +12,23 @@ public class Publish {
 	private String room_city;
 	private String room_address_detail;
 	private String room_house_number;
-	private String room_publish_end_date;
 	private String dir_path;
 	private String image_name;
 	private String publish_end_time;
 	private double longitude;
 	private double latitude;
 	
+	private String url_head;
+
+	public void setUrl_head(String url_head) {
+		this.url_head = url_head;
+	}
+
+	public String getUrl_head() {
+	
+		return url_head;
+	}
+
 	public int getDealerid() {
 		return dealerid;
 	}
@@ -121,12 +131,6 @@ public class Publish {
 	}
 	public void setRoom_house_number(String room_house_number) {
 		this.room_house_number = room_house_number;
-	}
-	public String getRoom_publish_end_date() {
-		return room_publish_end_date;
-	}
-	public void setRoom_publish_end_date(String room_publish_end_date) {
-		this.room_publish_end_date = room_publish_end_date;
 	}
 	public String getDir_path() {
 		return dir_path;

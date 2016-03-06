@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--标题栏颜色-->
-    <color name="colorPrimary">#ED6D1F</color>
+    <color name="colorPrimary">#ff5b5f</color>
     <!--导航栏颜色-->
     <color name="colorPrimaryDark">#ED6D1F</color>
     <!-- edit游标颜色  checkbox选中颜色-->
@@ -40,10 +40,10 @@
     <color name="blue_text_invest">#5084ff</color>
     
     
-    <color name="confirm_button_color">#ed6d1f</color>
-    <color name="confirm_button_color_press">#ffce84</color>
+    <color name="confirm_button_color">#ff5b5f</color>
+    <color name="confirm_button_color_press">#fa8386</color>
     <color name="confirm_button_color_invalid">#b6b6b6</color>
-    <color name="login_confirm_button_color">#ffc061</color>
+    <color name="login_confirm_button_color">#ff007a</color>
     <!--手势密码错误的颜色-->
     <color name="gestureLock_error_color">#FFFECE11</color>
 

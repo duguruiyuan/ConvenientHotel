@@ -1,15 +1,12 @@
 package hotel.convenient.com.activity;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.text.Spanned;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.xutils.http.RequestParams;
@@ -42,7 +39,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     @ViewInject(R.id.vp_main_fragment)
     private MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
-    private MoreFragment mMainFragment; //主页
+    private MainFragment mMainFragment; //主页
     public AccountFragment mAccountFragment; //账户页
     private MoreFragment mMoreFragment; //更多页
     @ViewInject(R.id.tv_main)
@@ -59,7 +56,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         //设置标题
         setTitle("民宿商家版");
         tv_main.setBackgroundResource(R.mipmap.home_p);
-        mMainFragment = new MoreFragment();
+        mMainFragment = new MainFragment();
         mAccountFragment = new AccountFragment();
         mMoreFragment = new MoreFragment();
         fragments.add(mMainFragment);

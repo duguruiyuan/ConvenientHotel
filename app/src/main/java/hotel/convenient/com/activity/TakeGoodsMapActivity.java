@@ -128,7 +128,13 @@ public class TakeGoodsMapActivity extends BaseActivity {
 	                
 				
 			}
-			//地理编码回调函数
+
+			 @Override
+			 protected Object clone() throws CloneNotSupportedException {
+				 return super.clone();
+			 }
+
+			 //地理编码回调函数
 			@Override
 			public void onGetGeoCodeResult(GeoCodeResult arg0) {
 				
