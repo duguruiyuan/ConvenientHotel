@@ -105,7 +105,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
-                    JSONObject data = JSONObject.parseObject(result).getJSONObject("data");
+                    showShortToast(resultJson.getMsg());
+                    PublishActivity.this.finish();
                 } else {
                     showShortToast(resultJson.getMsg());
                 } 
