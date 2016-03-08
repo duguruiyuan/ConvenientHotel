@@ -23,14 +23,15 @@ public abstract class BaseFragment extends Fragment {
     public BaseActivity mBaseActivity;
     protected SwipeRefreshLayout mSwipe_main;
     //通用的分页
-    private int currentPage = 1;
+    public static final int INIT_PAGE = 0;
+    private int currentPage = INIT_PAGE;
 
     /**
      * 初始化page 一般在下拉刷新的时候调用
      * @return
      */
     public int initPage(){
-        return currentPage = 1;
+        return currentPage = INIT_PAGE;
     }
     /**
      * 获取下一页

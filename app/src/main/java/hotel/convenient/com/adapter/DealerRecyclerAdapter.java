@@ -2,6 +2,7 @@ package hotel.convenient.com.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 import hotel.convenient.com.R;
 import hotel.convenient.com.domain.Publish;
+import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.view.CircleImageView;
 
@@ -36,15 +38,23 @@ public class DealerRecyclerAdapter extends CommonRecyclerViewAdapter<DealerRecyc
     public void onBindViewHolderItem(RecyclerView.ViewHolder holder, final int position) {
         Publish publish = list.get(position);
         PublishHolder publishHolder = (PublishHolder) holder;
-        ImageUtils.setImage(publishHolder.imageHeader,publish.getUrl_head());
+        ImageUtils.setImage(publishHolder.imageHeader,HostUrl.HOST+publish.getUrl_head());
         publishHolder.llDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onItemClick(v,position);
+                if(mOnItemClickListener!=null){
+                    mOnItemClickListener.onItemClick(v,position);
+                }
             }
         });
         publishHolder.roomName.setText(publish.getName());
-        publishHolder.publishTime.setText(publish.getPublish_end_time());
+        publishHolder.publishTime.setText(publish.getPublish_time());
+        if(publish.getImage_name().indexOf(",")==-1){
+            ImageUtils.setImage(publishHolder.room_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name());
+        }else{
+            ImageUtils.setImage(publishHolder.room_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0]);
+        }
+        publishHolder.room_description.setText(publish.getDescription());
     }
 
     class PublishHolder extends RecyclerView.ViewHolder{
@@ -52,6 +62,8 @@ public class DealerRecyclerAdapter extends CommonRecyclerViewAdapter<DealerRecyc
         private TextView roomName;
         private TextView publishTime;
         private LinearLayout llDelete;
+        private ImageView room_image;
+        private TextView room_description;
 
         public PublishHolder(View itemView) {
             super(itemView);
@@ -59,6 +71,8 @@ public class DealerRecyclerAdapter extends CommonRecyclerViewAdapter<DealerRecyc
             roomName = (TextView) itemView.findViewById(R.id.room_name);
             publishTime = (TextView) itemView.findViewById(R.id.publish_time);
             llDelete = (LinearLayout) itemView.findViewById(R.id.ll_delete);
+            room_image = (ImageView) itemView.findViewById(R.id.room_image);
+            room_description = (TextView) itemView.findViewById(R.id.room_description);
         }
     }
 }

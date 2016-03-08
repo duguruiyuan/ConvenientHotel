@@ -63,6 +63,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private LinearLayoutEditTextView chooseCity;
     private LinearLayoutEditTextView chooseCityMap;
     private LinearLayoutEditTextView house_number;
+    private LinearLayoutEditTextView room_description;
     private Button nextConfirm;
     private LinearLayout llAddImageGroup;
     private LinearLayout llAddImage;
@@ -154,6 +155,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         llAddImage = (LinearLayout) findViewById(R.id.ll_add_image);
         roomPrice = (LinearLayoutEditTextView) findViewById(R.id.room_price);
         choosePublishEndDate = (LinearLayoutEditTextView) findViewById(R.id.choose_publish_end_date);
+        room_description = (LinearLayoutEditTextView) findViewById(R.id.room_description);
         initLoadDialog();
         today = new GregorianCalendar();
         today.add(Calendar.WEEK_OF_MONTH,1);
@@ -302,6 +304,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         publish.setPublish_end_time(choosePublishEndDateText);
         publish.setLatitude(address.getLatitude());
         publish.setLongitude(address.getLongitude());
+        publish.setDescription(room_description.getText());
         params.addBodyParameter("json",JSONObject.toJSONString(publish));
         for (int i = 0; i < fileSparseArray.size(); i++) {
             params.addBodyParameter("room_image",fileSparseArray.valueAt(i) );

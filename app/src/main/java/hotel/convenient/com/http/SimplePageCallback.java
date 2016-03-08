@@ -42,14 +42,14 @@ public abstract class SimplePageCallback extends SimpleCallback {
             JSONObject jsonObject = JSONObject.parseObject(result);
             JSONObject data = jsonObject.getJSONObject("data");
             Data<JSONObject> pageData  = JSONObject.parseObject(data.toString(), Data.class);
-            if(pageData.getPage()== BaseActivity.INIT_PAGE){
-                firstPage(result,pageData.getPage(),pageData.getPagecount(),pageData.getList());
+            if(pageData.getCurrentPage()== BaseActivity.INIT_PAGE){
+                firstPage(result,pageData.getCurrentPage(),pageData.getCountPage(),pageData.getList());
             }else {
-                otherPages(result, pageData.getPage(), pageData.getPagecount(), pageData.getList());
+                otherPages(result, pageData.getCurrentPage(), pageData.getCountPage(), pageData.getList());
             }
-            if(pageData.getPage()>=pageData.getPagecount()){
+            if(pageData.getCurrentPage()+1>=pageData.getCountPage()){
                 fragment.setIsFull(true);
-                isFull(pageData.getPage(), pageData.getPagecount());
+                isFull(pageData.getCurrentPage(), pageData.getCountPage());
             }
             
         } else {

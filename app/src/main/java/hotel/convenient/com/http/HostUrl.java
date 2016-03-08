@@ -57,4 +57,8 @@ public class HostUrl {
      * 获取发布房间列表
      */
     public static final String URL_GET_PUBLISH_INFO = "/dealer/get_publish_info";
+    /**
+     * 删除发布信息
+     */
+    public static final String URL_REMOVE_PUBLISH = "/dealer/remove_publish";
 }

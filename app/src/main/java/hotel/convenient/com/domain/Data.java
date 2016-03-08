@@ -7,20 +7,20 @@ import java.util.List;
  */
 public class Data<T> {
     private int count;
-    private int page;
-    private int pagecount;
+    private int currentPage;
+    private int countPage;
     private List<T> list;
 
     public void setCount(int count) {
         this.count = count;
     }
 
-    public void setPage(int page) {
-        this.page = page;
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 
-    public void setPagecount(int pagecount) {
-        this.pagecount = pagecount;
+    public void setCountPage(int countPage) {
+        this.countPage = countPage;
     }
 
     public void setList(List<T> list) {
@@ -31,12 +31,12 @@ public class Data<T> {
         return count;
     }
 
-    public int getPage() {
-        return page;
+    public int getCurrentPage() {
+        return currentPage;
     }
 
-    public int getPagecount() {
-        return pagecount;
+    public int getCountPage() {
+        return countPage;
     }
 
     public List<T> getList() {

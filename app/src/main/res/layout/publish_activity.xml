@@ -93,6 +93,15 @@
                 android:id="@+id/choose_publish_end_date"
                 app:edit_text_color="@color/loginPageTextColor"
                 />
+            <hotel.convenient.com.view.LinearLayoutEditTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:text_name="说明"
+                app:edit_text_hint="填写房子的一些说明/对租客的一些要求"
+                app:text_name_width="60dp"
+                android:id="@+id/room_description"
+                app:edit_text_color="@color/loginPageTextColor"
+                />
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

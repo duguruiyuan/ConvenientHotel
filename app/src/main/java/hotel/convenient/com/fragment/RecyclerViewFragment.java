@@ -159,6 +159,11 @@ public abstract class RecyclerViewFragment<T> extends BaseFragment implements Sw
             adapter.notifyDataSetChanged();
         }
     }
+    public void notifyItemChanged(int position) {
+        if(adapter!=null){
+            adapter.notifyItemChanged(position);
+        }
+    }
 
     /**
      * 设置是否已经加载到最后一页
@@ -182,6 +187,11 @@ public abstract class RecyclerViewFragment<T> extends BaseFragment implements Sw
         list.remove(pos);
         notifyDataSetChanged();
     }
+    public void removeItem(T t){
+        list.remove(t);
+        notifyDataSetChanged();
+    }
+    
     @Override
     public void onRefresh() {
        if(recyclerRefreshListener!=null) recyclerRefreshListener.onRefresh(this);

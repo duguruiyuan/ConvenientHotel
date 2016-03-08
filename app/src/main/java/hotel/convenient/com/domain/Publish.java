@@ -17,6 +17,16 @@ public class Publish {
 	private String publish_end_time;
 	private double longitude;
 	private double latitude;
+	private String publish_time;
+
+
+	public String getPublish_time() {
+		return publish_time;
+	}
+
+	public void setPublish_time(String publish_time) {
+		this.publish_time = publish_time;
+	}
 	
 	private String url_head;
 

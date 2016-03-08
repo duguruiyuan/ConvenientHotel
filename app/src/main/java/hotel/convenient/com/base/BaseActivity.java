@@ -37,9 +37,10 @@ public abstract  class BaseActivity extends AppCompatActivity {
     protected SwipeRefreshLayout mSwipe_main;
     private AlertDialog dialog;
     //通用的分页
-    private int currentPage = 1;
+    public static final int INIT_PAGE = 0;
+    private int currentPage = INIT_PAGE;
     
-    public static final int INIT_PAGE = 1;
+    
 
     /**
      * 初始化page 一般在下拉刷新的时候调用
