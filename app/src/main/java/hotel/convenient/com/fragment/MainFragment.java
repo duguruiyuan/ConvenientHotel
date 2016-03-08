@@ -26,7 +26,6 @@ import hotel.convenient.com.http.SimplePageCallback;
 public class MainFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
 
     private SimplePageCallback simplePageCallback;
-    private SimpleCallback deleteCallback;
     @Override
     public CommonRecyclerViewAdapter createAdapter(List<Publish> list) {
         DealerRecyclerAdapter dealerRecyclerAdapter = new DealerRecyclerAdapter(list);
@@ -59,21 +58,18 @@ public class MainFragment extends RecyclerViewFragment<Publish> implements Recyc
         HttpUtils.get(params,simplePageCallback);
     }
     public void removePublish(final Publish publish){
-        if(deleteCallback==null){
-            deleteCallback = new SimpleCallback(mBaseActivity) {
-                @Override
-                public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
-                    if(resultJson.getCode()==CODE_SUCCESS){
-                       removeItem(publish);
-                    }else{
-                       mBaseActivity.showShortToast(resultJson.getMsg());
-                    }
-                }
-            };
-        }
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_REMOVE_PUBLISH);
         params.addBodyParameter("id",publish.getId()+"");
-        HttpUtils.post(params,deleteCallback);
+        HttpUtils.post(params,new SimpleCallback(mBaseActivity) {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if(resultJson.getCode()==CODE_SUCCESS){
+                    removeItem(publish);
+                }else{
+                    mBaseActivity.showShortToast(resultJson.getMsg());
+                }
+            }
+        });
     }
 
     @Override
