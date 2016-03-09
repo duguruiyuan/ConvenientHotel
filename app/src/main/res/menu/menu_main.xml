@@ -1,12 +1,47 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activity.MainActivity">
-    <item
-        android:id="@+id/action_publish"
-        android:orderInCategory="100"
-        android:title="发布出租"
-        app:showAsAction="always"
+    <group
+        android:checkableBehavior="single">
 
-        />
+        <item
+            android:id="@+id/drawer_home"
+            android:checked="true"
+            android:icon="@android:drawable/ic_menu_share"
+            android:title="Home"/>
+        <item
+            android:id="@+id/section"
+            android:title="我的账户">
+            <menu>
+                <item
+                    android:id="@+id/drawer_my_bankcard"
+                    android:icon="@android:drawable/ic_dialog_map"
+                    android:title="我的银行卡"/>
+                <item
+                    android:id="@+id/drawer_my_idCard"
+                    android:icon="@drawable/card"
+                    android:title="我的身份证"/>
+            </menu>
+        </item>
+
+        <item
+            android:id="@+id/section2"
+            android:title="其他">
+            <menu>
+                <item
+                    android:id="@+id/drawer_more"
+                    android:icon="@android:drawable/ic_menu_more"
+                    android:title="更多"/>
+                <item
+                    android:id="@+id/drawer_settings"
+                    android:icon="@android:drawable/ic_menu_set_as"
+                    android:title="设置"/>
+            </menu>
+        </item>
+
+        <item android:id="@+id/logout"
+            android:title="退出登录"
+            android:icon="@android:drawable/ic_delete"
+            />
+    </group>
 </menu>

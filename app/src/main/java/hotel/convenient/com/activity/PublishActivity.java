@@ -7,8 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,7 +30,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.UUID;
 
-import hotel.convenient.com.BuildConfig;
 import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Address;
@@ -45,6 +42,7 @@ import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.FileUtils;
 import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.utils.PhotoUtils;
 import hotel.convenient.com.utils.TextUtils;
 import hotel.convenient.com.view.CityPickerDialog;
 import hotel.convenient.com.view.CityPickerDialog.OnCityInfoListener;
@@ -81,7 +79,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private TextView load_photograph;
     private DatePicker datePicker;
 
-    private final String IMAGE_TYPE = "image/*";
+    
     private final int IMAGE_LOCAL_CODE = 10;
     private final int IMAGE_PHOTOGRAPH_CODE = 11;
     public static final int TAG_CROP = 15;
@@ -107,7 +105,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     showShortToast(resultJson.getMsg());
-                    PublishActivity.this.finish();
+                    PublishActivity.this.skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,0);
                 } else {
                     showShortToast(resultJson.getMsg());
                 } 
@@ -212,11 +210,11 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
                 break;
             case R.id.load_choose_local_image: //从本地选择图片
                 closeDialog();
-                startOpenImageByLocal(IMAGE_LOCAL_CODE);
+                PhotoUtils.startOpenImageByLocal(imageUri,this,TAG_CROP);
                 break;
             case R.id.load_photograph:  //拍照
                 closeDialog();
-                startOpenImageByPhotograph(IMAGE_PHOTOGRAPH_CODE);
+                PhotoUtils.startOpenImageByPhotograph(imageUri,this,IMAGE_PHOTOGRAPH_CODE);
                 break;
             case R.id.choose_publish_end_date:  //选择日期
                 
@@ -311,41 +309,8 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         }
         HttpUtils.post(params, simpleCallbackByUpload);
     }
-    /**
-     * 从本地相册获取图片
-     * @return
-     */
-    public void startOpenImageByLocal(int resultCode){
-        Intent getAlbum;
-        if(BuildConfig.VERSION_CODE>=19){
-            getAlbum = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        }else{
-            getAlbum = new Intent(Intent.ACTION_GET_CONTENT);
-        }
-//        getAlbum.setType(IMAGE_TYPE);
-        getAlbum.putExtra("crop","true");
-        getAlbum.setDataAndType(imageUri,IMAGE_TYPE);
-        getAlbum.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        getAlbum.putExtra("scale", true);
-        // 裁剪框的比例，1：1
-        getAlbum.putExtra("aspectX", 1);
-        getAlbum.putExtra("aspectY", 1);
-        // 裁剪后输出图片的尺寸大小
-        getAlbum.putExtra("outputX", 800);
-        getAlbum.putExtra("outputY", 800);
-        getAlbum.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
-        startActivityForResult(getAlbum, TAG_CROP);
-    }
-    public void startOpenImageByPhotograph(int resultCode){
-        String state = Environment.getExternalStorageState();
-        if (state.equals(Environment.MEDIA_MOUNTED)) {
-            Intent getImageByCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            getImageByCamera.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-            startActivityForResult(getImageByCamera, resultCode);
-        }else {
-            showShortToast("请确认已经插入SD卡");
-        }
-    }
+    
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) {        //此处的 RESULT_OK 是系统自定义得一个常量
@@ -361,7 +326,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         }
         //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
         if (requestCode == IMAGE_LOCAL_CODE||requestCode == IMAGE_PHOTOGRAPH_CODE) {
-            crop(TAG_CROP);//开启裁剪程序
+            PhotoUtils.crop(imageUri,this,TAG_CROP);//开启裁剪程序
         }else if(requestCode == TAG_CROP){//获取裁剪后的正面照片
             // 从剪切图片返回的数据
             Bitmap bitmap = null;
@@ -381,26 +346,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
             fileSparseArray.put(imageViewCanDeletes.size() - 1,file);
         }
     }
-    /**
-     * 剪切图片
-     */
-    private void crop(int code) {
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        // 裁剪图片意图
-        intent.setDataAndType(imageUri, "image/*");
-        intent.putExtra("crop", "true");
-        intent.putExtra("scale", true);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
-        // 裁剪框的比例，1：1
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-        // 裁剪后输出图片的尺寸大小
-        intent.putExtra("outputX", 800);
-        intent.putExtra("outputY", 800);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());// 图片格式
-        // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CUT
-        startActivityForResult(intent, code);
-    }
+    
     private void initLoadDialog() {
         loadAlertDialog = LayoutInflater.from(this).inflate(R.layout.load_image_alert_dialog,null,false);
         load_choose_local_image = (TextView) loadAlertDialog.findViewById(R.id.load_choose_local_image);

@@ -3,7 +3,7 @@
     <!--标题栏颜色-->
     <color name="colorPrimary">#ff5b5f</color>
     <!--导航栏颜色-->
-    <color name="colorPrimaryDark">#ED6D1F</color>
+    <color name="colorPrimaryDark">#ff5b5f</color>
     <!-- edit游标颜色  checkbox选中颜色-->
     <color name="colorAccent">#f5a777</color>
     <!--回退按钮 菜单按钮颜色-->

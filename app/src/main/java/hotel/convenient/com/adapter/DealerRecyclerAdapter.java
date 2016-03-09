@@ -38,7 +38,7 @@ public class DealerRecyclerAdapter extends CommonRecyclerViewAdapter<DealerRecyc
     public void onBindViewHolderItem(RecyclerView.ViewHolder holder, final int position) {
         Publish publish = list.get(position);
         PublishHolder publishHolder = (PublishHolder) holder;
-        ImageUtils.setImage(publishHolder.imageHeader,HostUrl.HOST+publish.getUrl_head());
+        ImageUtils.setImage(publishHolder.imageHeader,HostUrl.HOST+publish.getUrl_head(),R.drawable.mei_zi);
         publishHolder.llDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,9 +50,9 @@ public class DealerRecyclerAdapter extends CommonRecyclerViewAdapter<DealerRecyc
         publishHolder.roomName.setText(publish.getName());
         publishHolder.publishTime.setText(publish.getPublish_time());
         if(publish.getImage_name().indexOf(",")==-1){
-            ImageUtils.setImage(publishHolder.room_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name());
+            ImageUtils.setImage(publishHolder.room_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name(),R.drawable.mei_zi);
         }else{
-            ImageUtils.setImage(publishHolder.room_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0]);
+            ImageUtils.setImage(publishHolder.room_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0],R.drawable.mei_zi);
         }
         publishHolder.room_description.setText(publish.getDescription());
     }

@@ -3,7 +3,9 @@ package hotel.convenient.com.base;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +38,7 @@ public abstract  class BaseActivity extends AppCompatActivity {
     private static Toast toast; //保证不重复使用toast
     protected SwipeRefreshLayout mSwipe_main;
     private AlertDialog dialog;
+    
     //通用的分页
     public static final int INIT_PAGE = 0;
     private int currentPage = INIT_PAGE;
@@ -72,7 +75,7 @@ public abstract  class BaseActivity extends AppCompatActivity {
         setToolbar();
         initData(savedInstanceState);
     }
-
+    
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar==null){

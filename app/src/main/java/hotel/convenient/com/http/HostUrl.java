@@ -15,6 +15,7 @@ public class HostUrl {
      返回：{msg”:错误信息，“code”:错误码,”｝
      */
     public static final String URL_LOGIN = "/dealer/login";
+    public static final String URL_LOGOUT = "/dealer/logout";
     /**
      * 手机注册验证码
      * 传入：[{“mobile_phone”手机号码,}]

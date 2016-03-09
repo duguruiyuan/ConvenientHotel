@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="#f55555"
+    android:gravity="center_vertical">
+
+    <hotel.convenient.com.view.CircleImageView
+        android:id="@+id/head_image"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/mei_zi"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        />
+    <TextView
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="叶良辰"
+        android:layout_toRightOf="@id/head_image"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_alignBaseline="@id/head_image"
+        android:layout_marginTop="6dp"
+        android:textSize="18sp"/>
+    <TextView
+        android:id="@+id/phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/head_image"
+        android:layout_below="@+id/username"
+        android:text="13088872432"
+        android:textColor="@color/white"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp"/>
+</RelativeLayout>

@@ -2,9 +2,13 @@ package hotel.convenient.com.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.view.Menu;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -29,10 +33,11 @@ import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
+import hotel.convenient.com.view.CircleImageView;
 import hotel.convenient.com.view.MainViewPager;
 
 /**
- * Created by zhouyi on 2016/2/27.
+ * Created by Gonyb on 2016/2/27.
  */
 @ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity  implements ViewPager.OnPageChangeListener{
@@ -48,11 +53,19 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     private TextView tv_account;
     @ViewInject(R.id.tv_more)
     private TextView tv_more;
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CircleImageView headImage;
+    private TextView username;
+    private TextView phone;
+    private NavigationView navigationView;
+    
+    public static final String FLAG_SKIP = "flag_skip";
 
     @Override
     public void initData(Bundle savedInstanceState) {
         //开启侧滑动画
-        // openSlideAnimation();
+         openSlideAnimation();
         //设置标题
         setTitle("民宿商家版");
         tv_main.setBackgroundResource(R.mipmap.home_p);
@@ -66,31 +79,10 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         //禁止滑动
         viewPager.setIsCanScroll(false);
         viewPager.addOnPageChangeListener(this);
-        httpLogin();
+        if(!PreferenceUtils.isLogin(this)){
+            LoginActivity.httpLoginByPreference(this);
+        }
 
-    }
-    /**
-     * 访问网络以及处理返回结果
-     */
-    public void httpLogin(){
-        String username = PreferenceUtils.getLoginUsername(this);
-        String password = PreferenceUtils.getLoginPassword(this);
-
-        RequestParams params = new RequestParams(HostUrl.HOST+ HostUrl.URL_LOGIN);
-        params.addBodyParameter("phone",username);
-        params.addBodyParameter("password",password);
-        HttpUtils.post(params, new SimpleCallback(this,false) {
-            @Override
-            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
-                if (resultJson.getCode() == CODE_SUCCESS) {
-
-                } else {
-                    baseActivity.showShortToast("登录超时");
-                    PreferenceUtils.removeLoginFlag(baseActivity);
-                    baseActivity.skipActivity(LoginActivity.class,false, LoginActivity.STATE_LOGOUT, LoginActivity.STATE_LOGOUT);
-                }
-            }
-        });
     }
     public void setFooterIcon(int select){
         switch (select){
@@ -116,20 +108,99 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 break;
         }
     }
+    /**
+     * 开启侧滑动画  不设置则不打开
+     */
+    public void openSlideAnimation() {
+        //动态侧滑菜单
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if(mDrawerLayout==null||getToolbar()==null){
+            LogUtils.d("你没有使用DrawerLayout 或 Toolbar 不能开启侧滑动画");
+            return;
+        }
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,getToolbar(),R.string.draw_open,R.string.draw_close){
+            public void onDrawerClosed(View view){
+                invalidateOptionsMenu(); // creates call to                                                    // onPrepareOptionsMenu()            }
+                /** Called when a drawer has settled in a completely open state. */
+            }
+            public void onDrawerOpened(View drawerView){
+                invalidateOptionsMenu(); // creates call to                                                    // onPrepareOptionsMenu()            }
+            }
+        };
+        mDrawerToggle.syncState(); //初始化状态
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                Snackbar.make(getToolbar(), item.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
+                switch (item.getItemId()){
+                    case R.id.logout:
+                        logout();
+                        break;
+                    case R.id.drawer_home:
+                        viewPager.setCurrentItem(0);
+                        break;
+                }
+//                item.setChecked(true);
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+        View headerView = navigationView.getHeaderView(0);
+        headImage = (CircleImageView) headerView.findViewById(R.id.head_image);
+        username = (TextView) headerView.findViewById(R.id.username);
+        phone = (TextView) headerView.findViewById(R.id.phone);
 
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                showAlertDialog("")
+                mDrawerLayout.closeDrawers();
+            }
+        });
+        setHeadViewInfo();
+    }
+    private void logout(){
+        RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_LOGOUT);
+        HttpUtils.get(params, new SimpleCallback(this) {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if (resultJson.getCode() == CODE_SUCCESS) {
+                    PreferenceUtils.removeLoginFlag(MainActivity.this);
+                    setHeadViewInfo();
+                } 
+                showShortToast(resultJson.getMsg());
+            }
+        });
+    }
+
+    private void setHeadViewInfo() {
+        
+        if(PreferenceUtils.isLogin(this)){
+            username.setText(PreferenceUtils.getLoginUsername(this));
+            phone.setText(PreferenceUtils.getPhone(this));
+            navigationView.getMenu().getItem(3).setVisible(true);
+            navigationView.getMenu().getItem(1).setVisible(true);
+        }else{
+            username.setText("游客");
+            navigationView.getMenu().getItem(1).setVisible(false);
+            navigationView.getMenu().getItem(3).setVisible(false);
+        }
+    }
     /**
      * 显示菜单
      * @param menu
      * @return
      */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if(PreferenceUtils.isLogin(this)){
-            if(viewPager.getCurrentItem()==0)
-                getMenuInflater().inflate(R.menu.menu_main, menu);
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        if(PreferenceUtils.isLogin(this)){
+//            if(viewPager.getCurrentItem()==0)
+//                getMenuInflater().inflate(R.menu.menu_main, menu);
+//        }
+//        return true;
+//    }
 
     /**
      * 监听菜单点击
@@ -141,11 +212,11 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home: //返回按钮
-                onBackPressed();
-                break;
-            case R.id.action_publish:
-                skipActivity(PublishActivity.class, false);
-                break;
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+//            case R.id.action_publish:
+//                skipActivity(PublishActivity.class, false);
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -177,6 +248,14 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         LogUtils.e("onNewIntent");
         //重新创建菜单
         supportInvalidateOptionsMenu();
+        int intExtra = getIntent().getIntExtra(FLAG_SKIP, -1);
+        if(intExtra!=-1){
+            viewPager.setCurrentItem(intExtra);
+            if(intExtra==0){
+                mMainFragment.getPublishInfoByInfo(mMainFragment.initPage());
+            }
+        }
+        setHeadViewInfo();
     }
     public void setCurrentItem(int item){
         viewPager.setCurrentItem(item);
@@ -208,7 +287,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 } else {
                     skipActivity(LoginActivity.class,false);
                 }
-
                 break;
             case R.id.ll_more:
                 if (PreferenceUtils.isLogin(this)) {

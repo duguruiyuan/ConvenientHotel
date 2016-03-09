@@ -42,7 +42,6 @@
                 app:edit_text_hint="住一天的价格(天/元)"
                 app:text_name_width="60dp"
                 android:id="@+id/room_price"
-                app:edit_text_color="@color/loginPageTextColor"
                 />
             <hotel.convenient.com.view.LinearLayoutEditTextView
                 android:layout_width="match_parent"
@@ -81,7 +80,6 @@
                 app:edit_text_hint="填写门牌号"
                 app:text_name_width="60dp"
                 android:id="@+id/house_number"
-                app:edit_text_color="@color/loginPageTextColor"
                 />
             <hotel.convenient.com.view.LinearLayoutEditTextView
                 android:layout_width="match_parent"
@@ -100,7 +98,6 @@
                 app:edit_text_hint="填写房子的一些说明/对租客的一些要求"
                 app:text_name_width="60dp"
                 android:id="@+id/room_description"
-                app:edit_text_color="@color/loginPageTextColor"
                 />
             <HorizontalScrollView
                 android:layout_width="match_parent"

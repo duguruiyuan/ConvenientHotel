@@ -38,7 +38,8 @@ public class MainFragment extends RecyclerViewFragment<Publish> implements Recyc
         getPublishInfoByInfo(initPage());
         setRecyclerRefreshListener(this);
     }
-    
+
+
     public void getPublishInfoByInfo(int page){
         if(simplePageCallback==null){
             simplePageCallback = new SimplePageCallback(this) {

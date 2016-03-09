@@ -5,13 +5,16 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 
-import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.R;
+import hotel.convenient.com.base.BaseActivity;
+import hotel.convenient.com.domain.Dealer;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.ResultJson;
@@ -32,7 +35,7 @@ public class LoginActivity extends BaseActivity {
     @ViewInject(R.id.login_password)
     private LinearLayoutEditTextView login_password;
     
-    private String username;
+    private String phone;
     private String password;
     
     private String intentData;
@@ -62,28 +65,54 @@ public class LoginActivity extends BaseActivity {
      * 访问网络以及处理返回结果
      */
     public void httpLogin(){
-        username = login_account.getText();
+        phone = login_account.getText();
         password = login_password.getText();
         if (checkInput()) return;
         RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_LOGIN);
-        params.addBodyParameter("phone",username);
+        params.addBodyParameter("phone", phone);
         params.addBodyParameter("password",password);
         HttpUtils.post(params, new SimpleCallback(this) {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
-                    PreferenceUtils.setLoginFlag(LoginActivity.this,username,password);
+                    Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
+                    PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password);
                     showShortToast("登录成功!");
-                    skipActivity(MainActivity.class);
+                    skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,0);
                 } else {
                     showShortToast(resultJson.getMsg());
                 }
             }
         });
     }
+    /**
+     * 访问网络以及处理返回结果  静态方法  供其他类调用
+     */
+    public static void httpLoginByPreference(BaseActivity baseActivity){
+        String phone = PreferenceUtils.getPhone(baseActivity);
+        final String password = PreferenceUtils.getLoginPassword(baseActivity);
+        
+        RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_LOGIN);
+        params.addBodyParameter("phone", phone);
+        params.addBodyParameter("password",password);
+        HttpUtils.post(params, new SimpleCallback(baseActivity) {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if (resultJson.getCode() == CODE_SUCCESS) {
+                    Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
+                    PreferenceUtils.setLoginFlag(baseActivity, data.getPhonenumber(),data.getNickname(),password);
+                } else {
+                    baseActivity.showShortToast(resultJson.getMsg());
+                    baseActivity.showShortToast("登录超时");
+                    PreferenceUtils.removeLoginFlag(baseActivity);
+                    baseActivity.skipActivity(LoginActivity.class,false, STATE_LOGOUT, STATE_LOGOUT);
+                }
+            }
+        });
+    }
     //检测输入
     public boolean checkInput() {
-        if(TextUtils.isEmpty(username)){
+        if(TextUtils.isEmpty(phone)){
             showShortToast("用户名不能为空");
             return true;
         }

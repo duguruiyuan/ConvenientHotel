@@ -17,6 +17,7 @@ import hotel.convenient.com.utils.LogUtils;
 public abstract class CommonCallback implements RequestTracker,Callback.ProgressCallback<String> {
     public static final int CODE_SUCCESS = 0;   //成功
     public static final int CODE_LOGOUT  = 9;//登录超时
+    int reCount = 2;
     @Override
     public void onWaiting() {
 
@@ -59,32 +60,56 @@ public abstract class CommonCallback implements RequestTracker,Callback.Progress
 
     @Override
     public void onError(UriRequest request, Throwable ex, boolean isCallbackError) {
-        
-        if (ex instanceof HttpException) { // 网络错误
-            LogUtils.defaultLog("网络访问失败");
-            ex.printStackTrace();
-        } else if(ex instanceof EOFException){ // 对4.4以下手机 post请求经常性失败
-//            ex.printStackTrace();
-            // 碰到后  直接重新请求
-            HttpUtils.post(request.getParams(),this);
-            return;
-        }else if(ex instanceof SocketException){
-            // 碰到后  直接重新请求
-            HttpUtils.post(request.getParams(),this);
-            return;
-        }else if(ex instanceof IOException){
-            // 碰到后  直接重新请求
-            if ("unexpected end of stream".equals(ex.getMessage())) {
-                HttpUtils.post(request.getParams(), this);
-            } else {
-                error(request, ex);
+        ex.printStackTrace();
+        if (reCount >= 0) {
+            reCount --;
+            if (ex instanceof HttpException) { // 网络错误
+                LogUtils.defaultLog("网络访问失败");
+            } else if (ex instanceof EOFException) { // 对4.4以下手机 post请求经常性失败
+                // 碰到后  直接重新请求
+                if(request.getParams().getMethod().name().equalsIgnoreCase("post")){
+                    HttpUtils.post(request.getParams(), this);
+                }
+                return;
+            }  else if (ex instanceof IOException) {
+                // 碰到后  直接重新请求
+                if(request.getParams().getMethod().name().equalsIgnoreCase("post")){
+                    if ("unexpected end of stream".equals(ex.getMessage())) {
+                        HttpUtils.post(request.getParams(), this);
+                    } else {
+                        error(request, ex);
+                    }
+                }
+                return;
+            } else { // 其他错误
+                LogUtils.defaultLog("服务器未知错误" + ex);
             }
-            return;
-        } else{ // 其他错误
-            LogUtils.defaultLog("服务器未知错误" + ex);
-            ex.printStackTrace();
+            error(request, ex);
+        } else {
+            if (ex instanceof HttpException) { // 网络错误
+                LogUtils.defaultLog("网络访问失败");
+            } else if (ex instanceof EOFException) { // 对4.4以下手机 post请求经常性失败
+//            ex.printStackTrace();
+                // 碰到后  直接重新请求
+//                HttpUtils.post(request.getParams(), this);
+                return;
+            } else if (ex instanceof SocketException) {
+                // 碰到后  直接重新请求
+//                HttpUtils.post(request.getParams(), this);
+                return;
+            } else if (ex instanceof IOException) {
+                // 碰到后  直接重新请求
+                if ("unexpected end of stream".equals(ex.getMessage())) {
+//                    HttpUtils.post(request.getParams(), this);
+                } else {
+                    error(request, ex);
+                }
+                return;
+            } else { // 其他错误
+                LogUtils.defaultLog("服务器未知错误" + ex);
+            }
+            error(request, ex);
         }
-        error(request, ex);
     }
 
     @Override

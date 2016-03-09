@@ -11,16 +11,18 @@ public class PreferenceUtils {
     public static final String LOGIN_FLAG = "login_flag";
     public static final String ISLOGIN = "isLogin";
     public static final String USERNAME = "username";
+    public static final String PHONE = "phone";
     public static final String PASSWORD = "password";
     /**
      * 设置登录状态为已登录
      * @param context 
      */
-    public static void setLoginFlag(Context context,String username,String password){
+    public static void setLoginFlag(Context context,String phone,String username, String password){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putBoolean(ISLOGIN, true);
         edit.putString(USERNAME, username);
+        edit.putString(PHONE, phone);
         password = MD5Utils.convertMD5(password);//简单加密  并不是md5加密
         edit.putString(PASSWORD,password);
         edit.commit();
@@ -54,6 +56,15 @@ public class PreferenceUtils {
     public static String getLoginUsername(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         return sharedPreferences.getString(USERNAME, "");
+    }
+    /**
+     * 得到电话号码
+     * @param context
+     * @return
+     */
+    public static String getPhone(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(PHONE, "");
     }
     /**
      * 得到用户登录密码
