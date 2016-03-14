@@ -14,6 +14,10 @@
             android:title="我的账户">
             <menu>
                 <item
+                    android:id="@+id/action_publish"
+                    android:icon="@drawable/card"
+                    android:title="发布房间"/>
+                <item
                     android:id="@+id/drawer_my_bankcard"
                     android:icon="@android:drawable/ic_dialog_map"
                     android:title="我的银行卡"/>

@@ -82,7 +82,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         if(!PreferenceUtils.isLogin(this)){
             LoginActivity.httpLoginByPreference(this);
         }
-
+//        supportInvalidateOptionsMenu();
     }
     public void setFooterIcon(int select){
         switch (select){
@@ -141,6 +141,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                     case R.id.drawer_home:
                         viewPager.setCurrentItem(0);
                         break;
+                    case R.id.action_publish:
+                        skipActivity(PublishActivity.class, false);
+                        break;
                 }
 //                item.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -188,11 +191,11 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             navigationView.getMenu().getItem(3).setVisible(false);
         }
     }
-    /**
-     * 显示菜单
-     * @param menu
-     * @return
-     */
+//    /**
+//     * 显示菜单
+//     * @param menu
+//     * @return
+//     */
 //    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        if(PreferenceUtils.isLogin(this)){
@@ -214,9 +217,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             case android.R.id.home: //返回按钮
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-//            case R.id.action_publish:
-//                skipActivity(PublishActivity.class, false);
-//                break;
+            case R.id.action_publish:
+                skipActivity(PublishActivity.class, false);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
