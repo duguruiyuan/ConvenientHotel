@@ -82,7 +82,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         if(!PreferenceUtils.isLogin(this)){
             LoginActivity.httpLoginByPreference(this);
         }
-//        supportInvalidateOptionsMenu();
     }
     public void setFooterIcon(int select){
         switch (select){
