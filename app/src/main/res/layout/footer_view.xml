@@ -22,7 +22,7 @@
         android:layout_height="wrap_content" />
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/ll_account"
+        android:id="@+id/ll_dealer"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
         android:layout_gravity="center"
         >
         <TextView
-            android:id="@+id/tv_account"
+            android:id="@+id/tv_dealer"
             android:layout_width="wrap_content"
             android:textColor="@color/white"
             android:background="@mipmap/my_n"

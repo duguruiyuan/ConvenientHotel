@@ -45,12 +45,13 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     private MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
+    private MainFragment mDealerFragment; //主页
     public AccountFragment mAccountFragment; //账户页
     private MoreFragment mMoreFragment; //更多页
     @ViewInject(R.id.tv_main)
     private TextView tv_main;
-    @ViewInject(R.id.tv_account)
-    private TextView tv_account;
+    @ViewInject(R.id.tv_dealer)
+    private TextView tv_dealer;
     @ViewInject(R.id.tv_more)
     private TextView tv_more;
     private DrawerLayout mDrawerLayout;
@@ -70,9 +71,11 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         setTitle("民宿商家版");
         tv_main.setBackgroundResource(R.mipmap.home_p);
         mMainFragment = new MainFragment();
+        mDealerFragment = new MainFragment();
         mAccountFragment = new AccountFragment();
         mMoreFragment = new MoreFragment();
         fragments.add(mMainFragment);
+        fragments.add(mDealerFragment);
         fragments.add(mAccountFragment);
         fragments.add(mMoreFragment);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), fragments));
@@ -87,22 +90,22 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         switch (select){
             case 0:
                 tv_main.setBackgroundResource(R.mipmap.home_p);
-                tv_account.setBackgroundResource(R.mipmap.my_n);
+                tv_dealer.setBackgroundResource(R.mipmap.my_n);
                 tv_more.setBackgroundResource(R.mipmap.more_n);
                 break;
             case 1:
                 tv_main.setBackgroundResource(R.mipmap.home_n);
-                tv_account.setBackgroundResource(R.mipmap.my_p);
+                tv_dealer.setBackgroundResource(R.mipmap.my_p);
                 tv_more.setBackgroundResource(R.mipmap.more_n);
                 break;
             case 2:
                 tv_main.setBackgroundResource(R.mipmap.home_n);
-                tv_account.setBackgroundResource(R.mipmap.my_n);
+                tv_dealer.setBackgroundResource(R.mipmap.my_n);
                 tv_more.setBackgroundResource(R.mipmap.more_p);
                 break;
             default:
                 tv_main.setBackgroundResource(R.mipmap.home_p);
-                tv_account.setBackgroundResource(R.mipmap.my_n);
+                tv_dealer.setBackgroundResource(R.mipmap.my_n);
                 tv_more.setBackgroundResource(R.mipmap.more_n);
                 break;
         }
@@ -171,6 +174,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     PreferenceUtils.removeLoginFlag(MainActivity.this);
                     setHeadViewInfo();
+                    setCurrentItem(0);
                 } 
                 showShortToast(resultJson.getMsg());
             }
@@ -178,7 +182,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     }
 
     private void setHeadViewInfo() {
-        
         if(PreferenceUtils.isLogin(this)){
             username.setText(PreferenceUtils.getLoginUsername(this));
             phone.setText(PreferenceUtils.getPhone(this));
@@ -186,24 +189,11 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             navigationView.getMenu().getItem(1).setVisible(true);
         }else{
             username.setText("游客");
+            phone.setText("");
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(3).setVisible(false);
         }
     }
-//    /**
-//     * 显示菜单
-//     * @param menu
-//     * @return
-//     */
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        if(PreferenceUtils.isLogin(this)){
-//            if(viewPager.getCurrentItem()==0)
-//                getMenuInflater().inflate(R.menu.menu_main, menu);
-//        }
-//        return true;
-//    }
-
     /**
      * 监听菜单点击
      * @param item
@@ -226,12 +216,12 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     public void setTitleByCurrentPage(){
         switch (viewPager.getCurrentItem()){
             case 0:
-                setTitle("民宿商家版");
+                setTitle("首页");
                 break;
             case 1:
-                setTitle("账户详情");
+                setTitle("民宿商家版");
                 break;
-            case 2:
+            case 3:
                 setTitle("更多");
                 break;
             default:
@@ -248,8 +238,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         LogUtils.e("onNewIntent");
-        //重新创建菜单
-        supportInvalidateOptionsMenu();
         int intExtra = getIntent().getIntExtra(FLAG_SKIP, -1);
         if(intExtra!=-1){
             viewPager.setCurrentItem(intExtra);
@@ -277,13 +265,13 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
      * 3. 方法参数形式必须和type对应的Listener接口一致.
      * 4. 注解参数value支持数组: value={id1, id2, id3}
      **/
-    @Event({R.id.ll_more,R.id.ll_main,R.id.ll_account})
+    @Event({R.id.ll_more,R.id.ll_main,R.id.ll_dealer})
     private void onFragmentImageClick(View v) {
         switch (v.getId()){
             case R.id.ll_main:
                 viewPager.setCurrentItem(0);
                 break;
-            case R.id.ll_account:
+            case R.id.ll_dealer:
                 if (PreferenceUtils.isLogin(this)) {
                     viewPager.setCurrentItem(1);
                 } else {
@@ -309,8 +297,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     public void onPageSelected(int position) {
         setTitleByCurrentPage();
         setFooterIcon(position);
-        //重新创建菜单
-        supportInvalidateOptionsMenu();
     }
 
     @Override
