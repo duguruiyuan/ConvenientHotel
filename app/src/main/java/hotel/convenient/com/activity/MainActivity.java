@@ -24,7 +24,7 @@ import java.util.List;
 import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.MainViewPagerAdapter;
 import hotel.convenient.com.base.BaseActivity;
-import hotel.convenient.com.fragment.AccountFragment;
+import hotel.convenient.com.fragment.DealerFragment;
 import hotel.convenient.com.fragment.MainFragment;
 import hotel.convenient.com.fragment.MoreFragment;
 import hotel.convenient.com.http.HostUrl;
@@ -45,8 +45,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     private MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
-    private MainFragment mDealerFragment; //主页
-    public AccountFragment mAccountFragment; //账户页
+    private DealerFragment mDealerFragment; //商家页
     private MoreFragment mMoreFragment; //更多页
     @ViewInject(R.id.tv_main)
     private TextView tv_main;
@@ -68,15 +67,13 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         //开启侧滑动画
          openSlideAnimation();
         //设置标题
-        setTitle("民宿商家版");
+        setTitle("首页");
         tv_main.setBackgroundResource(R.mipmap.home_p);
         mMainFragment = new MainFragment();
-        mDealerFragment = new MainFragment();
-        mAccountFragment = new AccountFragment();
+        mDealerFragment = new DealerFragment();
         mMoreFragment = new MoreFragment();
         fragments.add(mMainFragment);
         fragments.add(mDealerFragment);
-        fragments.add(mAccountFragment);
         fragments.add(mMoreFragment);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), fragments));
         //禁止滑动
@@ -219,13 +216,13 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 setTitle("首页");
                 break;
             case 1:
-                setTitle("民宿商家版");
+                setTitle("商家");
                 break;
             case 3:
                 setTitle("更多");
                 break;
             default:
-                setTitle("民宿商家版");
+                setTitle("首页");
                 break;
         }
     }
@@ -241,8 +238,8 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         int intExtra = getIntent().getIntExtra(FLAG_SKIP, -1);
         if(intExtra!=-1){
             viewPager.setCurrentItem(intExtra);
-            if(intExtra==0){
-                mMainFragment.getPublishInfoByInfo(mMainFragment.initPage());
+            if(intExtra==1){
+                mDealerFragment.getPublishInfoByInfo(mMainFragment.initPage());
             }
         }
         setHeadViewInfo();

@@ -13,6 +13,9 @@ public class PreferenceUtils {
     public static final String USERNAME = "username";
     public static final String PHONE = "phone";
     public static final String PASSWORD = "password";
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
+    public static final String LOCATION = "location";
     /**
      * 设置登录状态为已登录
      * @param context 
@@ -25,6 +28,35 @@ public class PreferenceUtils {
         edit.putString(PHONE, phone);
         password = MD5Utils.convertMD5(password);//简单加密  并不是md5加密
         edit.putString(PASSWORD,password);
+        edit.commit();
+    }
+
+    /**
+     * 保存位置信息
+     * @param context
+     * @param lat
+     * @param lng
+     */
+    public static void setLatlng(Context context,String lat,String lng){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOCATION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putBoolean(ISLOGIN, true);
+        edit.putString(LAT, lat);
+        edit.putString(LNG, lng);
+        edit.commit();
+    }
+    public static String getLat(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOCATION, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(LAT,"");
+    }
+    public static String getLng(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOCATION, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(LNG,"");
+    }
+    public  static void removeLatLng(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOCATION, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.clear();
         edit.commit();
     }
     /**

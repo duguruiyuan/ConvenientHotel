@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
 
 import org.xutils.http.RequestParams;
 
@@ -12,75 +14,71 @@ import java.util.List;
 
 import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.CommonRecyclerViewAdapter;
-import hotel.convenient.com.adapter.DealerRecyclerAdapter;
+import hotel.convenient.com.adapter.MainRecyclerAdapter;
 import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
-import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.http.SimplePageCallback;
+import hotel.convenient.com.utils.BaiduLocalClient;
+import hotel.convenient.com.utils.PreferenceUtils;
 
 /**
+ * 首页
  * Created by Gyb on 2015/11/20.
  */
-public class MainFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
+public class MainFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener,BDLocationListener{
 
     private SimplePageCallback simplePageCallback;
+    private double latitude;
+    private double longitude;
     @Override
     public CommonRecyclerViewAdapter createAdapter(List<Publish> list) {
-        DealerRecyclerAdapter dealerRecyclerAdapter = new DealerRecyclerAdapter(list);
-        dealerRecyclerAdapter.setOnItemClickListener(this);
-        return dealerRecyclerAdapter;
+        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(list);
+        mainRecyclerAdapter.setOnItemClickListener(this);
+        return mainRecyclerAdapter;
     }
 
     @Override
     public void setData(View view, Bundle savedInstanceState) {
-        getPublishInfoByInfo(initPage());
         setRecyclerRefreshListener(this);
+        BaiduLocalClient.getLocaltion(getContext(),this);
+        BaiduLocalClient.startGetLocaltion();
     }
 
 
-    public void getPublishInfoByInfo(int page){
+    public void getPublishInfoByInfo(int page,double latitude,double longitude){
         if(simplePageCallback==null){
             simplePageCallback = new SimplePageCallback(this) {
                 @Override
                 public void firstPage(String result, int currentPage, int countPage, List<JSONObject> list) {
-                    setList(JSONObject.parseArray(list.toString(),Publish.class));
+                    List<Publish> list1 = JSONObject.parseArray(list.toString(), Publish.class);
+                    setList(list1);
                 }
 
                 @Override
                 public void otherPages(String result, int currentPage, int countPage, List<JSONObject> list) {
-                    addList(JSONObject.parseArray(list.toString(),Publish.class));
+                    List<Publish> list1 = JSONObject.parseArray(list.toString(), Publish.class);
+                    addList(list1);
                 }
             };
         }
-        RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_GET_PUBLISH_INFO);
+        RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_GET_PUBLISH_INFO_LAT_LNG);
         params.addQueryStringParameter("page",page+"");
+        params.addQueryStringParameter("longitude",longitude+"");
+        params.addQueryStringParameter("latitude",latitude+"");
         HttpUtils.get(params,simplePageCallback);
-    }
-    public void removePublish(final Publish publish){
-        RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_REMOVE_PUBLISH);
-        params.addBodyParameter("id",publish.getId()+"");
-        HttpUtils.post(params,new SimpleCallback(mBaseActivity) {
-            @Override
-            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
-                if(resultJson.getCode()==CODE_SUCCESS){
-                    removeItem(publish);
-                }else{
-                    mBaseActivity.showShortToast(resultJson.getMsg());
-                }
-            }
-        });
     }
 
     @Override
     public void onRefresh(RecyclerViewFragment recyclerViewFragment) {
-        getPublishInfoByInfo(initPage());
+        sendLocalByHttp(initPage());
     }
+
+    
 
     @Override
     public void onLoading(RecyclerViewFragment RecyclerViewFragment) {
-        getPublishInfoByInfo(addPage());
+        sendLocalByHttp(addPage());
     }
 
     @Override
@@ -90,10 +88,32 @@ public class MainFragment extends RecyclerViewFragment<Publish> implements Recyc
                 mBaseActivity.showAlertDialog("确认要删除此条发布信息?"+position, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        removePublish(getList().get(position));
                     }
                 });
                 break;
         }
+    }
+
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+        if (bdLocation != null) {
+            latitude = bdLocation.getLatitude();
+            longitude = bdLocation.getLongitude();
+            if (latitude != 0) {
+                PreferenceUtils.setLatlng(getContext(), latitude + "", longitude + "");
+            } else {
+                mBaseActivity.showShortToast("重新失败...");
+                return;
+            }
+            mBaseActivity.showAlertDialog("请选择你定位的地址:\n" + bdLocation.getAddress().address, null);
+            sendLocalByHttp(initPage());
+        } else {
+            mBaseActivity.showShortToast("重新失败...");
+        } 
+    }
+    private void sendLocalByHttp(int page) {
+        if (latitude != 0) {
+            getPublishInfoByInfo(page, latitude, longitude);
+        } 
     }
 }

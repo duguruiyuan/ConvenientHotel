@@ -702,7 +702,7 @@ public class CustomViewPager extends ViewGroup {
     /**
      * Set the margin between pages.
      *
-     * @param marginPixels Distance between adjacent pages in pixels
+     * @param marginPixels DistanceUtils between adjacent pages in pixels
      * @see #getPageMargin()
      * @see #setPageMarginDrawable(Drawable)
      * @see #setPageMarginDrawable(int)

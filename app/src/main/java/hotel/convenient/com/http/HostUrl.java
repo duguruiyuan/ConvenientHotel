@@ -4,8 +4,8 @@ package hotel.convenient.com.http;
  * Created by Gyb on 2015/11/30 15:45
  */
 public class HostUrl {
-    public static final String HOST = "http://192.168.0.110:8080/tij2";
-//    public static final String HOST = "http://192.168.18.203:8080/tij2";
+//    public static final String HOST = "http://192.168.0.110:8080/tij2";
+    public static final String HOST = "http://192.168.18.203:8080/tij2";
     /**
      * 1：登陆接口
      方式: post
@@ -58,6 +58,10 @@ public class HostUrl {
      * 获取发布房间列表
      */
     public static final String URL_GET_PUBLISH_INFO = "/dealer/get_publish_info";
+    /**
+     * 获取离我最近的发布房间列表
+     */
+    public static final String URL_GET_PUBLISH_INFO_LAT_LNG = "/dealer/get_room_info_by_lat_lng";
     /**
      * 删除发布信息
      */
