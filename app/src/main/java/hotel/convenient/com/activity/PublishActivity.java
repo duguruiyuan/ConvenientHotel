@@ -18,9 +18,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ContentView;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
@@ -37,8 +34,9 @@ import hotel.convenient.com.domain.PickType;
 import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.http.SimpleCallBack;
 import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.FileUtils;
 import hotel.convenient.com.utils.LogUtils;
@@ -53,7 +51,6 @@ import hotel.convenient.com.view.TypePickerDialog;
 /**
  * Created by Gyb on 2016/2/28.
  */
-@ContentView(R.layout.publish_activity)
 public class PublishActivity extends BaseActivity implements OnCityInfoListener,TypePickerDialog.OnTypeInfoListener,ImageViewCanDelete.OnDeleteClick,View.OnClickListener{
     private LinearLayoutEditTextView name;
     private LinearLayoutEditTextView area;
@@ -87,7 +84,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private File file;
     private Calendar today;
     private SparseArray<File> fileSparseArray = new SparseArray<>();
-    private SimpleCallback simpleCallback = new SimpleCallback(this) {
+    private SimpleCallBack simpleCallback = new SimpleCallBack(this) {
         @Override
         public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
             if (resultJson.getCode() == CODE_SUCCESS) {
@@ -100,7 +97,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         }
     };
     
-    private SimpleCallback simpleCallbackByUpload = new SimpleCallback(this) {
+    private SimpleCallBack simpleCallbackByUpload = new SimpleCallBack(this) {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
@@ -123,6 +120,12 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         chooseCityMap.disableInput();
         choosePublishEndDate.disableInput();
     }
+
+    @Override
+    public int setLayoutView() {
+        return R.layout.publish_activity;
+    }
+
     public void getRoomInfoByHttp(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_GET_ROOM_INFO);
         HttpUtils.get(params,simpleCallback);
@@ -305,9 +308,9 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         publish.setDescription(room_description.getText());
         params.addBodyParameter("json",JSONObject.toJSONString(publish));
         for (int i = 0; i < fileSparseArray.size(); i++) {
-            params.addBodyParameter("room_image",fileSparseArray.valueAt(i) );
+            params.addBodyParameterOrFile("room_image",fileSparseArray.valueAt(i) );
         }
-        HttpUtils.post(params, simpleCallbackByUpload);
+        HttpUtils.postFile(params, simpleCallbackByUpload);
     }
     
     

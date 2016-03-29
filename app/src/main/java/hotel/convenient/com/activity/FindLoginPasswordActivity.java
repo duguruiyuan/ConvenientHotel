@@ -4,32 +4,29 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
-
-import hotel.convenient.com.base.BaseActivity;
+import butterknife.Bind;
+import butterknife.OnClick;
 import hotel.convenient.com.R;
+import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.http.HostUrl;
+import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
  * Created by Gyb on 2015/11/27 11:29
  */
-@ContentView(R.layout.find_login_password_activity)
 public class FindLoginPasswordActivity extends BaseActivity {
-    @ViewInject(R.id.mobile_phone)
-    private LinearLayoutEditTextView mobile_phone;
-    @ViewInject(R.id.password)
-    private LinearLayoutEditTextView password;
-    @ViewInject(R.id.verifyPassword)
-    private LinearLayoutEditTextView verifyPassword;
-    @ViewInject(R.id.vCode)
-    private LinearLayoutEditTextView vCode;
+    @Bind(R.id.mobile_phone)
+    LinearLayoutEditTextView mobile_phone;
+    @Bind(R.id.password)
+    LinearLayoutEditTextView password;
+    @Bind(R.id.verifyPassword)
+    LinearLayoutEditTextView verifyPassword;
+    @Bind(R.id.vCode)
+    LinearLayoutEditTextView vCode;
 
-    @ViewInject(R.id.register_confirm)
-    private Button register_confirm;
+    @Bind(R.id.register_confirm)
+    Button register_confirm;
 
 
 
@@ -42,8 +39,6 @@ public class FindLoginPasswordActivity extends BaseActivity {
     public void initData(Bundle savedInstanceState) {
         setTitle("找回登录密码");
         showBackPressed();
-
-
         vCode.setButtonOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,8 +47,14 @@ public class FindLoginPasswordActivity extends BaseActivity {
             }
         });
     }
-    @Event({R.id.register_confirm})
-    private void onButtonClick(View v){
+
+    @Override
+    public int setLayoutView() {
+        return R.layout.find_login_password_activity;
+    }
+
+    @OnClick({R.id.register_confirm})
+     void onButtonClick(View v){
         switch (v.getId()){
             case R.id.register_confirm:
                 if(!checkParams()){

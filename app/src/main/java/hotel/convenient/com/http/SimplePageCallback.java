@@ -2,8 +2,6 @@ package hotel.convenient.com.http;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.xutils.http.request.UriRequest;
-
 import java.util.List;
 
 import hotel.convenient.com.base.BaseActivity;
@@ -14,30 +12,16 @@ import hotel.convenient.com.fragment.RecyclerViewFragment;
  * 分页用的 回调接口   只在json特定的时候使用
  * Created by Gyb on 2016/1/8 15:19
  */
-public abstract class SimplePageCallback extends SimpleCallback {
+public abstract class SimplePageCallback extends SimpleCallBack {
     RecyclerViewFragment fragment;
    public SimplePageCallback(RecyclerViewFragment fragment) {
         super(fragment.mBaseActivity);
        this.fragment = fragment;
     }
 
-    public SimplePageCallback(RecyclerViewFragment fragment, boolean isShowProgress) {
-        super(fragment.mBaseActivity, isShowProgress);
-        this.fragment = fragment;
-    }
-
-    public SimplePageCallback(RecyclerViewFragment fragment, String errorMsg) {
-        super(fragment.mBaseActivity, errorMsg);
-        this.fragment = fragment;
-    }
-
-    public SimplePageCallback(RecyclerViewFragment fragment, String errorMsg, boolean isShowProgress) {
-        super(fragment.mBaseActivity, errorMsg, isShowProgress);
-        this.fragment = fragment;
-    }
-
     @Override
     public  void simpleSuccess(String url, String result, ResultJson resultJson) {
+        fragment.setRefreshing(false);
         if (resultJson.getCode() == CODE_SUCCESS) {
             JSONObject jsonObject = JSONObject.parseObject(result);
             JSONObject data = jsonObject.getJSONObject("data");
@@ -51,17 +35,9 @@ public abstract class SimplePageCallback extends SimpleCallback {
                 fragment.setIsFull(true);
                 isFull(pageData.getCurrentPage(), pageData.getCountPage());
             }
-            
         } else {
-            baseActivity.showShortToast(resultJson.getMsg());
+            mBaseActivity.showShortToast(resultJson.getMsg());
         }
-
-    }
-
-    @Override
-    public void finish(UriRequest url) {
-        super.finish(url);
-        fragment.setRefreshing(false);
     }
 
     /**
@@ -90,6 +66,4 @@ public abstract class SimplePageCallback extends SimpleCallback {
     public void isFull(int currentPage,int countPage){
         
     }
-
-    
 }

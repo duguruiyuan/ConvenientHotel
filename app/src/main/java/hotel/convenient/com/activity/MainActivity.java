@@ -13,14 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.MainViewPagerAdapter;
 import hotel.convenient.com.base.BaseActivity;
@@ -29,8 +26,9 @@ import hotel.convenient.com.fragment.MainFragment;
 import hotel.convenient.com.fragment.MoreFragment;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.http.SimpleCallBack;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.CircleImageView;
@@ -39,20 +37,19 @@ import hotel.convenient.com.view.MainViewPager;
 /**
  * Created by Gonyb on 2016/2/27.
  */
-@ContentView(R.layout.activity_main)
 public class MainActivity extends BaseActivity  implements ViewPager.OnPageChangeListener{
-    @ViewInject(R.id.vp_main_fragment)
-    private MainViewPager viewPager;
+    @Bind(R.id.vp_main_fragment)
+     MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
     private DealerFragment mDealerFragment; //商家页
     private MoreFragment mMoreFragment; //更多页
-    @ViewInject(R.id.tv_main)
-    private TextView tv_main;
-    @ViewInject(R.id.tv_dealer)
-    private TextView tv_dealer;
-    @ViewInject(R.id.tv_more)
-    private TextView tv_more;
+    @Bind(R.id.tv_main)
+     TextView tv_main;
+    @Bind(R.id.tv_dealer)
+     TextView tv_dealer;
+    @Bind(R.id.tv_more)
+     TextView tv_more;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CircleImageView headImage;
@@ -83,6 +80,12 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             LoginActivity.httpLoginByPreference(this);
         }
     }
+
+    @Override
+    public int setLayoutView() {
+        return R.layout.activity_main;
+    }
+
     public void setFooterIcon(int select){
         switch (select){
             case 0:
@@ -165,7 +168,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     }
     private void logout(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_LOGOUT);
-        HttpUtils.get(params, new SimpleCallback(this) {
+        HttpUtils.get(params, new SimpleCallBack(this) {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
@@ -262,8 +265,8 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
      * 3. 方法参数形式必须和type对应的Listener接口一致.
      * 4. 注解参数value支持数组: value={id1, id2, id3}
      **/
-    @Event({R.id.ll_more,R.id.ll_main,R.id.ll_dealer})
-    private void onFragmentImageClick(View v) {
+    @OnClick({R.id.ll_more,R.id.ll_main,R.id.ll_dealer})
+     void onFragmentImageClick(View v) {
         switch (v.getId()){
             case R.id.ll_main:
                 viewPager.setCurrentItem(0);

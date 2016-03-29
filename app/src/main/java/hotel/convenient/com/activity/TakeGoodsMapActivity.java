@@ -22,15 +22,11 @@ import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
 
-import org.xutils.view.annotation.ContentView;
-
-
 import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Address;
 import hotel.convenient.com.utils.LogUtils;
 
-@ContentView(R.layout.takegoods_baidumap)
 public class TakeGoodsMapActivity extends BaseActivity {
 	private MapView mMapView;
 	private BaiduMap mBaiduMap;
@@ -47,6 +43,12 @@ public class TakeGoodsMapActivity extends BaseActivity {
 		initData();
 		initListener();
 	}
+
+	@Override
+	public int setLayoutView() {
+		return R.layout.takegoods_baidumap;
+	}
+
 	private void initView() {
 		addressTextView = (TextView) findViewById(R.id.address);
 		bt_takegoods_map_confirm = (Button) findViewById(R.id.confirm);

@@ -9,9 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import org.xutils.x;
-
+import butterknife.ButterKnife;
 import hotel.convenient.com.R;
 import hotel.convenient.com.utils.LogUtils;
 
@@ -64,7 +62,7 @@ public abstract class BaseFragment extends Fragment {
         super.onAttach(context);
         mBaseActivity = (BaseActivity) context;
     }
-
+    public abstract int setLayoutView();
     /**
      * 初始数据
      * @param view
@@ -73,18 +71,13 @@ public abstract class BaseFragment extends Fragment {
     public abstract void initData(View view, Bundle savedInstanceState);
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        //可以在类的头部直接注入视图
-        injected = true;
-        return x.view().inject(this, inflater, container);
+        View view = inflater.inflate(setLayoutView(), container, false);
+        ButterKnife.bind(this,view);
+        return view;
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //使用xutils的视图注入
-        if(!injected){
-            x.view().inject(this, this.getView());
-        }
-
         //填充数据
         initData(view, savedInstanceState);
     }

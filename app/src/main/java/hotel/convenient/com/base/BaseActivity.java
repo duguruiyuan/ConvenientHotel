@@ -3,9 +3,7 @@ package hotel.convenient.com.base;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,14 +15,13 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Toast;
 
-import org.xutils.x;
-
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Set;
 
-import hotel.convenient.com.app.App;
+import butterknife.ButterKnife;
 import hotel.convenient.com.R;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.view.CustomProgressDialog;
@@ -65,12 +62,12 @@ public abstract  class BaseActivity extends AppCompatActivity {
     }
 
     public abstract void initData(Bundle savedInstanceState);
-
+    public abstract int setLayoutView();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        InjectUtils.inject(this);
-        x.view().inject(this);
+        setContentView(setLayoutView());
+        ButterKnife.bind(this);
         ((App) getApplication()).addActivity(this);//方便一键退出
         setToolbar();
         initData(savedInstanceState);

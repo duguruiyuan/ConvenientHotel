@@ -8,8 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 
-import org.xutils.http.RequestParams;
-
 import java.util.List;
 
 import hotel.convenient.com.R;
@@ -18,6 +16,7 @@ import hotel.convenient.com.adapter.MainRecyclerAdapter;
 import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.SimplePageCallback;
 import hotel.convenient.com.utils.BaiduLocalClient;
 import hotel.convenient.com.utils.PreferenceUtils;

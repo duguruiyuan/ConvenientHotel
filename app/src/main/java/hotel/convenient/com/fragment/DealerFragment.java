@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.xutils.http.RequestParams;
-
 import java.util.List;
 
 import hotel.convenient.com.R;
@@ -16,8 +14,9 @@ import hotel.convenient.com.adapter.DealerRecyclerAdapter;
 import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.http.SimpleCallBack;
 import hotel.convenient.com.http.SimplePageCallback;
 
 /**
@@ -26,6 +25,7 @@ import hotel.convenient.com.http.SimplePageCallback;
 public class DealerFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
 
     private SimplePageCallback simplePageCallback;
+    
     @Override
     public CommonRecyclerViewAdapter createAdapter(List<Publish> list) {
         DealerRecyclerAdapter dealerRecyclerAdapter = new DealerRecyclerAdapter(list);
@@ -61,7 +61,7 @@ public class DealerFragment extends RecyclerViewFragment<Publish> implements Rec
     public void removePublish(final Publish publish){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_REMOVE_PUBLISH);
         params.addBodyParameter("id",publish.getId()+"");
-        HttpUtils.post(params,new SimpleCallback(mBaseActivity) {
+        HttpUtils.post(params,new SimpleCallBack(mBaseActivity) {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if(resultJson.getCode()==CODE_SUCCESS){
@@ -96,4 +96,6 @@ public class DealerFragment extends RecyclerViewFragment<Publish> implements Rec
                 break;
         }
     }
+
+    
 }

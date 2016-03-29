@@ -1,22 +1,70 @@
 package hotel.convenient.com.http;
 
-import org.xutils.common.Callback;
-import org.xutils.http.RequestParams;
-import org.xutils.x;
+import android.support.annotation.NonNull;
+
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
+import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.util.Map;
 
 /**
- * 网络访问工具类
- * Created by Gyb on 2015/11/30 11:38
+ * Created by Gyb on 2016/3/28 17:43
  */
 public class HttpUtils {
-    public static Callback.Cancelable get(RequestParams params, Callback.CommonCallback commonCallback) {
-        //可以给params添加固定的请求头  表示客户端类型  3 android
-        return x.http().get(params, commonCallback);
+    private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+    private static final MediaType MEDIA_TYPE_JPG = MediaType.parse("image/jpeg");
+    public static OkHttpClient mOkHttpClient = new OkHttpClient();
+    public static CookieHandler cookieHandler = new CookieManager();
+    public static void get(RequestParams params, Callback callback) {
+        OkHttpClient mOkHttpClient = getOkHttpClient();
+        Request request = new Request.Builder().url(params.getUrl()).build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(callback);
     }
 
-    public static Callback.Cancelable post(RequestParams params, Callback.CommonCallback commonCallback) {
-        //可以给params添加固定的请求头  表示客户端类型  3 android
-        return x.http().post(params, commonCallback);
+    public static void post(RequestParams params, Callback callback) {
+        OkHttpClient mOkHttpClient = getOkHttpClient();
+        if (params.getPostParams().size() > 0) {
+            FormEncodingBuilder builder = new FormEncodingBuilder();
+            for (Map.Entry<String, String> entry : params.getPostParams().entrySet()) {
+                builder.add(entry.getKey(), entry.getValue());
+            }
+            RequestBody build = builder.build();
+            Request request = new Request.Builder().url(params.getUrl()).post(build).build();
+            Call call = mOkHttpClient.newCall(request);
+            call.enqueue(callback);
+        } else {
+            Request request = new Request.Builder().url(params.getUrl()).build();
+            Call call = mOkHttpClient.newCall(request);
+            call.enqueue(callback);
+        }
+    }
+    public static void postFile(RequestParams params, Callback callback) {
+        OkHttpClient mOkHttpClient = getOkHttpClient();
+        MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
+        for (Map.Entry<String, String> entry : params.getPostParams().entrySet()) {
+            builder.addFormDataPart(entry.getKey(), entry.getValue());
+        }
+        for (RequestParams.FileBody entry : params.getPostFileParams()) {
+            builder.addFormDataPart(entry.key, entry.key, RequestBody.create(MEDIA_TYPE_JPG,entry.file));
+        }
+        RequestBody requestBody = builder.build();
+        Request request = new Request.Builder().url(params.getUrl()).post(requestBody).build();
+        Call call = mOkHttpClient.newCall(request);
+        call.enqueue(callback);
+    }
 
+    @NonNull
+    private static OkHttpClient getOkHttpClient() {
+        mOkHttpClient.setCookieHandler(cookieHandler);
+        return mOkHttpClient;
     }
 }

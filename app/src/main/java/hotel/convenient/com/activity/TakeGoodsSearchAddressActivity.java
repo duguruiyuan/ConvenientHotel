@@ -26,12 +26,10 @@ import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionResult.SuggestionInfo;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.TakeGoodsSearchAdapter;
 import hotel.convenient.com.base.BaseActivity;
@@ -42,13 +40,12 @@ import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.view.SearchLinearLayout;
 
-@ContentView(R.layout.takegoods_address_search)
 public class TakeGoodsSearchAddressActivity extends BaseActivity {
 	public static final String CITY = "city";
 	public static final String LONGITUDE = "longitude";
 	public static final String LATITUDE = "latitude";
 	public static final String MAIN_SEARCH = "main_search";
-	@ViewInject(R.id.lv_takegoods_search)
+	@Bind(R.id.lv_takegoods_search)
 	ListView listview;
 	List<SearchInfo> list;
 	TakeGoodsSearchAdapter adapter;
@@ -75,6 +72,12 @@ public class TakeGoodsSearchAddressActivity extends BaseActivity {
 		initViewData(savedInstanceState) ;
 		
 	}
+
+	@Override
+	public int setLayoutView() {
+		return R.layout.takegoods_address_search;
+	}
+
 	public void initViewData(Bundle savedInstanceState) {
 		list = new ArrayList<>();
 		city = getIntent().getStringExtra(CITY);

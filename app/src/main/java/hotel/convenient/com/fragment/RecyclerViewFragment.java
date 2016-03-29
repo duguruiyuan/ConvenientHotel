@@ -8,27 +8,24 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.ViewInject;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.CommonRecyclerViewAdapter;
 import hotel.convenient.com.base.BaseFragment;
-import hotel.convenient.com.R;
 import hotel.convenient.com.utils.LogUtils;
 
 /**
  * 通用的recyclerView fragment 可以下拉刷新 上拉加载  需要自定义adapter
  * Created by Gyb on 2015/12/10 16:53
  */
-@ContentView(R.layout.recyclerview_fragment)
 public abstract class RecyclerViewFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    @ViewInject(R.id.swipe_refresh_widget)
-    private SwipeRefreshLayout mSwipeRefreshWidget;
-    @ViewInject(R.id.refresh_recycler)
-    private RecyclerView mRecyclerView;
+    @Bind(R.id.swipe_refresh_widget)
+     SwipeRefreshLayout mSwipeRefreshWidget;
+    @Bind(R.id.refresh_recycler)
+     RecyclerView mRecyclerView;
     private int lastVisibleItem;
     private LinearLayoutManager mLayoutManager;
 
@@ -39,6 +36,10 @@ public abstract class RecyclerViewFragment<T> extends BaseFragment implements Sw
     private boolean isOpenRefresh = true;
     private boolean isFull = false;
 
+    @Override
+    public int setLayoutView() {
+        return R.layout.recyclerview_fragment;
+    }
     /**
      * 打开上拉加载
      * @param isOpenLoad

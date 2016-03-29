@@ -7,18 +7,16 @@ import android.widget.Button;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.xutils.http.RequestParams;
-import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
-
+import butterknife.Bind;
+import butterknife.OnClick;
 import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Dealer;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.http.SimpleCallBack;
 import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
@@ -26,14 +24,13 @@ import hotel.convenient.com.view.LinearLayoutEditTextView;
  * 登录的activity
  * Created by Gyb on 2015/11/30 10:00
  */
-@ContentView(R.layout.login_activity)
 public class LoginActivity extends BaseActivity {
-    @ViewInject(R.id.login_confirm)
-    private Button login_confirm;
-    @ViewInject(R.id.login_account)
-    private LinearLayoutEditTextView login_account;
-    @ViewInject(R.id.login_password)
-    private LinearLayoutEditTextView login_password;
+    @Bind(R.id.login_confirm)
+     Button login_confirm;
+    @Bind(R.id.login_account)
+     LinearLayoutEditTextView login_account;
+    @Bind(R.id.login_password)
+     LinearLayoutEditTextView login_password;
     
     private String phone;
     private String password;
@@ -47,8 +44,14 @@ public class LoginActivity extends BaseActivity {
         showBackPressed();
         intentData = getIntent().getStringExtra(STATE_LOGOUT);
     }
-    @Event({R.id.login_confirm,R.id.login_find_password,R.id.login_register})
-    private void onConfirmClick(View view){
+
+    @Override
+    public int setLayoutView() {
+        return R.layout.login_activity;
+    }
+
+    @OnClick({R.id.login_confirm,R.id.login_find_password,R.id.login_register})
+     void onConfirmClick(View view){
         switch (view.getId()){
             case R.id.login_confirm:
                 httpLogin();
@@ -71,7 +74,7 @@ public class LoginActivity extends BaseActivity {
         RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_LOGIN);
         params.addBodyParameter("phone", phone);
         params.addBodyParameter("password",password);
-        HttpUtils.post(params, new SimpleCallback(this) {
+        HttpUtils.post(params, new SimpleCallBack(this) {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
@@ -88,14 +91,14 @@ public class LoginActivity extends BaseActivity {
     /**
      * 访问网络以及处理返回结果  静态方法  供其他类调用
      */
-    public static void httpLoginByPreference(BaseActivity baseActivity){
+    public static void httpLoginByPreference(final BaseActivity baseActivity){
         String phone = PreferenceUtils.getPhone(baseActivity);
         final String password = PreferenceUtils.getLoginPassword(baseActivity);
         
         RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_LOGIN);
         params.addBodyParameter("phone", phone);
         params.addBodyParameter("password",password);
-        HttpUtils.post(params, new SimpleCallback(baseActivity) {
+        HttpUtils.post(params, new SimpleCallBack(baseActivity) {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
