@@ -28,7 +28,7 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallBack;
+import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.CircleImageView;
@@ -168,7 +168,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     }
     private void logout(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_LOGOUT);
-        HttpUtils.get(params, new SimpleCallBack(this) {
+        HttpUtils.get(params, new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
@@ -241,9 +241,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         int intExtra = getIntent().getIntExtra(FLAG_SKIP, -1);
         if(intExtra!=-1){
             viewPager.setCurrentItem(intExtra);
-            if(intExtra==1){
-                mDealerFragment.getPublishInfoByInfo(mMainFragment.initPage());
-            }
         }
         setHeadViewInfo();
     }

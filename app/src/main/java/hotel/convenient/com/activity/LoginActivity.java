@@ -1,5 +1,7 @@
 package hotel.convenient.com.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,8 +18,9 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallBack;
+import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.PreferenceUtils;
+import hotel.convenient.com.utils.ToastUtil;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
@@ -74,7 +77,7 @@ public class LoginActivity extends BaseActivity {
         RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_LOGIN);
         params.addBodyParameter("phone", phone);
         params.addBodyParameter("password",password);
-        HttpUtils.post(params, new SimpleCallBack(this) {
+        HttpUtils.post(params, new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
@@ -91,24 +94,27 @@ public class LoginActivity extends BaseActivity {
     /**
      * 访问网络以及处理返回结果  静态方法  供其他类调用
      */
-    public static void httpLoginByPreference(final BaseActivity baseActivity){
-        String phone = PreferenceUtils.getPhone(baseActivity);
-        final String password = PreferenceUtils.getLoginPassword(baseActivity);
+    public static void httpLoginByPreference(final Context context){
+        String phone = PreferenceUtils.getPhone(context);
+        final String password = PreferenceUtils.getLoginPassword(context);
         
         RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_LOGIN);
         params.addBodyParameter("phone", phone);
         params.addBodyParameter("password",password);
-        HttpUtils.post(params, new SimpleCallBack(baseActivity) {
+        HttpUtils.post(params, new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
-                    PreferenceUtils.setLoginFlag(baseActivity, data.getPhonenumber(),data.getNickname(),password);
+                    PreferenceUtils.setLoginFlag(context, data.getPhonenumber(),data.getNickname(),password);
                 } else {
-                    baseActivity.showShortToast(resultJson.getMsg());
-                    baseActivity.showShortToast("登录超时");
-                    PreferenceUtils.removeLoginFlag(baseActivity);
-                    baseActivity.skipActivity(LoginActivity.class,false, STATE_LOGOUT, STATE_LOGOUT);
+                    ToastUtil.showShortToast(resultJson.getMsg());
+                    ToastUtil.showShortToast("登录超时");
+                    PreferenceUtils.removeLoginFlag(context);
+                    Intent intent = new Intent(context,LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(STATE_LOGOUT,STATE_LOGOUT);
+                    context.startActivity(intent);
                 }
             }
         });

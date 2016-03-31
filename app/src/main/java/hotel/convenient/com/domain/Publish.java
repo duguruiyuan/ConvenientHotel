@@ -5,6 +5,7 @@ public class Publish {
 	private int dealerid;
 	private int userid;
 	private String name;
+	private String dealer_name;
 	private String room_area ;
 	private String room_price ;
 	private String room_type ;
@@ -19,6 +20,14 @@ public class Publish {
 	private double latitude;
 	private String publish_time;
 
+	public void setDealer_name(String dealer_name) {
+		this.dealer_name = dealer_name;
+	}
+
+	public String getDealer_name() {
+	
+		return dealer_name;
+	}
 
 	public String getPublish_time() {
 		return publish_time;

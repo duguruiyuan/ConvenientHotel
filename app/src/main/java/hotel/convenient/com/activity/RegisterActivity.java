@@ -15,7 +15,7 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallBack;
+import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
@@ -44,7 +44,7 @@ public class RegisterActivity extends BaseActivity {
     private String str_verifyPassword = "";
     private String str_username = "";
     private String str_vCode = "";
-    private SimpleCallBack simpleCallback = new SimpleCallBack(this) {
+    private SimpleCallback simpleCallback = new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
@@ -164,7 +164,7 @@ public class RegisterActivity extends BaseActivity {
     public void getCheckCode() {
         RequestParams params = new RequestParams(HostUrl.HOST+ HostUrl.URL_GET_CODE);
         params.addQueryStringParameter("phone", mobile);
-        HttpUtils.get(params, new SimpleCallBack(this) {
+        HttpUtils.get(params, new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {

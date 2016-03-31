@@ -33,11 +33,6 @@ public class HostUrl {
 
     /**
      * 重置登陆密码   找回密码时使用   需要先验证手机
-     方式: post
-     接口：/app/user/ResetLoginPwd
-     接口说明：用户登陆接口
-     传入：[{“password”密码, “verify_Password”:确认密码，}]
-     返回：{msg”:错误信息，“code”:错误码,”｝
      */
     public static final String URL_RESET_PASSWORD = "/dealer/reset_login_pwd";
     /**

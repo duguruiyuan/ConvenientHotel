@@ -1,21 +1,24 @@
 package hotel.convenient.com.http;
 
 import com.alibaba.fastjson.JSONObject;
+import com.squareup.okhttp.Request;
 
+import java.io.IOException;
 import java.util.List;
 
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Data;
 import hotel.convenient.com.fragment.RecyclerViewFragment;
+import hotel.convenient.com.utils.ToastUtil;
 
 /**
  * 分页用的 回调接口   只在json特定的时候使用
  * Created by Gyb on 2016/1/8 15:19
  */
-public abstract class SimplePageCallback extends SimpleCallBack {
+public abstract class SimplePageCallback extends SimpleCallback {
     RecyclerViewFragment fragment;
    public SimplePageCallback(RecyclerViewFragment fragment) {
-        super(fragment.mBaseActivity);
+        super();
        this.fragment = fragment;
     }
 
@@ -36,8 +39,14 @@ public abstract class SimplePageCallback extends SimpleCallBack {
                 isFull(pageData.getCurrentPage(), pageData.getCountPage());
             }
         } else {
-            mBaseActivity.showShortToast(resultJson.getMsg());
+            ToastUtil.showShortToast(resultJson.getMsg());
         }
+    }
+
+    @Override
+    public void simpleError(Request request, IOException ex) {
+        super.simpleError(request, ex);
+        fragment.setRefreshing(false);
     }
 
     /**

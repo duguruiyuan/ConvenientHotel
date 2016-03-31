@@ -22,7 +22,7 @@
     <color name="line">#e0e0e0</color>
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
-    <color name="orange_round">#ed6d1f</color>
+    <color name="orange_round">#ff5b5f</color>
     <color name="orange_yellow">#d49500</color>
     <color name="yowColorText">#F9C90E</color>
     
@@ -47,7 +47,7 @@
     <!--手势密码错误的颜色-->
     <color name="gestureLock_error_color">#FFFECE11</color>
 
-    <color name="blue_background">#0ea3f2</color>
+    <color name="blue_background">#550ea3f2</color>
     
     <color name="account_money_color">#e72884</color>
     <color name="account_income_color">#8d33cb</color>

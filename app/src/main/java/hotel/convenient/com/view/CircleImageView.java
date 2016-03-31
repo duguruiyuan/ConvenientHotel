@@ -30,7 +30,7 @@ public class CircleImageView extends ImageView {
 
     // 圆形边框的厚度默认值。  
     // 如果是0，则没有天蓝色渐变的边框。  
-    private static final int DEFAULT_BORDER_WIDTH = 0;
+    private static final int DEFAULT_BORDER_WIDTH = 2;
 
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
 
@@ -130,7 +130,8 @@ public class CircleImageView extends ImageView {
                 mBitmapPaint);
         if (mBorderWidth != 0) {
             canvas.save();
-            canvas.rotate(20, getWidth() / 2, getHeight() / 2);
+            canvas.rotate(0, getWidth() / 2, getHeight() / 2);
+            canvas.rotate(-180, getWidth() / 2, getHeight() / 2);
             canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius,
                     mBorderPaint);
             canvas.restore();
@@ -283,7 +284,7 @@ public class CircleImageView extends ImageView {
                 .setTextSize(getResources().getDisplayMetrics().density * 18);
 
         mSweepGradient = new SweepGradient(getWidth() / 2, getHeight() / 2,
-                new int[] { Color.rgb(255, 255, 255), Color.rgb(1, 209, 255) },
+                new int[] { Color.rgb(255, 255, 255) ,Color.rgb(255, 255, 255)},
                 null);
 
         mBorderPaint.setShader(mSweepGradient);

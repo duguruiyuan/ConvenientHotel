@@ -52,7 +52,7 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
             distance = Math.round(distance*100*1000)/100;
             publishHolder.roomDistance.setText(distance + "m");
         }
-        publishHolder.roomType.setText(publish.getRoom_type());
+        publishHolder.dealerName.setText(publish.getDealer_name());
         publishHolder.roomPrice.setText(publish.getRoom_price());
         publishHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,7 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
 
     class PublishHolder extends RecyclerView.ViewHolder{
         private ImageView roomImage;
-        private TextView roomType;
+        private TextView dealerName;
         private TextView roomPrice;
         private TextView roomDistance;
         private double lat;
@@ -72,7 +72,7 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
         public PublishHolder(View itemView) {
             super(itemView);
             roomImage = (ImageView) itemView.findViewById(R.id.room_image);
-            roomType = (TextView) itemView.findViewById(R.id.room_type);
+            dealerName = (TextView) itemView.findViewById(R.id.dealer_name);
             roomPrice = (TextView) itemView.findViewById(R.id.room_price);
             roomDistance = (TextView) itemView.findViewById(R.id.room_distance);
             lat = Double.parseDouble(PreferenceUtils.getLat(itemView.getContext()));

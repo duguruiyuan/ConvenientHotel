@@ -36,7 +36,7 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
-import hotel.convenient.com.http.SimpleCallBack;
+import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.FileUtils;
 import hotel.convenient.com.utils.LogUtils;
@@ -84,7 +84,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private File file;
     private Calendar today;
     private SparseArray<File> fileSparseArray = new SparseArray<>();
-    private SimpleCallBack simpleCallback = new SimpleCallBack(this) {
+    private SimpleCallback simpleCallback = new SimpleCallback() {
         @Override
         public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
             if (resultJson.getCode() == CODE_SUCCESS) {
@@ -97,7 +97,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
         }
     };
     
-    private SimpleCallBack simpleCallbackByUpload = new SimpleCallBack(this) {
+    private SimpleCallback simpleCallbackByUpload = new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {

@@ -1,5 +1,7 @@
 package hotel.convenient.com.http;
 
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
@@ -8,24 +10,53 @@ import com.squareup.okhttp.Request;
 import java.io.IOException;
 
 import hotel.convenient.com.activity.LoginActivity;
-import hotel.convenient.com.base.BaseActivity;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.utils.ToastUtil;
 
 /**
  * Created by Gyb on 2016/3/28 17:16
  */
-public abstract class SimpleCallBack extends CommonCallback {
+public abstract class SimpleCallback extends CommonCallback {
 
     public abstract<T> void simpleSuccess(String url,String result,ResultJson<T> resultJson);
-    protected BaseActivity mBaseActivity;
+    public  void simpleError(Request request, IOException ex){};
+    public static String errorMsg = "当前网络不稳定，请检查你的网络";
+    private boolean isShowProgress;
 
-    public SimpleCallBack(BaseActivity activity) {
-        this.mBaseActivity = activity;
+
+    private static InternetHandler internetHandler = new InternetHandler();
+    public static class InternetHandler extends android.os.Handler{
+        public static int SUCCESS_STATUS = 0;
+        public static int ERROR_STATUS = 1;
+
+        public InternetHandler() {
+            super(Looper.getMainLooper());
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            ResultData resultData =(ResultData) msg.obj;
+            if(msg.what == SUCCESS_STATUS){
+                resultData.simpleCallback.simpleSuccess(resultData.url,resultData.result,resultData.resultJson);
+            }else if(msg.what==ERROR_STATUS){
+                ToastUtil.showShortToast(errorMsg);
+                resultData.simpleCallback.simpleError(resultData.request,resultData.ex);
+            }
+
+        }
+
+    }
+
+    public SimpleCallback() {
+    }
+    public SimpleCallback(boolean isShowProgress) {
+        this.isShowProgress = isShowProgress;
     }
 
     @Override
     public void success(final String url, final String result) {
-        
         try{
             if(TextUtils.isEmpty(result)){
                 throw new NullPointerException("返回结果为空");
@@ -34,22 +65,43 @@ public abstract class SimpleCallBack extends CommonCallback {
             LogUtils.e(result);
             final ResultJson resultJson = JSONObject.parseObject(result, ResultJson.class);
             if (resultJson.getCode() == CODE_LOGOUT || (resultJson.getMsg() != null && resultJson.getMsg().contains("登录过期"))) {//登录超时
-                LoginActivity.httpLoginByPreference(mBaseActivity);
+                LoginActivity.httpLoginByPreference(App.getInstanceApp().getApplicationContext());
             } else {
-                mBaseActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        simpleSuccess(url,result,resultJson);
-                    }
-                });
-            } 
+                ResultData resultData = new ResultData();
+                resultData.url = url;
+                resultData.result = result;
+                resultData.simpleCallback = this;
+                resultData.resultJson = resultJson;
+                handlerMethod(resultData,InternetHandler.SUCCESS_STATUS);
+            }
         }catch (Exception e){
             e.printStackTrace();
+            ToastUtil.showShortToast("服务器异常,请更新至最新版本");
         }
     }
 
+    private void handlerMethod(ResultData resultData,int status) {
+        Message msg = Message.obtain();
+        msg.what = status;
+        msg.obj = resultData;
+        internetHandler.sendMessage(msg);
+    }
+
     @Override
-    public void error(Request request, IOException ex) {
+    public void error(final Request request, final IOException ex) {
         ex.printStackTrace();
+        ResultData resultData = new ResultData();
+        resultData.request = request;
+        resultData.ex = ex;
+        resultData.simpleCallback = this;
+        handlerMethod(resultData,InternetHandler.ERROR_STATUS);
+    }
+    public static class ResultData{
+        SimpleCallback simpleCallback;
+        Request request;
+        IOException ex;
+        String url;
+        String result;
+        ResultJson resultJson;
     }
 }

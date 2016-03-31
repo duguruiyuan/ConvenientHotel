@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
@@ -8,50 +8,88 @@
     <ImageView
         android:id="@+id/room_image"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         android:scaleType="centerCrop"
         android:src="@drawable/mei_zi"/>
+    <hotel.convenient.com.view.CircleImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/mei_zi"
+        android:layout_below="@id/room_image"
+        android:layout_marginTop="-25dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"/>
     <LinearLayout
+        android:layout_below="@+id/room_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
         <TextView
-            android:id="@+id/room_type"
+            android:id="@+id/dealer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="一房一厅"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:textColor="@color/colorPrimary"
-            android:text="日租:¥"/>
-        <TextView
-            android:id="@+id/room_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/colorPrimary"
-            android:text="123"/>
+            android:layout_marginLeft="12dp"
+            android:text="深圳橙子酒店公寓"
+            android:textSize="18sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/text_color"
+                android:text="距"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_color"
-            android:text="距离您:"
-            android:gravity="right"/>
-        <TextView
-            android:id="@+id/room_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@color/text_color"
-            android:text="2048km"
-            android:gravity="right"/>
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/text_color"
+                android:text="您:"
+                android:gravity="center_vertical"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/room_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/text_color"
+                android:text="2048km"
+                android:textSize="12sp"
+                android:gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/colorPrimary"
+                android:text="¥"
+                android:gravity="center_vertical|right"
+                />
+            <TextView
+                android:id="@+id/room_price"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPrimary"
+                android:text="123"
+                android:gravity="center_vertical"
+                android:textSize="24sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/text_color"
+                android:text="起"
+                android:gravity="center_vertical"
+                android:layout_marginRight="12dp"
+                />
+        </LinearLayout>
+        
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
