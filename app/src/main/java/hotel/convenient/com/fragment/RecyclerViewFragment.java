@@ -15,7 +15,6 @@ import butterknife.Bind;
 import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.CommonRecyclerViewAdapter;
 import hotel.convenient.com.base.BaseFragment;
-import hotel.convenient.com.utils.LogUtils;
 
 /**
  * 通用的recyclerView fragment 可以下拉刷新 上拉加载  需要自定义adapter
@@ -85,7 +84,6 @@ public abstract class RecyclerViewFragment<T> extends BaseFragment implements Sw
     public abstract void setData(View view, Bundle savedInstanceState);
     @Override
     public void initData(View view, Bundle savedInstanceState) {
-        LogUtils.e(mSwipeRefreshWidget+"   "+mRecyclerView+"   "+view);
         mSwipeRefreshWidget.setColorSchemeResources(R.color.progressColor, android.R.color.holo_red_light, android.R.color.holo_green_light);
         mSwipeRefreshWidget.setOnRefreshListener(this);
         

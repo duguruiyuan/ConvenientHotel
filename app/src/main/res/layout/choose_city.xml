@@ -5,6 +5,7 @@
     android:orientation="vertical"
     >
     <LinearLayout
+        android:id="@+id/ll_confirm_or_cancel"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:orientation="horizontal"
@@ -34,7 +35,9 @@
             android:textColor="@color/colorPrimary"
             />
     </LinearLayout>
-    <include layout="@layout/line_view"/>
+    <include 
+        android:id="@+id/line"
+        layout="@layout/line_view"/>
 
     <LinearLayout
         android:layout_width="fill_parent"

@@ -59,7 +59,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     
     public static final String FLAG_SKIP = "flag_skip";
 
-    @Override
+    @Override                                                          
     public void initData(Bundle savedInstanceState) {
         //开启侧滑动画
          openSlideAnimation();

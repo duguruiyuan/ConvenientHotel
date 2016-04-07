@@ -18,6 +18,8 @@ import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.http.SimplePageCallback;
+import hotel.convenient.com.utils.PreferenceUtils;
+import hotel.convenient.com.utils.ToastUtil;
 
 /**
  * Created by Gyb on 2015/11/20.
@@ -25,7 +27,34 @@ import hotel.convenient.com.http.SimplePageCallback;
 public class DealerFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
 
     private SimplePageCallback simplePageCallback;
-    
+    /** Fragment当前状态是否可见 */
+    protected boolean isVisible;
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if(getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
+    }
+
+
+    /**
+     * 可见 
+     */
+    protected void onVisible() {
+        getPublishInfoByInfo(initPage());
+    }
+
+
+    /**
+     * 不可见 
+     */
+    protected void onInvisible() {}
     @Override
     public CommonRecyclerViewAdapter createAdapter(List<Publish> list) {
         DealerRecyclerAdapter dealerRecyclerAdapter = new DealerRecyclerAdapter(list);
@@ -35,12 +64,15 @@ public class DealerFragment extends RecyclerViewFragment<Publish> implements Rec
 
     @Override
     public void setData(View view, Bundle savedInstanceState) {
-        getPublishInfoByInfo(initPage());
         setRecyclerRefreshListener(this);
     }
 
 
     public void getPublishInfoByInfo(int page){
+        if(!PreferenceUtils.isLogin(getContext())){
+            ToastUtil.showShortToast("您还未登录,请登录后重试");
+            return;
+        }
         if(simplePageCallback==null){
             simplePageCallback = new SimplePageCallback(this) {
                 @Override

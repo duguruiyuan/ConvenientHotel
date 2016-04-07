@@ -10,14 +10,15 @@ import hotel.convenient.com.BuildConfig;
  */
 public class LogUtils {
     public static final int size = 3500;// log打印的msg大小大概为4k  超过4k 的msg需要分割打印
+    public static final String TAG = "LOG_UTIL";
     public static void w(String msg){
         if(BuildConfig.DEBUG){
-            String method = Thread.currentThread().getStackTrace()[1].getMethodName();
+//            String method = Thread.currentThread().getStackTrace()[1].getMethodName();
             for(int i=0;i*size<msg.length();i++){
                 if(msg.length()<(i+1)*size){
-                    Log.w(method, Thread.currentThread().getStackTrace()[3] + " " + msg.substring(i * size));
+                    Log.w(TAG, Thread.currentThread().getStackTrace()[3] + " " + msg.substring(i * size));
                 }else {
-                    Log.w(method, Thread.currentThread().getStackTrace()[3] + " " + msg.substring(i * size, (i + 1) * size));
+                    Log.w(TAG, Thread.currentThread().getStackTrace()[3] + " " + msg.substring(i * size, (i + 1) * size));
                 }
             }
         }
@@ -26,6 +27,7 @@ public class LogUtils {
     public static void e(String msg){
         if(BuildConfig.DEBUG) {
             String method = Thread.currentThread().getStackTrace()[1].getMethodName();
+            method = 123+"";
             for(int i=0;i*size<msg.length();i++){
                 if(msg.length()<(i+1)*size){
                     Log.e(method, Thread.currentThread().getStackTrace()[3] + " " + msg.substring(i * size));
@@ -39,6 +41,7 @@ public class LogUtils {
     public static void d(String msg){
         if(BuildConfig.DEBUG){
             String method = Thread.currentThread().getStackTrace()[3].getMethodName();
+            method = 123+"";
             for(int i=0;i*size<msg.length();i++){
                 if(msg.length()<(i+1)*size){
                     Log.d(method, Thread.currentThread().getStackTrace()[3] + " " + msg.substring(i * size));

@@ -57,6 +57,7 @@ public class LoginActivity extends BaseActivity {
      void onConfirmClick(View view){
         switch (view.getId()){
             case R.id.login_confirm:
+                showShortToast("登录中...");
                 httpLogin();
                 break;
             case R.id.login_find_password:

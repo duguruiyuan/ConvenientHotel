@@ -24,14 +24,12 @@ public class HttpUtils {
     public static OkHttpClient mOkHttpClient = new OkHttpClient();
     public static CookieHandler cookieHandler = new CookieManager();
     public static void get(RequestParams params, Callback callback) {
-        OkHttpClient mOkHttpClient = getOkHttpClient();
         Request request = new Request.Builder().url(params.getUrl()).build();
         Call call = mOkHttpClient.newCall(request);
         call.enqueue(callback);
     }
 
     public static void post(RequestParams params, Callback callback) {
-        OkHttpClient mOkHttpClient = getOkHttpClient();
         if (params.getPostParams().size() > 0) {
             FormEncodingBuilder builder = new FormEncodingBuilder();
             for (Map.Entry<String, String> entry : params.getPostParams().entrySet()) {
@@ -48,7 +46,6 @@ public class HttpUtils {
         }
     }
     public static void postFile(RequestParams params, Callback callback) {
-        OkHttpClient mOkHttpClient = getOkHttpClient();
         MultipartBuilder builder = new MultipartBuilder().type(MultipartBuilder.FORM);
         for (Map.Entry<String, String> entry : params.getPostParams().entrySet()) {
             builder.addFormDataPart(entry.getKey(), entry.getValue());

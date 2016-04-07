@@ -57,7 +57,7 @@ public class PublishActivity extends BaseActivity implements OnCityInfoListener,
     private LinearLayoutEditTextView roomType;
     private LinearLayoutEditTextView chooseCity;
     private LinearLayoutEditTextView chooseCityMap;
-    private LinearLayoutEditTextView house_number;
+    private LinearLayoutEditTextView house_number; 
     private LinearLayoutEditTextView room_description;
     private Button nextConfirm;
     private LinearLayout llAddImageGroup;

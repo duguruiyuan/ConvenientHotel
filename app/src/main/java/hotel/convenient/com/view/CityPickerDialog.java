@@ -2,6 +2,7 @@ package hotel.convenient.com.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import hotel.convenient.com.R;
+import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.CityModel;
 import hotel.convenient.com.domain.ProvinceModel;
 import hotel.convenient.com.utils.ShowAnimationDialogUtil;
@@ -168,7 +170,35 @@ public class CityPickerDialog extends View implements OnWheelChangedListener {
             }
         });
     }
-
+    /**
+     *     弹出选择对话框
+     */
+    public void showSelectAlert(final BaseActivity activity) {
+        View contentView = LayoutInflater.from(getContext()).inflate(
+                R.layout.choose_city, null);
+        View viewById = contentView.findViewById(R.id.ll_confirm_or_cancel);
+        View line = contentView.findViewById(R.id.line);
+        viewById.setVisibility(GONE);
+        line.setVisibility(GONE);
+        setUpViews(contentView);
+        setUpListener();
+        setUpData();
+//        pd = ShowAnimationDialogUtil.showDialog(activity, contentView);// 弹出
+        activity.showAlertDialog("", "选择城市", "确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(onCityInfoListener!=null){
+                    onCityInfoListener.getCityInfo(mCurrentProviceName,mCurrentCityName);
+                }
+                activity.closeDialog();
+            }
+        }, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activity.closeDialog();
+            }
+        },contentView);
+    }
 
     /**
      * 根据当前的省，更新市WheelView的信息
