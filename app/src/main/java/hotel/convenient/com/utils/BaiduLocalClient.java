@@ -15,7 +15,7 @@ import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 
 public class BaiduLocalClient {
-	private GeoCoder mSearch;
+	private static GeoCoder mSearch;
 	private static SuggestionSearch mSuggestionSearch;
 	private static LocationClient mLocationClient ;
 
@@ -23,6 +23,25 @@ public class BaiduLocalClient {
 		mLocationClient = new LocationClient(context);     //声明LocationClient类
 		mLocationClient.registerLocationListener( myListener );    //注册监听函数
 		initLocation();
+	}
+	public static void close(){
+		if(mLocationClient!=null){
+			mLocationClient.stop();
+			mLocationClient = null;
+		}
+		if(mSuggestionSearch!=null){
+			mSuggestionSearch.destroy();
+			mSuggestionSearch= null;
+		}
+		if(mSearch!=null){
+			mSearch.destroy();
+			mSearch = null;
+		}
+	}
+	public static void stop(){
+		if(mLocationClient!=null){
+			mLocationClient.stop();
+		}
 	}
 	public static void startGetLocaltion() {
 		mLocationClient.start();

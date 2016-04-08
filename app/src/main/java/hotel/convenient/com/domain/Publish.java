@@ -1,6 +1,8 @@
 package hotel.convenient.com.domain;
 
-public class Publish {
+import java.io.Serializable;
+
+public class Publish implements Serializable{
 	private int id;
 	private int dealerid;
 	private int userid;

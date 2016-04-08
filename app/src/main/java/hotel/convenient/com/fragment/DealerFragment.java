@@ -50,7 +50,6 @@ public class DealerFragment extends RecyclerViewFragment<Publish> implements Rec
         getPublishInfoByInfo(initPage());
     }
 
-
     /**
      * 不可见 
      */

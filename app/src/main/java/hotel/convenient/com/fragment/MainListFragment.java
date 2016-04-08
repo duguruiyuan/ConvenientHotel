@@ -1,16 +1,17 @@
 package hotel.convenient.com.fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import hotel.convenient.com.R;
+import hotel.convenient.com.activity.DealerInfoActivity;
 import hotel.convenient.com.adapter.CommonRecyclerViewAdapter;
 import hotel.convenient.com.adapter.MainRecyclerAdapter;
+import hotel.convenient.com.domain.ChooseDealerInfo;
 import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
@@ -18,7 +19,7 @@ import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.SimplePageCallback;
 
 /**
- * 首页
+ * 首页列表
  * Created by Gyb on 2015/11/20.
  */
 public class MainListFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
@@ -26,7 +27,17 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
     private SimplePageCallback simplePageCallback;
     private double latitude;
     private double longitude;
-    
+    private GregorianCalendar endCalendar;
+    private GregorianCalendar startCalendar;
+
+    public void setEndCalendar(GregorianCalendar endCalendar) {
+        this.endCalendar = endCalendar;
+    }
+
+    public void setStartCalendar(GregorianCalendar startCalendar) {
+        this.startCalendar = startCalendar;
+    }
+
     public interface GetLocation{
         void getLocation();
     }
@@ -87,8 +98,12 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
     }
     
     public void setLatLng(double latitude,double longitude) {
+        if(this.latitude == latitude&&this.longitude == longitude){
+            return;
+        }
         this.latitude = latitude;
         this.longitude = longitude;
+        sendLocalByHttp(initPage());
     }
 
     @Override
@@ -98,16 +113,10 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
 
     @Override
     public void onItemClick(View view, final int position) {
-        switch (view.getId()){
-            case R.id.ll_delete:
-                mBaseActivity.showAlertDialog("确认要删除此条发布信息?"+position, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                });
-                break;
-        }
+        Publish publish = getList().get(position);
+        ChooseDealerInfo paramValue = new ChooseDealerInfo(publish);
+        paramValue.setStartCalendar(startCalendar);
+        paramValue.setEndCalendar(endCalendar);
+        mBaseActivity.skipActivity(DealerInfoActivity.class,false,"data", paramValue);
     }
-
-    
 }

@@ -24,7 +24,6 @@ public abstract class SimpleCallback extends CommonCallback {
     public static String errorMsg = "当前网络不稳定，请检查你的网络";
     private boolean isShowProgress;
 
-
     private static InternetHandler internetHandler = new InternetHandler();
     public static class InternetHandler extends android.os.Handler{
         public static int SUCCESS_STATUS = 0;

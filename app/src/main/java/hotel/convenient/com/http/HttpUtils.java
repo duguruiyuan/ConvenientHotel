@@ -25,7 +25,7 @@ public class HttpUtils {
     public static CookieHandler cookieHandler = new CookieManager();
     public static void get(RequestParams params, Callback callback) {
         Request request = new Request.Builder().url(params.getUrl()).build();
-        Call call = mOkHttpClient.newCall(request);
+        Call call = getOkHttpClient().newCall(request);
         call.enqueue(callback);
     }
 
@@ -37,11 +37,11 @@ public class HttpUtils {
             }
             RequestBody build = builder.build();
             Request request = new Request.Builder().url(params.getUrl()).post(build).build();
-            Call call = mOkHttpClient.newCall(request);
+            Call call = getOkHttpClient().newCall(request);
             call.enqueue(callback);
         } else {
             Request request = new Request.Builder().url(params.getUrl()).build();
-            Call call = mOkHttpClient.newCall(request);
+            Call call = getOkHttpClient().newCall(request);
             call.enqueue(callback);
         }
     }
@@ -55,7 +55,7 @@ public class HttpUtils {
         }
         RequestBody requestBody = builder.build();
         Request request = new Request.Builder().url(params.getUrl()).post(requestBody).build();
-        Call call = mOkHttpClient.newCall(request);
+        Call call = getOkHttpClient().newCall(request);
         call.enqueue(callback);
     }
 

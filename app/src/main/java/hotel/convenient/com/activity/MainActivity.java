@@ -39,17 +39,17 @@ import hotel.convenient.com.view.MainViewPager;
  */
 public class MainActivity extends BaseActivity  implements ViewPager.OnPageChangeListener{
     @Bind(R.id.vp_main_fragment)
-     MainViewPager viewPager;
+    MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
     private DealerFragment mDealerFragment; //商家页
     private MoreFragment mMoreFragment; //更多页
     @Bind(R.id.tv_main)
-     TextView tv_main;
+    TextView tv_main;
     @Bind(R.id.tv_dealer)
-     TextView tv_dealer;
+    TextView tv_dealer;
     @Bind(R.id.tv_more)
-     TextView tv_more;
+    TextView tv_more;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CircleImageView headImage;
@@ -76,7 +76,10 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         //禁止滑动
         viewPager.setIsCanScroll(false);
         viewPager.addOnPageChangeListener(this);
-        if(!PreferenceUtils.isLogin(this)){
+        
+        
+        //如果在手机中是登录状态  则自动登录    每次应用启动时做的动作 
+        if(PreferenceUtils.isLogin(this)){
             LoginActivity.httpLoginByPreference(this);
         }
     }

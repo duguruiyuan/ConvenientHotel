@@ -89,6 +89,12 @@ public class MainFragment extends BaseFragment implements BDLocationListener,Mai
         pickDateInit(endDatePicker,endCalendar);
         setDateByCalendar(start_date,startCalendar);
         setDateByCalendar(end_date,endCalendar);
+        setDateToMainListFragment();
+    }
+    
+    public void setDateToMainListFragment(){
+        mainListFragment.setEndCalendar(endCalendar);
+        mainListFragment.setStartCalendar(startCalendar);
     }
     @OnClick({R.id.pick_city,R.id.pick_desc_local,R.id.pick_start_date,R.id.pick_end_date})
     void onPickClick(View view){
@@ -117,6 +123,7 @@ public class MainFragment extends BaseFragment implements BDLocationListener,Mai
                             changeDate(end_date, endCalendar, end_date_info);
                         }
                         changeDate(start_date, startCalendar, start_date_info);
+                        setDateToMainListFragment();
                     }
                 },startDatePicker);
                 break;
@@ -134,6 +141,7 @@ public class MainFragment extends BaseFragment implements BDLocationListener,Mai
                         }
                         endCalendar.set(year, month, day);
                         changeDate(end_date, endCalendar, end_date_info);
+                        setDateToMainListFragment();
                     }
                 },endDatePicker);
                 break;
@@ -183,8 +191,10 @@ public class MainFragment extends BaseFragment implements BDLocationListener,Mai
         if (bdLocation != null) {
             latitude = bdLocation.getLatitude();
             longitude = bdLocation.getLongitude();
+            LogUtils.e("latitude:"+latitude+" longitude:"+longitude);
             pickCity.setText(bdLocation.getAddress().city);
             mainListFragment.setLatLng(latitude,longitude);
+            BaiduLocalClient.stop();
         } else {
             mBaseActivity.showShortToast("定位失败...");
         }
@@ -193,5 +203,11 @@ public class MainFragment extends BaseFragment implements BDLocationListener,Mai
     @Override
     public void getLocation() {
         BaiduLocalClient.startGetLocaltion();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BaiduLocalClient.close();
     }
 }

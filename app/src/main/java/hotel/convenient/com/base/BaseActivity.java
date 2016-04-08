@@ -3,6 +3,7 @@ package hotel.convenient.com.base;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +22,6 @@ import java.util.Set;
 
 import butterknife.ButterKnife;
 import hotel.convenient.com.R;
-import hotel.convenient.com.app.App;
 import hotel.convenient.com.utils.DensityUtils;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.view.CustomProgressDialog;
@@ -268,6 +268,14 @@ public abstract  class BaseActivity extends AppCompatActivity {
      * @param paramValue  参数值
      */
     public void skipActivity(Class<?> clazz,boolean isFinish,String paramKey,Serializable paramValue) {
+        Intent intent = new Intent(BaseActivity.this,clazz);
+        intent.putExtra(paramKey, paramValue);
+        startActivity(intent);
+        if(isFinish){
+            finish();
+        }
+    }
+    public void skipActivity(Class<?> clazz,boolean isFinish,String paramKey,Parcelable paramValue) {
         Intent intent = new Intent(BaseActivity.this,clazz);
         intent.putExtra(paramKey, paramValue);
         startActivity(intent);
