@@ -197,7 +197,6 @@ public class TakeGoodsSearchAddressActivity extends BaseActivity {
 	                    // 没有检测到结果  
 	             }else {
 //	            	 list.add(new SearchInfo(keyword, name, result.getAddressDetail().city, result.getAddressDetail().district, latlng,result.getAddress()));
-	            	 LogUtils.e("listsize:"+list.size());
 	            	 for(SearchInfo info : list){
 	            		 if(Math.abs(info.getLatlng().latitude-result.getLocation().latitude)<0.00001){
 	            			 if(Math.abs(info.getLatlng().longitude -result.getLocation().longitude)<0.00001){

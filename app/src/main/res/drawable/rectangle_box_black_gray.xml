@@ -4,8 +4,8 @@
     >
     <!--颜色渐变 -->
     <gradient
-        android:endColor="#ffffff"
-        android:startColor="#ffffff"
+        android:endColor="#55000000"
+        android:startColor="#55000000"
         android:angle="90"
         >
     </gradient>
