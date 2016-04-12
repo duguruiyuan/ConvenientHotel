@@ -12,6 +12,7 @@ import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.utils.DistanceUtils;
 import hotel.convenient.com.utils.ImageUtils;
+import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
 
 /**
@@ -39,9 +40,11 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
         Publish publish = list.get(position);
         PublishHolder publishHolder = (PublishHolder) holder;
         if(publish.getImage_name().indexOf(",")==-1){
-            ImageUtils.setImage(publishHolder.roomImage,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name(),R.drawable.mei_zi);
+            LogUtils.e(HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name());
+            ImageUtils.setImage(publishHolder.roomImage,HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name(),R.drawable.mei_zi);
         }else{
-            ImageUtils.setImage(publishHolder.roomImage,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0],R.drawable.mei_zi);
+            LogUtils.e(HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0]);
+            ImageUtils.setImage(publishHolder.roomImage,HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0],R.drawable.mei_zi);
         }
         
         double distance = DistanceUtils.getDistance(publishHolder.lat, publishHolder.lng, publish.getLatitude(), publish.getLongitude());

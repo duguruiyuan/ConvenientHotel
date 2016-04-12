@@ -1,14 +1,14 @@
 package hotel.convenient.com.domain;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Gyb on 2016/4/8 15:58
  */
 public class ChooseDealerInfo  implements Serializable{
-    private Calendar startCalendar;
-    private Calendar endCalendar;
+    private GregorianCalendar startCalendar;
+    private GregorianCalendar endCalendar;
 
     private Publish publish;
 
@@ -25,19 +25,19 @@ public class ChooseDealerInfo  implements Serializable{
         return publish;
     }
 
-    public Calendar getStartCalendar() {
+    public GregorianCalendar getStartCalendar() {
         return startCalendar;
     }
 
-    public Calendar getEndCalendar() {
+    public GregorianCalendar getEndCalendar() {
         return endCalendar;
     }
 
-    public void setStartCalendar(Calendar startCalendar) {
+    public void setStartCalendar(GregorianCalendar startCalendar) {
         this.startCalendar = startCalendar;
     }
 
-    public void setEndCalendar(Calendar endCalendar) {
+    public void setEndCalendar(GregorianCalendar endCalendar) {
         this.endCalendar = endCalendar;
     }
 }

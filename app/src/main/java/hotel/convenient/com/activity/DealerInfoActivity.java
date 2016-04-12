@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
+import java.util.GregorianCalendar;
+
 import butterknife.Bind;
 import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
@@ -23,14 +26,18 @@ import hotel.convenient.com.domain.ChooseDealerInfo;
 import hotel.convenient.com.domain.Publish;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.utils.ImageUtils;
+import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.view.DateLinearLayout;
 
 /**
- * Created by Administrator on 2015/11/16.
+ * Created by Gonyb on 2016/04/10.
  */
 public class DealerInfoActivity extends BaseActivity{
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private ChooseDealerInfo dealerInfo;
+    @Bind(R.id.date_pick_ll)
+    DateLinearLayout dateLinearLayout;
     @Bind(R.id.main_image)
     ImageView main_image;
     @Bind(R.id.tv_count_image)
@@ -40,10 +47,14 @@ public class DealerInfoActivity extends BaseActivity{
     @Bind(R.id.mapView)
     MapView mMapView;
     private BaiduMap mBaiduMap;
+    
 
     @Override
     public void initData(Bundle savedInstanceState) {
         dealerInfo = (ChooseDealerInfo) getIntent().getSerializableExtra("data");
+        if(dealerInfo==null){
+            return;
+        }
         initView();
         initData();
     }
@@ -59,10 +70,11 @@ public class DealerInfoActivity extends BaseActivity{
         initMap(publish);
         collapsingToolbarLayout.setTitle(publish.getDealer_name());
         if(publish.getImage_name().indexOf(",")==-1){
-            ImageUtils.setImage(main_image, HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name(),R.drawable.mei_zi);
-            
+            LogUtils.e(HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name());
+            ImageUtils.setImage(main_image, HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name(),R.drawable.mei_zi);
         }else{
-            ImageUtils.setImage(main_image,HostUrl.HOST+"/"+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0],R.drawable.mei_zi);
+            LogUtils.e(HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0]);
+            ImageUtils.setImage(main_image,HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0],R.drawable.mei_zi);
         }
         tv_count_image.setText(publish.getImage_name().split(",").length+"张");
         address.setText(publish.getRoom_province()+publish.getRoom_city()+publish.getRoom_address_detail()+publish.getRoom_house_number());
@@ -71,13 +83,32 @@ public class DealerInfoActivity extends BaseActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(R.color.white));//设置还没收缩时状态下字体颜色
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);//设置收缩后Toolbar上字体的颜色
-    }
 
+
+        dateLinearLayout.setmBaseActivity(this);
+        dateLinearLayout.setCalendar(dealerInfo.getStartCalendar(),dealerInfo.getEndCalendar());
+        dateLinearLayout.setOnStartDateClickListener(new DateLinearLayout.OnStartDateClickListener() {
+            @Override
+            public void onStartClick(View view, GregorianCalendar startCalendar, GregorianCalendar endCalendar) {
+            }
+        });
+        dateLinearLayout.setOnEndDateClickListener(new DateLinearLayout.OnEndDateClickListener() {
+            @Override
+            public void onEndClick(View view, GregorianCalendar startCalendar, GregorianCalendar endCalendar) {
+            }
+        });
+
+        
+    }
+    
+    
     private void initMap(Publish publish) {
         mBaiduMap = mMapView.getMap();
         //普通地图  
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
         //设置地图定位到point点
+        LogUtils.e("publish.getLatitude():"+publish.getLatitude());
+        LogUtils.e("publish.getLongitude():"+publish.getLongitude());
         LatLng latLng = new LatLng(publish.getLatitude(), publish.getLongitude());
         mBaiduMap.animateMapStatus(MapStatusUpdateFactory.newLatLng(latLng));
         //设置地图的缩放比例
@@ -96,6 +127,7 @@ public class DealerInfoActivity extends BaseActivity{
     private void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.ctl_collapsing);
+        
     }
 
     @Override

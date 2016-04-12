@@ -48,91 +48,12 @@
             android:id="@+id/pick_desc_local" />
     </LinearLayout>
     </LinearLayout>
-    <LinearLayout
+    <hotel.convenient.com.view.DateLinearLayout
+        android:id="@+id/date_pick_ll"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        >
-        
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:id="@+id/pick_start_date">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="入住"
-            android:textColor="@color/gray_text_color"
-            android:gravity="center"
-            android:layout_marginLeft="32dp"/>
-        
-        <TextView
-            android:id="@+id/start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text=""
-            android:textColor="@color/deep_black_text_color_more"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="8dp"/>
-        <TextView
-            android:id="@+id/start_date_info"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="今天"
-            android:textColor="@color/deep_black_text_color_more"
-            android:gravity="center_vertical"
-            android:layout_marginLeft="8dp"
-            />
-        </LinearLayout>
-        <View
-            android:layout_width="35dp"
-            android:layout_height="1dp"
-            android:background="@color/line"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/pick_end_date">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="离店"
-                android:textColor="@color/gray_text_color"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/end_date"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text=""
-                android:textColor="@color/deep_black_text_color_more"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="8dp"/>
-            <TextView
-                android:id="@+id/end_date_info"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="明天"
-                android:textColor="@color/deep_black_text_color_more"
-                android:gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_has_next_page"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="12dp"/>
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        />
     <include layout="@layout/line_view"/>
     
     <LinearLayout
