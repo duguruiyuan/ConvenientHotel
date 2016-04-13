@@ -41,7 +41,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                 Intent intent = new Intent(holder.itemView.getContext(), PhotoActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("data",imageUrls);
-                intent.putExtra("currentPos",position);
+                intent.putExtra(PhotoActivity.PICK_IMAGE_POSITION,position);
                 holder.itemView.getContext().startActivity(intent);
             }
         });

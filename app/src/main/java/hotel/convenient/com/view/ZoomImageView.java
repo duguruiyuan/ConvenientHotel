@@ -110,6 +110,7 @@ public class ZoomImageView extends ImageView implements ViewTreeObserver.OnGloba
                 scaleFactor = minScale/scale;
             }
             matrix.postScale(scaleFactor,scaleFactor,detector.getFocusX(),detector.getFocusY());
+            // TODO: 2016/4/13 反正白边  在缩放时要判断 
             setImageMatrix(matrix);
         }
         return true;
