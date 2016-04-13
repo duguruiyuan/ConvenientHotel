@@ -17,8 +17,6 @@ import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
-import java.util.GregorianCalendar;
-
 import butterknife.Bind;
 import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
@@ -66,7 +64,7 @@ public class DealerInfoActivity extends BaseActivity{
     }
 
     private void initData() {
-        Publish publish = dealerInfo.getPublish();
+        final Publish publish = dealerInfo.getPublish();
         initMap(publish);
         collapsingToolbarLayout.setTitle(publish.getDealer_name());
         if(publish.getImage_name().indexOf(",")==-1){
@@ -87,14 +85,10 @@ public class DealerInfoActivity extends BaseActivity{
 
         dateLinearLayout.setmBaseActivity(this);
         dateLinearLayout.setCalendar(dealerInfo.getStartCalendar(),dealerInfo.getEndCalendar());
-        dateLinearLayout.setOnStartDateClickListener(new DateLinearLayout.OnStartDateClickListener() {
+        main_image.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onStartClick(View view, GregorianCalendar startCalendar, GregorianCalendar endCalendar) {
-            }
-        });
-        dateLinearLayout.setOnEndDateClickListener(new DateLinearLayout.OnEndDateClickListener() {
-            @Override
-            public void onEndClick(View view, GregorianCalendar startCalendar, GregorianCalendar endCalendar) {
+            public void onClick(View v) {
+                skipActivity(PreviewRoomPhotoActivity.class,false,"data",publish);
             }
         });
 
