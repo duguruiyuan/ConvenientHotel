@@ -1,8 +1,8 @@
 package hotel.convenient.com.activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import butterknife.Bind;
 import hotel.convenient.com.R;
@@ -23,6 +23,9 @@ public class PreviewRoomPhotoActivity extends BaseActivity {
     @Override
     public void initData(Bundle savedInstanceState) {
         Publish publish = (Publish) getIntent().getSerializableExtra("data");
+        showBackPressed();
+        setTitle(publish.getDealer_name());
+        
         imageUrls = new String[publish.getImage_name().split(",").length];
         int i = 0;
         for(String name:publish.getImage_name().split(",")){
@@ -32,9 +35,9 @@ public class PreviewRoomPhotoActivity extends BaseActivity {
             i++;
         }
         recyclerView.setAdapter(new PhotoAdapter(imageUrls));
-        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));
-        StaggeredGridLayoutManager layout = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(layout);
+//        StaggeredGridLayoutManager layout = new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerView.addItemDecoration(new DividerGridItemDecoration(this));//设置分割线
     }
 
     @Override

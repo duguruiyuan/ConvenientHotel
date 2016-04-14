@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import hotel.convenient.com.R;
@@ -18,6 +19,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private String[] imageUrls;
 
+    private int height ;
     public PhotoAdapter(String[] imageUrls) {
         this.imageUrls = imageUrls;
     }
@@ -31,10 +33,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
     @Override
     public void onBindViewHolder(final PhotoViewHolder holder, final int position) {
         ImageUtils.setImage(holder.imageView,imageUrls[position]);
-       
-        ViewGroup.LayoutParams layoutParams = holder.itemView.getLayoutParams();
-        layoutParams.height = 300;
-        holder.itemView.setLayoutParams(layoutParams);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +47,6 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     @Override
     public int getItemCount() {
-        
         return imageUrls.length;
     }
 
@@ -58,6 +55,14 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         public PhotoViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
+            imageView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+                    layoutParams.height = imageView.getWidth();
+                    imageView.setLayoutParams(layoutParams);
+                }
+            });
         }
     }
 }
