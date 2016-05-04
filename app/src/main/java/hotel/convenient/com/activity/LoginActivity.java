@@ -41,11 +41,14 @@ public class LoginActivity extends BaseActivity {
     private String intentData;
 
     public static final String STATE_LOGOUT = "STATE_LOGOUT";
+    private int skip_page = -1;
     @Override
     public void initData(Bundle savedInstanceState) {
         setTitle("登录");
         showBackPressed();
         intentData = getIntent().getStringExtra(STATE_LOGOUT);
+        skip_page = getIntent().getIntExtra("data",0);
+        
     }
 
     @Override
@@ -85,7 +88,7 @@ public class LoginActivity extends BaseActivity {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                     PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password);
                     showShortToast("登录成功!");
-                    skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,0);
+                    skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,skip_page);
                 } else {
                     showShortToast(resultJson.getMsg());
                 }

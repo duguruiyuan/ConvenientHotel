@@ -24,6 +24,7 @@ import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.fragment.DealerFragment;
 import hotel.convenient.com.fragment.MainFragment;
 import hotel.convenient.com.fragment.MoreFragment;
+import hotel.convenient.com.fragment.NotDealerFragment;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     private MainFragment mMainFragment; //主页
     private DealerFragment mDealerFragment; //商家页
     private MoreFragment mMoreFragment; //更多页
+    private NotDealerFragment notDealerFragment;//未成为商家
     @Bind(R.id.tv_main)
     TextView tv_main;
     @Bind(R.id.tv_dealer)
@@ -69,8 +71,14 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         mMainFragment = new MainFragment();
         mDealerFragment = new DealerFragment();
         mMoreFragment = new MoreFragment();
+        notDealerFragment = new NotDealerFragment();
         fragments.add(mMainFragment);
-        fragments.add(mDealerFragment);
+        if (PreferenceUtils.isLogin(this)) {
+            fragments.add(mDealerFragment);
+        } else {
+            fragments.add(notDealerFragment);
+        } 
+        
         fragments.add(mMoreFragment);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), fragments));
         //禁止滑动
@@ -251,7 +259,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         viewPager.setCurrentItem(item);
     }
 
-
     /**
      * 注解点击事件
      * 1. 方法必须私有限定,方法必须私有限定,方法必须私有限定 重要的事说三遍
@@ -273,16 +280,26 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 break;
             case R.id.ll_dealer:
                 if (PreferenceUtils.isLogin(this)) {
-                    viewPager.setCurrentItem(1);
+                    if (!(fragments.get(1) instanceof DealerFragment)) {
+                        fragments.remove(1);
+                        fragments.add(1,mDealerFragment);
+                        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(),fragments));
+                    } 
                 } else {
-                    skipActivity(LoginActivity.class,false);
+                    if (!(fragments.get(1) instanceof NotDealerFragment)) {
+                        fragments.remove(1);
+                        fragments.add(1,notDealerFragment);
+                        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(),fragments));
+                        showShortToast("您还未成为商家!点击成为商家");
+                    } 
                 }
+                viewPager.setCurrentItem(1);
                 break;
             case R.id.ll_more:
                 if (PreferenceUtils.isLogin(this)) {
                     viewPager.setCurrentItem(2);
                 } else {
-                    skipActivity(LoginActivity.class,false);
+                    skipActivity(LoginActivity.class,false,"data",2);
                 }
                 break;
         }
