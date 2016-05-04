@@ -28,7 +28,6 @@ public class ZoomImageView extends ImageView implements ViewTreeObserver.OnGloba
     private float mediumScale;
     private float maxScale;
     
-    
     //图片移动参数
     private int lastTouchPointCount = 0;
     private float lastX = 0;
