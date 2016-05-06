@@ -1,6 +1,7 @@
 package hotel.convenient.com.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -78,8 +79,13 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
             dealerName = (TextView) itemView.findViewById(R.id.dealer_name);
             roomPrice = (TextView) itemView.findViewById(R.id.room_price);
             roomDistance = (TextView) itemView.findViewById(R.id.room_distance);
-            lat = Double.parseDouble(PreferenceUtils.getLat(itemView.getContext()));
-            lng = Double.parseDouble(PreferenceUtils.getLng(itemView.getContext()));
+            String lat = PreferenceUtils.getLat(itemView.getContext());
+            String lng = PreferenceUtils.getLng(itemView.getContext());
+            if(TextUtils.isEmpty(lat)||TextUtils.isEmpty(lng)){
+                return;
+            }
+            this.lat = Double.parseDouble(lat);
+            this.lng = Double.parseDouble(lng);
         }
     }
 }
