@@ -47,5 +47,9 @@
             android:title="退出登录"
             android:icon="@android:drawable/ic_delete"
             />
+        <item android:id="@+id/login"
+            android:title="登陆/注册"
+            android:icon="@android:drawable/ic_btn_speak_now"
+            />
     </group>
 </menu>

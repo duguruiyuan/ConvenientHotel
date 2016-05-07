@@ -36,13 +36,17 @@ public abstract class SimpleCallback extends CommonCallback {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            ResultData resultData =(ResultData) msg.obj;
+           
             if(msg.what == SUCCESS_STATUS){
+                ResultData resultData =(ResultData) msg.obj;
                 resultData.simpleCallback.simpleSuccess(resultData.url,resultData.result,resultData.resultJson);
-            }else if(msg.what==ERROR_STATUS){
+            } else if (msg.what == ERROR_STATUS) {
+                ResultData resultData = (ResultData) msg.obj;
                 ToastUtil.showShortToast(errorMsg);
-                resultData.simpleCallback.simpleError(resultData.request,resultData.ex);
-            }
+                resultData.simpleCallback.simpleError(resultData.request, resultData.ex);
+            } else {
+                ToastUtil.showShortToast((String) msg.obj);
+            } 
 
         }
 
@@ -75,7 +79,10 @@ public abstract class SimpleCallback extends CommonCallback {
             }
         }catch (Exception e){
             e.printStackTrace();
-            ToastUtil.showShortToast("服务器异常,请更新至最新版本");
+            Message msg = Message.obtain();
+            msg.what = 1111;
+            msg.obj = "服务器异常,请更新至最新版本";
+            internetHandler.sendMessage(msg);
         }
     }
 

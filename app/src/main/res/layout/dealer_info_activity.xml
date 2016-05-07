@@ -113,6 +113,19 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl"
                 android:layout_marginTop="8dp"/>
+            <Button
+                android:id="@+id/confirm_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:text="点击预约入住"
+                android:layout_below="@id/date_pick_ll"
+                android:layout_marginRight="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@drawable/confirm_selector"
+                android:textColor="@color/white"
+                android:textSize="18sp"/>
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -1,14 +1,17 @@
 package hotel.convenient.com.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdate;
@@ -18,13 +21,20 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.ChooseDealerInfo;
 import hotel.convenient.com.domain.Publish;
+import hotel.convenient.com.domain.RoomOrder;
 import hotel.convenient.com.http.HostUrl;
+import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
+import hotel.convenient.com.http.ResultJson;
+import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.DateLinearLayout;
 
 /**
@@ -45,6 +55,8 @@ public class DealerInfoActivity extends BaseActivity{
     @Bind(R.id.mapView)
     MapView mMapView;
     private BaiduMap mBaiduMap;
+    @Bind(R.id.confirm_order)
+    Button confirm_order;
     
 
     @Override
@@ -133,6 +145,45 @@ public class DealerInfoActivity extends BaseActivity{
         }
         return super.onOptionsItemSelected(item);
     }
+    @OnClick(R.id.confirm_order)
+    void onButtonClick(View view){
+        switch (view.getId()){
+            case R.id.confirm_order:
+                if (PreferenceUtils.isLogin(this)) {
+                    sendOrderInfoToHttp();
+                } else {
+                    showShortToast("您还未登陆");
+                    skipActivity(LoginActivity.class,false);
+                } 
+                
+                break;
+        }
+    }
+
+    private void sendOrderInfoToHttp() {
+        dealerInfo.setStartCalendar(dateLinearLayout.getStartCalendar());
+        dealerInfo.setEndCalendar(dateLinearLayout.getEndCalendar());
+        RequestParams requestParams = new RequestParams(HostUrl.HOST+HostUrl.URL_CHECK_ORDER_DATE);
+        int day = (int) ((dealerInfo.getEndCalendar().getTimeInMillis()-dealerInfo.getStartCalendar().getTimeInMillis())/(1000*60*60*24))+1;
+        requestParams.addBodyParameter("json", JSONObject.toJSONString(new RoomOrder(
+                dealerInfo.getPublish().getId(),dealerInfo.getStartCalendar().getTimeInMillis(),
+                dealerInfo.getEndCalendar().getTimeInMillis(),day)));
+        HttpUtils.post(requestParams, new SimpleCallback() {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if (resultJson.getCode() == CODE_SUCCESS) {
+                    Intent intent = new Intent(DealerInfoActivity.this,PayActivity.class);
+                    intent.putExtra("data",resultJson.getMsg());
+                    intent.putExtra("dealerInfo",dealerInfo);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    showShortToast(resultJson.getMsg());
+                } 
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

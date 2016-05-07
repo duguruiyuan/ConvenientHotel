@@ -21,7 +21,9 @@ import hotel.convenient.com.utils.PreferenceUtils;
  */
 public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerAdapter.PublishHolder,Publish> {
 
-
+    private double lat;
+    private double lng;
+    
     public MainRecyclerAdapter(List<Publish> list) {
         super(list);
     }
@@ -38,6 +40,15 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
 
     @Override
     public void onBindViewHolderItem(RecyclerView.ViewHolder holder, final int position) {
+        if(lat==0||lng==0){
+            String sLat = PreferenceUtils.getLat(holder.itemView.getContext());
+            String sLng = PreferenceUtils.getLng(holder.itemView.getContext());
+            if(TextUtils.isEmpty(sLat)||TextUtils.isEmpty(sLng)){
+                return ;
+            }
+            this.lat = Double.parseDouble(sLat);
+            this.lng = Double.parseDouble(sLng);
+        }
         Publish publish = list.get(position);
         PublishHolder publishHolder = (PublishHolder) holder;
         if(publish.getImage_name().indexOf(",")==-1){
@@ -48,7 +59,7 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
             ImageUtils.setImage(publishHolder.roomImage,HostUrl.HOST+publish.getDir_path()+"/"+publish.getImage_name().split(",")[0],R.drawable.mei_zi);
         }
         
-        double distance = DistanceUtils.getDistance(publishHolder.lat, publishHolder.lng, publish.getLatitude(), publish.getLongitude());
+        double distance = DistanceUtils.getDistance(lat, lng, publish.getLatitude(), publish.getLongitude());
         if (distance > 0) {
             distance = Math.round(distance*100)/100;
             publishHolder.roomDistance.setText(distance + "km");
@@ -71,21 +82,14 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
         private TextView dealerName;
         private TextView roomPrice;
         private TextView roomDistance;
-        private double lat;
-        private double lng;
+        
         public PublishHolder(View itemView) {
             super(itemView);
             roomImage = (ImageView) itemView.findViewById(R.id.room_image);
             dealerName = (TextView) itemView.findViewById(R.id.dealer_name);
             roomPrice = (TextView) itemView.findViewById(R.id.room_price);
             roomDistance = (TextView) itemView.findViewById(R.id.room_distance);
-            String lat = PreferenceUtils.getLat(itemView.getContext());
-            String lng = PreferenceUtils.getLng(itemView.getContext());
-            if(TextUtils.isEmpty(lat)||TextUtils.isEmpty(lng)){
-                return;
-            }
-            this.lat = Double.parseDouble(lat);
-            this.lng = Double.parseDouble(lng);
+            
         }
     }
 }

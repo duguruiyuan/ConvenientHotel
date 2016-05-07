@@ -22,6 +22,7 @@ import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.MainViewPagerAdapter;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.fragment.DealerFragment;
+import hotel.convenient.com.fragment.GeneralTabsFragment;
 import hotel.convenient.com.fragment.MainFragment;
 import hotel.convenient.com.fragment.MoreFragment;
 import hotel.convenient.com.fragment.NotDealerFragment;
@@ -44,6 +45,8 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
     private DealerFragment mDealerFragment; //商家页
+    private DealerFragment mUserFragment; //用户页
+    private GeneralTabsFragment generalTabsFragment;//我的
     private MoreFragment mMoreFragment; //更多页
     private NotDealerFragment notDealerFragment;//未成为商家
     @Bind(R.id.tv_main)
@@ -72,13 +75,21 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         mDealerFragment = new DealerFragment();
         mMoreFragment = new MoreFragment();
         notDealerFragment = new NotDealerFragment();
+        mUserFragment = new DealerFragment();
         fragments.add(mMainFragment);
+        generalTabsFragment = new GeneralTabsFragment();
+        List<String> titles = new ArrayList<>();
+        List<Fragment> tabsFragments = new ArrayList<>();
+        titles.add("我租到的房间");
+        titles.add("我发布的房间");
+        tabsFragments.add(mUserFragment);
         if (PreferenceUtils.isLogin(this)) {
-            fragments.add(mDealerFragment);
+            tabsFragments.add(mDealerFragment);
         } else {
-            fragments.add(notDealerFragment);
-        } 
-        
+            tabsFragments.add(notDealerFragment);
+        }
+        generalTabsFragment.setData(titles,tabsFragments);
+        fragments.add(generalTabsFragment);
         fragments.add(mMoreFragment);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), fragments));
         //禁止滑动
@@ -157,6 +168,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                     case R.id.action_publish:
                         skipActivity(PublishActivity.class, false);
                         break;
+                    case R.id.login:
+                        skipActivity(LoginActivity.class, false);
+                        break;
                 }
 //                item.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -198,11 +212,13 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             phone.setText(PreferenceUtils.getPhone(this));
             navigationView.getMenu().getItem(3).setVisible(true);
             navigationView.getMenu().getItem(1).setVisible(true);
+            navigationView.getMenu().getItem(4).setVisible(false);
         }else{
             username.setText("游客");
             phone.setText("");
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(true);
         }
     }
     /**
@@ -230,7 +246,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 setTitle("首页");
                 break;
             case 1:
-                setTitle("商家");
+                setTitle("我的");
                 break;
             case 3:
                 setTitle("更多");
@@ -280,16 +296,16 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 break;
             case R.id.ll_dealer:
                 if (PreferenceUtils.isLogin(this)) {
-                    if (!(fragments.get(1) instanceof DealerFragment)) {
-                        fragments.remove(1);
-                        fragments.add(1,mDealerFragment);
-                        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(),fragments));
+                    if (!(generalTabsFragment.getFragments().get(1) instanceof DealerFragment)) {
+                        generalTabsFragment.getFragments().remove(1);
+                        generalTabsFragment.getFragments().add(1,mDealerFragment);
+                        generalTabsFragment.initAdapter();
                     } 
                 } else {
-                    if (!(fragments.get(1) instanceof NotDealerFragment)) {
-                        fragments.remove(1);
-                        fragments.add(1,notDealerFragment);
-                        viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(),fragments));
+                    if (!(generalTabsFragment.getFragments().get(1) instanceof NotDealerFragment)) {
+                        generalTabsFragment.getFragments().remove(1);
+                        generalTabsFragment.getFragments().add(1,notDealerFragment);
+                        generalTabsFragment.initAdapter();
                         showShortToast("您还未成为商家!点击成为商家");
                     } 
                 }

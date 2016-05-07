@@ -17,6 +17,7 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.SimplePageCallback;
+import hotel.convenient.com.utils.PreferenceUtils;
 
 /**
  * 首页列表
@@ -103,6 +104,7 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
         }
         this.latitude = latitude;
         this.longitude = longitude;
+        PreferenceUtils.setLatlng(getActivity(),latitude+"",longitude+"");
         sendLocalByHttp(initPage());
     }
 
