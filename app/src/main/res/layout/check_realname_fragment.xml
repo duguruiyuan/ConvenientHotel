@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <include layout="@layout/toolbar"/>
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:nameIcon="@mipmap/name_icon"
+        app:edit_text_hint="真实姓名"
+        android:id="@+id/real_name"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        />
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:nameIcon="@mipmap/id_card_icon"
+        app:edit_text_hint="身份证号码"
+        android:id="@+id/id_card"
+        app:showTopLine="false"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/confirm_height"
+        android:layout_marginLeft="@dimen/confirm_horizontal_margin"
+        android:layout_marginRight="@dimen/confirm_horizontal_margin"
+        android:background="@drawable/confirm_selector"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:id="@+id/card_confirm"
+        android:layout_marginTop="@dimen/confirm_vertical_margin"
+        android:layout_marginBottom="@dimen/confirm_vertical_margin"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="温馨提示:"
+        android:textColor="@color/orange_round"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textSize="12sp"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="实名认证遇到问题,请联系客服:"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:textSize="12sp"
+        android:textColor="@color/black_text_color"/>
+    <include layout="@layout/line_view"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="4dp"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="客服电话"
+            android:gravity="center_vertical"
+            android:textSize="12sp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="400-888-8888"
+            android:gravity="right|center_vertical"
+            android:textColor="@color/orange_round"
+            android:textSize="15sp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"/>
+    </LinearLayout>
+    
+</LinearLayout>

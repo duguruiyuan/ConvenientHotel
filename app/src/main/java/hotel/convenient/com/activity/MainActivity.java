@@ -171,6 +171,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                     case R.id.login:
                         skipActivity(LoginActivity.class, false);
                         break;
+                    case R.id.drawer_my_idCard:
+                        skipActivity(CheckRealNameActivity.class, false);
+                        break;
                 }
 //                item.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -208,7 +211,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
 
     private void setHeadViewInfo() {
         if(PreferenceUtils.isLogin(this)){
-            username.setText(PreferenceUtils.getLoginUsername(this));
+            username.setText(PreferenceUtils.getNickname(this));
             phone.setText(PreferenceUtils.getPhone(this));
             navigationView.getMenu().getItem(3).setVisible(true);
             navigationView.getMenu().getItem(1).setVisible(true);

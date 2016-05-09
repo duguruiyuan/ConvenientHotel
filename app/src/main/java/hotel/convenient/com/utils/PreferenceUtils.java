@@ -13,6 +13,7 @@ public class PreferenceUtils {
     public static final String USERNAME = "username";
     public static final String PHONE = "phone";
     public static final String PASSWORD = "password";
+    public static final String IDCARD = "idCard";
     public static final String LAT = "lat";
     public static final String LNG = "lng";
     public static final String LOCATION = "location";
@@ -20,14 +21,22 @@ public class PreferenceUtils {
      * 设置登录状态为已登录
      * @param context 
      */
-    public static void setLoginFlag(Context context,String phone,String username, String password){
+    public static void setLoginFlag(Context context,String phone,String nickname, String password,String idCard){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putBoolean(ISLOGIN, true);
-        edit.putString(USERNAME, username);
+        edit.putString(USERNAME, nickname);
         edit.putString(PHONE, phone);
+        edit.putString(IDCARD, idCard);
         password = MD5Utils.convertMD5(password);//简单加密  并不是md5加密
         edit.putString(PASSWORD,password);
+        edit.commit();
+    }
+    public static void setIDCard(Context context,String username,String idCard){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString(USERNAME, username);
+        edit.putString(IDCARD, idCard);
         edit.commit();
     }
 
@@ -85,10 +94,20 @@ public class PreferenceUtils {
      * @param context
      * @return
      */
-    public static String getLoginUsername(Context context){
+    public static String getNickname(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         return sharedPreferences.getString(USERNAME, "");
     }
+    /**
+     * 得到身份证
+     * @param context
+     * @return
+     */
+    public static String getIdCard(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(IDCARD, "");
+    }
+    
     /**
      * 得到电话号码
      * @param context

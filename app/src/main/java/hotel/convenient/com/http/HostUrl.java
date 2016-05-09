@@ -69,4 +69,8 @@ public class HostUrl {
      * 发起预约
      */
     public static final String URL_CONFIRM_ORDER = "/dealer/confirm_order";
+    /**
+     * 实名认证
+     */
+    public static final String URL_CHECK_NAME = "/dealer/check_name";
 }

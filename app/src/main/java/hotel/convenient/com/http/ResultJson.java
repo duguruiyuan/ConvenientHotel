@@ -33,4 +33,7 @@ public class ResultJson<T>{
     public int getCode() {
         return code;
     }
+    public boolean isSuccess(){
+        return getCode()==CommonCallback.CODE_SUCCESS;
+    }
 }
