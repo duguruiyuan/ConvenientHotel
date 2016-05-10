@@ -174,6 +174,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                     case R.id.drawer_my_idCard:
                         skipActivity(CheckRealNameActivity.class, false);
                         break;
+                    case R.id.drawer_my_bankcard:
+                        skipActivity(AccountBankCardActivity.class, false);
+                        break;
                 }
 //                item.setChecked(true);
                 mDrawerLayout.closeDrawers();

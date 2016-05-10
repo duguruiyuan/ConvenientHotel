@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <include layout="@layout/toolbar"/>
+    <LinearLayout
+        android:id="@+id/ll_normal_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/rectangle_box_dash"
+        android:gravity="center"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/add_bank"
+            android:text="添加银行卡"
+            android:drawablePadding="16dp"
+            android:textColor="@color/gray_color"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <LinearLayout
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingLeft="8dp"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:background="@color/white"
+            android:layout_marginRight="9dp"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <ImageView
+                android:id="@+id/bank_icon"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:layout_marginRight="10dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:gravity="center_vertical"
+                    android:textSize="15sp"
+                    android:textColor="@color/deep_black_text_color_more"
+                    android:id="@+id/bank_name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:gravity="center_vertical"
+                    android:textSize="12sp"
+                    android:textColor="@color/deep_black_text_color_more"
+                    android:id="@+id/bank_user_name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="12sp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/deep_black_text_color_more"
+                    android:id="@+id/bank_number" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginRight="9dp"
+            android:layout_marginLeft="9dp"
+            android:background="#e8e8e8"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您已设置快捷卡,可放心进行支付/提现/投资,"
+                android:textSize="12sp"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/black_text_color"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="快捷卡是App支付和提现的唯一通道"
+                android:textSize="12sp"
+                android:layout_marginLeft="8dp"
+                android:textColor="@color/black_text_color"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="为了您的资金安全,不建议更换快捷卡"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/gray_text_color"
+            android:textSize="12sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="如遇特殊情况请致电客服:"
+            android:gravity="center"
+            android:textColor="@color/gray_text_color"
+            android:textSize="12sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="400-133-8998"
+            android:gravity="center"
+            android:textColor="@color/gray_text_color"
+            android:textSize="12sp"/>
+    </LinearLayout>
+    
+</LinearLayout>

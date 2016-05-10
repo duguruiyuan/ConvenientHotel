@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/toolbar"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="26dp"
+        android:text="请绑定持卡人本人的银行卡"
+        android:gravity="center_vertical"
+        android:textColor="@color/deep_black_text_color"
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_name="持卡人"
+        app:edit_text=""
+        app:text_name_width="60dp"
+        android:id="@+id/name"
+        app:edit_text_color="@color/deep_black_text_color"/>
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_name="预留手机"
+        app:edit_text_hint="请输入银行预留手机号码"
+        app:text_name_width="60dp"
+        android:id="@+id/phone" />
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_name="卡号"
+        app:edit_text_hint="请输入银行卡号"
+        app:text_name_width="60dp"
+        android:id="@+id/bank_card" />
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_name="选择省市"
+        app:edit_text_hint="请选择省市"
+        app:text_name_width="60dp"
+        app:edit_text_image="@drawable/dropdown"
+        android:id="@+id/choose_city"
+        app:edit_text_color="@color/loginPageTextColor"
+       />
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_name="开户行"
+        app:edit_text_hint="请选择开户银行"
+        app:text_name_width="60dp"
+        app:edit_text_image="@drawable/dropdown"
+        android:id="@+id/choose_open_account_bank"
+        app:edit_text_color="@color/loginPageTextColor"/>
+    <hotel.convenient.com.view.LinearLayoutEditTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:text_name="开户支行"
+        app:edit_text_hint="请输入银行卡开户支行"
+        app:text_name_width="60dp"
+        android:id="@+id/open_account_branch_bank" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/confirm_height"
+        android:layout_marginLeft="@dimen/confirm_horizontal_margin"
+        android:layout_marginRight="@dimen/confirm_horizontal_margin"
+        android:background="@drawable/confirm_selector"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:id="@+id/next_confirm"
+        android:layout_marginTop="48dp"/>
+</LinearLayout>

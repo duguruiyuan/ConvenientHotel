@@ -150,6 +150,22 @@
             android:configChanges ="keyboardHidden|orientation"
             >
         </activity>
+        <activity
+            android:name=".activity.BindingBankCardActivity"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges ="keyboardHidden|orientation"
+            >
+        </activity>
+        <activity
+            android:name=".activity.AccountBankCardActivity"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:configChanges ="keyboardHidden|orientation"
+            >
+        </activity>
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
