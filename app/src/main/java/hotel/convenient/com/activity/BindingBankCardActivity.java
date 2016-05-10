@@ -131,6 +131,7 @@ public class BindingBankCardActivity extends BaseActivity implements CityPickerD
         if (checkInput()) return;
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_BIND_CARD);
         BankCard card = new BankCard();
+        card.setUsername(name.getText());
         card.setBank_id(selectedBankId+"");
         card.setBranch(openAccountBranchBank.getText());
         card.setCard(bankCard.getText());

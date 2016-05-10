@@ -42,12 +42,12 @@
         android:orientation="horizontal"
         android:background="@color/white">
 
-        <com.geometryfinance.wheel.WheelView
+        <hotel.convenient.com.wheel.WheelView
             android:id="@+id/id_bank"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white">
-        </com.geometryfinance.wheel.WheelView>
+        </hotel.convenient.com.wheel.WheelView>
     </LinearLayout>
 </LinearLayout>
