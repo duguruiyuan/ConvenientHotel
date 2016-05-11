@@ -14,7 +14,7 @@ public class Dealer {
 	private String id_card;
 	private String personality_signature;
 	private String head_image;
-	private Date register_time;
+	private String register_time;
 	private String img_dir;
 	private String bank_card;
 	private String email;
@@ -94,11 +94,15 @@ public class Dealer {
 	public void setHead_image(String head_image) {
 		this.head_image = head_image;
 	}
-	public Date getRegister_time() {
+	public String getRegister_time() {
 		return register_time;
 	}
-	public void setRegister_time(Date register_time) {
-		this.register_time = register_time;
+	public void setRegister_time(String register_time) {
+		if (register_time.indexOf(".") != -1) {
+			this.register_time = register_time.substring(0, register_time.indexOf("."));
+		} else {
+			this.register_time = register_time;
+		}
 	}
 	public String getImg_dir() {
 		return img_dir;

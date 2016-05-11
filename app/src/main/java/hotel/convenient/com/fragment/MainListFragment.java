@@ -17,7 +17,6 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.SimplePageCallback;
-import hotel.convenient.com.utils.PreferenceUtils;
 
 /**
  * 首页列表
@@ -30,6 +29,7 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
     private double longitude;
     private GregorianCalendar endCalendar;
     private GregorianCalendar startCalendar;
+    private MainRecyclerAdapter mainRecyclerAdapter;
 
     public void setEndCalendar(GregorianCalendar endCalendar) {
         this.endCalendar = endCalendar;
@@ -50,7 +50,7 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
 
     @Override
     public CommonRecyclerViewAdapter createAdapter(List<Publish> list) {
-        MainRecyclerAdapter mainRecyclerAdapter = new MainRecyclerAdapter(list);
+        mainRecyclerAdapter = new MainRecyclerAdapter(list);
         mainRecyclerAdapter.setOnItemClickListener(this);
         return mainRecyclerAdapter;
     }
@@ -61,11 +61,13 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
     }
 
 
-    public void getPublishInfoByInfo(int page,double latitude,double longitude){
+    public void getPublishInfoByInfo(int page){
         if(simplePageCallback==null){
             simplePageCallback = new SimplePageCallback(this) {
                 @Override
                 public void firstPage(String result, int currentPage, int countPage, List<JSONObject> list) {
+                    mainRecyclerAdapter.setLat(latitude);
+                    mainRecyclerAdapter.setLng(longitude);
                     List<Publish> list1 = JSONObject.parseArray(list.toString(), Publish.class);
                     setList(list1);
                 }
@@ -90,7 +92,7 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
     }
     private void sendLocalByHttp(int page) {
         if (latitude != 0) {
-            getPublishInfoByInfo(page, latitude, longitude);
+            getPublishInfoByInfo(page);
         } else {
             setRefreshing(false);
             if(getLocation!=null)
@@ -104,7 +106,6 @@ public class MainListFragment extends RecyclerViewFragment<Publish> implements R
         }
         this.latitude = latitude;
         this.longitude = longitude;
-        PreferenceUtils.setLatlng(getActivity(),latitude+"",longitude+"");
         sendLocalByHttp(initPage());
     }
 

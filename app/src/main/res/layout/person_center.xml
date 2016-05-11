@@ -10,7 +10,7 @@
         layout="@layout/toolbar" />
 
     <Button
-        android:id="@+id/bt_loginout"
+        android:id="@+id/bt_logout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
@@ -24,7 +24,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/bt_loginout"
+        android:layout_above="@id/bt_logout"
         android:layout_below="@id/toolbar"
         android:orientation="vertical">
 
@@ -33,18 +33,19 @@
             layout="@layout/line_view" />
 
         <RelativeLayout
+            android:id="@+id/ll_head_image"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:background="@color/white"
             >
 
-            <ImageView
+            <hotel.convenient.com.view.CircleImageView
                 android:id="@+id/iv_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_vertical_margin"
-                android:src="@drawable/icon_header"
-                android:layout_centerVertical="true"/>
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/mei_zi"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"/>
 
             <LinearLayout
                 android:id="@+id/ll_liner1"
@@ -80,7 +81,7 @@
             android:layout_height="0.5dp"
             android:layout_marginTop="10dp" />
 
-        <com.geometryfinance.view.LinearLayoutMenu
+        <hotel.convenient.com.view.LinearLayoutMenu
             android:id="@+id/ll_telephone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,25 +95,8 @@
             app:showArrow="false"
             app:titleColor="@color/deep_black_text_color_more" />
 
-        <include layout="@layout/line_view" />
 
-        <com.geometryfinance.view.LinearLayoutMenu
-            android:id="@+id/ll_emil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            app:lineDown="gap"
-            app:lineUp="gone"
-            app:menuTitle="邮箱地址"
-            app:msgColor="@color/black_text_color"
-            app:nextPageSrc="@mipmap/ic_has_next_page"
-            app:showArrow="true"
-            app:titleColor="@color/deep_black_text_color_more" />
-
-        <include layout="@layout/line_view" />
-
-        <com.geometryfinance.view.LinearLayoutMenu
+        <hotel.convenient.com.view.LinearLayoutMenu
             android:id="@+id/ll_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,9 +110,8 @@
             app:showArrow="true"
             app:titleColor="@color/deep_black_text_color_more" />
 
-        <include layout="@layout/line_view" />
 
-        <com.geometryfinance.view.LinearLayoutMenu
+        <hotel.convenient.com.view.LinearLayoutMenu
             android:id="@+id/ll_real_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -140,6 +123,19 @@
             app:msgColor="@color/black_text_color"
             app:nextPageSrc="@mipmap/ic_has_next_page"
             app:showArrow="false"
+            app:titleColor="@color/deep_black_text_color_more" />
+        <hotel.convenient.com.view.LinearLayoutMenu
+            android:id="@+id/ll_bank_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            app:lineDown="gone"
+            app:lineUp="gone"
+            app:menuTitle="银行卡"
+            app:msgColor="@color/black_text_color"
+            app:nextPageSrc="@mipmap/ic_has_next_page"
+            app:showArrow="true"
             app:titleColor="@color/deep_black_text_color_more" />
     </LinearLayout>
 

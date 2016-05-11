@@ -86,7 +86,8 @@ public class LoginActivity extends BaseActivity {
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
-                    PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password,data.getId_card());
+                    PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password,
+                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image());
                     showShortToast("登录成功!");
                     skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,skip_page);
                 } else {
@@ -110,7 +111,8 @@ public class LoginActivity extends BaseActivity {
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
-                    PreferenceUtils.setLoginFlag(context, data.getPhonenumber(),data.getNickname(),password,data.getId_card());
+                    PreferenceUtils.setLoginFlag(context, data.getPhonenumber(),data.getNickname(),password,
+                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image());
                 } else {
                     ToastUtil.showShortToast(resultJson.getMsg());
                     ToastUtil.showShortToast("登录超时");

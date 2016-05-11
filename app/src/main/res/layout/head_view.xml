@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="#f55555"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    >
 
     <hotel.convenient.com.view.CircleImageView
         android:id="@+id/head_image"

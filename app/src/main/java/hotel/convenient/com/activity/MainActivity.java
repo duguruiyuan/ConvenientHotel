@@ -31,6 +31,7 @@ import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.CircleImageView;
@@ -177,6 +178,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                     case R.id.drawer_my_bankcard:
                         skipActivity(AccountBankCardActivity.class, false);
                         break;
+                    case R.id.drawer_more:
+                        viewPager.setCurrentItem(2);
+                        break;
                 }
 //                item.setChecked(true);
                 mDrawerLayout.closeDrawers();
@@ -193,6 +197,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             public void onClick(View v) {
 //                showAlertDialog("")
                 mDrawerLayout.closeDrawers();
+                skipActivity(PersonCenterActivity.class,false);
             }
         });
         setHeadViewInfo();
@@ -213,6 +218,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     }
 
     private void setHeadViewInfo() {
+        String url = PreferenceUtils.getHeadUrl(this);
+        LogUtils.e("url:"+url);
+        ImageUtils.setImage(headImage,url,R.drawable.mei_zi);
         if(PreferenceUtils.isLogin(this)){
             username.setText(PreferenceUtils.getNickname(this));
             phone.setText(PreferenceUtils.getPhone(this));

@@ -86,4 +86,9 @@ public class HostUrl {
      * 得到银行卡信息
      */
     public static final String GET_BAND_DETAIL_INFO = "/dealer/get_band_detail_info";
+    /**
+     * 得到用户信息
+     */
+    public static final String URL_GET_USER_INFO = "/dealer/get_user_info";
+    
 }

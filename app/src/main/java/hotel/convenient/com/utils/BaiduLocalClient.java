@@ -6,10 +6,15 @@ import android.content.Context;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCoder;
 import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
 import com.baidu.mapapi.search.geocode.ReverseGeoCodeOption;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
@@ -18,6 +23,7 @@ public class BaiduLocalClient {
 	private static GeoCoder mSearch;
 	private static SuggestionSearch mSuggestionSearch;
 	private static LocationClient mLocationClient ;
+	private static PoiSearch mPoiSearch;
 
 	public static void getLocaltion(Context context ,BDLocationListener myListener) {
 		mLocationClient = new LocationClient(context);     //声明LocationClient类
@@ -36,6 +42,10 @@ public class BaiduLocalClient {
 		if(mSearch!=null){
 			mSearch.destroy();
 			mSearch = null;
+		}
+		if(mPoiSearch!=null){
+			mPoiSearch.destroy();
+			mPoiSearch = null;
 		}
 	}
 	public static void stop(){
@@ -63,7 +73,7 @@ public class BaiduLocalClient {
 		mLocationClient.setLocOption(option);
 	}
 	
-	public void requestSuggestion(SuggestionSearchOption option,OnGetSuggestionResultListener linstener){
+	public static void requestSuggestion(SuggestionSearchOption option,OnGetSuggestionResultListener linstener){
 		mSuggestionSearch = SuggestionSearch.newInstance();
 		mSuggestionSearch.setOnGetSuggestionResultListener(linstener);
 		mSuggestionSearch.requestSuggestion(option);
@@ -74,6 +84,17 @@ public class BaiduLocalClient {
 		mSearch.setOnGetGeoCodeResultListener(coderResultListener);
 		mSearch.reverseGeoCode(new ReverseGeoCodeOption().location(latlng));  
 	}
-	
+	public static void getLatLngByAddress(Context context,GeoCodeOption geoCodeOption,OnGetGeoCoderResultListener coderResultListener){
+		SDKInitializer.initialize(context);
+		mSearch = GeoCoder.newInstance();
+		mSearch.setOnGetGeoCodeResultListener(coderResultListener);
+		mSearch.geocode(geoCodeOption);
+	}
+	public static void getLatLngByGeoPoint(Context context,PoiCitySearchOption option,OnGetPoiSearchResultListener poiListener){
+		SDKInitializer.initialize(context);
+		mPoiSearch = PoiSearch.newInstance();
+		mPoiSearch.setOnGetPoiSearchResultListener(poiListener);
+		mPoiSearch.searchInCity(option);
+	}
 
 }

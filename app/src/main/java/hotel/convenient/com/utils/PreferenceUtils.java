@@ -17,17 +17,19 @@ public class PreferenceUtils {
     public static final String LAT = "lat";
     public static final String LNG = "lng";
     public static final String LOCATION = "location";
+    public static final String HEADURL = "headImageUrl";
     /**
      * 设置登录状态为已登录
      * @param context 
      */
-    public static void setLoginFlag(Context context,String phone,String nickname, String password,String idCard){
+    public static void setLoginFlag(Context context,String phone,String nickname, String password,String idCard,String headImageUrl){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putBoolean(ISLOGIN, true);
         edit.putString(USERNAME, nickname);
         edit.putString(PHONE, phone);
         edit.putString(IDCARD, idCard);
+        edit.putString(HEADURL, headImageUrl);
         password = MD5Utils.convertMD5(password);//简单加密  并不是md5加密
         edit.putString(PASSWORD,password);
         edit.commit();
@@ -107,7 +109,15 @@ public class PreferenceUtils {
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         return sharedPreferences.getString(IDCARD, "");
     }
-    
+    /**
+     * 得到头像地址
+     * @param context
+     * @return
+     */
+    public static String getHeadUrl(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(HEADURL, "");
+    }
     /**
      * 得到电话号码
      * @param context

@@ -6,6 +6,10 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiResult;
 
 import java.util.GregorianCalendar;
 
@@ -15,6 +19,7 @@ import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseFragment;
 import hotel.convenient.com.utils.BaiduLocalClient;
 import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.utils.ToastUtil;
 import hotel.convenient.com.view.CityPickerDialog;
 import hotel.convenient.com.view.DateLinearLayout;
 
@@ -54,6 +59,31 @@ public class MainFragment extends BaseFragment implements BDLocationListener,Mai
 //                LogUtils.e("province:"+province);
 //                LogUtils.e("city:"+city);
                 pickCity.setText(city);
+                
+                BaiduLocalClient.getLatLngByGeoPoint(mBaseActivity.getApplication().getApplicationContext(),
+                        new PoiCitySearchOption().city(city).keyword("银行"), new OnGetPoiSearchResultListener() {
+                            @Override
+                            public void onGetPoiResult(PoiResult poiResult) {
+                                if (poiResult.getAllPoi() != null && poiResult.getAllPoi().size() > 0) {
+                                    //获取地理编码结果  
+                                    latitude = poiResult.getAllPoi().get(0).location.latitude;
+                                    longitude = poiResult.getAllPoi().get(0).location.longitude;
+                                    mainListFragment.setLatLng(latitude, longitude);
+                                    
+                                } else {
+                                    ToastUtil.showShortToast("该地点暂不支持此服务");
+                                }
+                                BaiduLocalClient.stop();
+                            }
+
+                            @Override
+                            public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
+
+                            }
+                        });
+
+                        
+                   
             }
         });
         dateLinearLayout.setmBaseActivity(mBaseActivity);

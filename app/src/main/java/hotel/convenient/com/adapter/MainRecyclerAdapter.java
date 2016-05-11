@@ -1,7 +1,6 @@
 package hotel.convenient.com.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.utils.DistanceUtils;
 import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.utils.LogUtils;
-import hotel.convenient.com.utils.PreferenceUtils;
 
 /**
  * Created by Gyb on 2016/3/6 23:57
@@ -26,6 +24,14 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
     
     public MainRecyclerAdapter(List<Publish> list) {
         super(list);
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     @Override
@@ -40,15 +46,6 @@ public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerA
 
     @Override
     public void onBindViewHolderItem(RecyclerView.ViewHolder holder, final int position) {
-        if(lat==0||lng==0){
-            String sLat = PreferenceUtils.getLat(holder.itemView.getContext());
-            String sLng = PreferenceUtils.getLng(holder.itemView.getContext());
-            if(TextUtils.isEmpty(sLat)||TextUtils.isEmpty(sLng)){
-                return ;
-            }
-            this.lat = Double.parseDouble(sLat);
-            this.lng = Double.parseDouble(sLng);
-        }
         Publish publish = list.get(position);
         PublishHolder publishHolder = (PublishHolder) holder;
         if(publish.getImage_name().indexOf(",")==-1){
