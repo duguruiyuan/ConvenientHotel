@@ -5,8 +5,8 @@ package hotel.convenient.com.http;
  */
 public class HostUrl {
 //    public static final String HOST = "http://192.168.0.110:8080/tij2";
-//    public static final String HOST = "http://192.168.0.104:8080/tij2";
-    public static final String HOST = "http://172.16.7.211:8080/tij2";
+    public static final String HOST = "http://192.168.0.104:8080/tij2";
+//    public static final String HOST = "http://172.16.7.211:8080/tij2";
     /**
      * 1：登陆接口
      方式: post
@@ -90,5 +90,9 @@ public class HostUrl {
      * 得到用户信息
      */
     public static final String URL_GET_USER_INFO = "/dealer/get_user_info";
+    /**
+     * 得到用户信息
+     */
+    public static final String URL_SET_HEAD_IAMGE = "/dealer/setHeadimage";
     
 }

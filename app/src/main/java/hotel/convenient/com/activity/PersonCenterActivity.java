@@ -1,12 +1,22 @@
 package hotel.convenient.com.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -18,8 +28,10 @@ import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.utils.FileUtils;
 import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.utils.LogUtils;
+import hotel.convenient.com.utils.PhotoUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.CircleImageView;
 import hotel.convenient.com.view.LinearLayoutMenu;
@@ -28,7 +40,7 @@ import hotel.convenient.com.view.LinearLayoutMenu;
  * 登录的activity
  * Created by Gyb on 2015/11/30 10:00
  */
-public class PersonCenterActivity extends BaseActivity {
+public class PersonCenterActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.ll_telephone)
     LinearLayoutMenu ll_telephone;
     @Bind(R.id.ll_bank_card)
@@ -47,7 +59,14 @@ public class PersonCenterActivity extends BaseActivity {
     @Bind(R.id.ll_head_image)
     RelativeLayout ll_head_image;
     private Dealer personData;
-
+    private View loadAlertDialog;
+    private TextView load_choose_local_image;
+    private TextView load_photograph;
+    private final int IMAGE_LOCAL_CODE = 10;
+    private final int IMAGE_PHOTOGRAPH_CODE = 11;
+    public static final int TAG_CROP = 15;
+    private Uri imageUri;
+    private File file;
     @Override
     public void initData(Bundle savedInstanceState) {
         setTitle("个人资料");
@@ -102,7 +121,7 @@ public class PersonCenterActivity extends BaseActivity {
             ll_bank_card.setArrowVisiable(false);
             ll_bank_card.setClickable(false);
         }
-
+        initLoadDialog();
     }
     private void logout(){
         RequestParams params = new RequestParams(HostUrl.HOST+HostUrl.URL_LOGOUT);
@@ -116,6 +135,13 @@ public class PersonCenterActivity extends BaseActivity {
                 showShortToast(resultJson.getMsg());
             }
         });
+    }
+    private void initLoadDialog() {
+        loadAlertDialog = LayoutInflater.from(this).inflate(R.layout.load_image_alert_dialog,null,false);
+        load_choose_local_image = (TextView) loadAlertDialog.findViewById(R.id.load_choose_local_image);
+        load_photograph = (TextView) loadAlertDialog.findViewById(R.id.load_photograph);
+        load_choose_local_image.setOnClickListener(this);
+        load_photograph.setOnClickListener(this);
     }
     @OnClick({R.id.bt_logout,R.id.ll_bank_card,R.id.ll_id,R.id.ll_real_name,R.id.ll_head_image})
      void onConfirmClick(View view){
@@ -140,8 +166,69 @@ public class PersonCenterActivity extends BaseActivity {
                 skipActivity(CheckRealNameActivity.class, false);
                 break;
             case R.id.ll_head_image:
-                skipActivity(CheckRealNameActivity.class, false);
+                showAlertDialog("设置房间照片","取消",loadAlertDialog);
+                file = new File(FileUtils.getCacheDir(this), ""+ UUID.randomUUID()+".jpg");
+                imageUri = Uri.fromFile(file);
                 break;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.load_choose_local_image: //从本地选择图片
+                closeDialog();
+                PhotoUtils.startOpenImageByLocal(imageUri,this,TAG_CROP);
+                break;
+            case R.id.load_photograph:  //拍照
+                closeDialog();
+                PhotoUtils.startOpenImageByPhotograph(imageUri,this,IMAGE_PHOTOGRAPH_CODE);
+                break;
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {        //此处的 RESULT_OK 是系统自定义得一个常量
+            LogUtils.e("ActivityResult resultCode error");
+            return;
+        }
+        //外界的程序访问ContentProvider所提供数据 可以通过ContentResolver接口
+        if (requestCode == IMAGE_LOCAL_CODE||requestCode == IMAGE_PHOTOGRAPH_CODE) {
+            PhotoUtils.crop(imageUri,this,TAG_CROP);//开启裁剪程序
+        }else if(requestCode == TAG_CROP){//获取裁剪后的正面照片
+            // 从剪切图片返回的数据
+            Bitmap bitmap = null;
+            try {
+                if (data.getData() != null) {
+                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                } else {
+                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            
+            file = FileUtils.saveBitmap2file(this,bitmap, "head.jpg");
+            RequestParams requestParams = new RequestParams(HostUrl.HOST+HostUrl.URL_SET_HEAD_IAMGE);
+            requestParams.addBodyParameterOrFile("head_image",file);
+            final Bitmap finalBitmap = bitmap;
+            HttpUtils.postFile(requestParams, new SimpleCallback() {
+                @Override
+                public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                    if (resultJson.isSuccess()) {
+                        iv_header.setImageBitmap(finalBitmap);
+                    } else {
+                        showShortToast("网络错误,头像上传失败");
+                    } 
+                    
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FileUtils.clearCacheDir(this);
     }
 }
