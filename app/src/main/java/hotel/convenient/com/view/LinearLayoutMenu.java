@@ -42,6 +42,7 @@ public class LinearLayoutMenu extends LinearLayout {
     public boolean canClick;
     public boolean showArrow;
 
+    public TextView not_read_msg;
     /**
      * 得到左边图标
      * @return
@@ -136,7 +137,14 @@ public class LinearLayoutMenu extends LinearLayout {
         }
     }
 
-    
+    public void setNotReadMsgCount(String count){
+        if (count.equals("0")) {
+            not_read_msg.setVisibility(GONE);
+        } else {
+            not_read_msg.setVisibility(VISIBLE);
+            not_read_msg.setText(count);
+        } 
+    }
     public LinearLayoutMenu(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
@@ -169,5 +177,6 @@ public class LinearLayoutMenu extends LinearLayout {
         line_down_gap =  view.findViewById(R.id.line_down_gap);
         toggleButton = (ToggleButton) view.findViewById(R.id.tog_bt);
         img = (ImageView) view.findViewById(R.id.img);
+        not_read_msg = (TextView) view.findViewById(R.id.not_read_msg);
     }
 }

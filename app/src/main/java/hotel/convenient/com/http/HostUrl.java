@@ -91,11 +91,19 @@ public class HostUrl {
      */
     public static final String URL_GET_USER_INFO = "/dealer/get_user_info";
     /**
-     * 得到用户信息
+     * 得到用户头像url
      */
     public static final String URL_SET_HEAD_IMAGE = "/dealer/setHeadimage";
     /**
-     * 得到用户信息
+     * 得到站内信
      */
     public static final String URL_GET_MESSAGE = "/dealer/get_message";
+    /**
+     * 得到站内信未读数
+     */
+    public static final String URL_GET_NOT_READ_MESSAGE = "/dealer/get_not_read_message";
+    /**
+     * 站内信设置为已读
+     */
+    public static final String URL_SET_STATUS_MESSAGE_TO_READ = "/dealer/read_message";
 }

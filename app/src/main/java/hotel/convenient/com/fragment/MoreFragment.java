@@ -5,12 +5,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+
+import com.alibaba.fastjson.JSONObject;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
 import hotel.convenient.com.activity.AboutActivity;
 import hotel.convenient.com.activity.InformationListActivity;
 import hotel.convenient.com.base.BaseFragment;
+import hotel.convenient.com.http.HostUrl;
+import hotel.convenient.com.http.HttpUtils;
+import hotel.convenient.com.http.RequestParams;
+import hotel.convenient.com.http.ResultJson;
+import hotel.convenient.com.http.SimpleCallback;
 import hotel.convenient.com.view.AlertDialog;
 import hotel.convenient.com.view.LinearLayoutMenu;
 
@@ -35,6 +43,14 @@ public class MoreFragment extends BaseFragment{
     @Override
     public void initData(View view, Bundle savedInstanceState) {
         
+        HttpUtils.get(new RequestParams(HostUrl.HOST + HostUrl.URL_GET_NOT_READ_MESSAGE), new SimpleCallback() {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if(resultJson.isSuccess()){
+                    miv_inner_letter.setNotReadMsgCount(JSONObject.parseObject(result).getString("data"));
+                }
+            }
+        });
     }
     @OnClick({R.id.miv_innermess,R.id.miv_news,R.id.tv_phone,R.id.miv_about})
      void clickItem(View view){
@@ -43,7 +59,16 @@ public class MoreFragment extends BaseFragment{
 //                mBaseActivity.skipActivity( AnnounceListActivity.class,false);
                 break;
             case R.id.miv_innermess:
-                mBaseActivity.skipActivity(InformationListActivity.class,false);
+                HttpUtils.post(new RequestParams(HostUrl.HOST + HostUrl.URL_SET_STATUS_MESSAGE_TO_READ), new SimpleCallback() {
+                    @Override
+                    public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                        if(resultJson.isSuccess()){
+                            miv_inner_letter.setNotReadMsgCount(0+"");
+                            mBaseActivity.skipActivity(InformationListActivity.class,false);
+                        }
+                    }
+                });
+               
                 break;
             case R.id.tv_phone:
                 final String phone = rl_server_phone.getMsg();

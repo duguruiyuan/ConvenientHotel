@@ -36,19 +36,27 @@
             android:background="@mipmap/my_n"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/ll_more"
         android:layout_width="0dp"
         android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
+        android:layout_height="match_parent"
         >
         <TextView
             android:id="@+id/tv_more"
             android:layout_width="wrap_content"
             android:textColor="@color/white"
             android:background="@mipmap/more_n"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+        <View
+            android:id="@+id/red_point"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/orange_round_small"
+            android:layout_toRightOf="@id/tv_more"
+            android:layout_marginTop="3dp"
+            android:visibility="gone"/>
+    </RelativeLayout>
 </LinearLayout>

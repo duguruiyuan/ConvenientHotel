@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,6 +58,8 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     TextView tv_dealer;
     @Bind(R.id.tv_more)
     TextView tv_more;
+    @Bind(R.id.red_point)
+    View red_point;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private CircleImageView headImage;
@@ -97,7 +101,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         viewPager.setIsCanScroll(false);
         viewPager.addOnPageChangeListener(this);
         
-        
+        showRedPoint();
         //如果在手机中是登录状态  则自动登录    每次应用启动时做的动作 
         if(PreferenceUtils.isLogin(this)){
             LoginActivity.httpLoginByPreference(this);
@@ -284,7 +288,24 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             viewPager.setCurrentItem(intExtra);
         }
         setHeadViewInfo();
+        showRedPoint();
     }
+
+    private void showRedPoint() {
+        HttpUtils.get(new RequestParams(HostUrl.HOST + HostUrl.URL_GET_NOT_READ_MESSAGE), new SimpleCallback() {
+            @Override
+            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                if(resultJson.isSuccess()){
+                    if (JSONObject.parseObject(result).getString("data").equals("0")) {
+                        red_point.setVisibility(View.GONE);
+                    } else {
+                        red_point.setVisibility(View.VISIBLE);
+                    } 
+                }
+            }
+        });
+    }
+
     public void setCurrentItem(int item){
         viewPager.setCurrentItem(item);
     }
