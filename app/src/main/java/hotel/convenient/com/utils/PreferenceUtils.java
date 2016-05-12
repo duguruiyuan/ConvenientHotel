@@ -119,6 +119,17 @@ public class PreferenceUtils {
         return sharedPreferences.getString(HEADURL, "");
     }
     /**
+     * 设置头像地址
+     * @param context
+     * @return
+     */
+    public static void setHeadUrl(Context context,String headUrl){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putString(HEADURL, headUrl);
+        edit.commit();
+    }
+    /**
      * 得到电话号码
      * @param context
      * @return

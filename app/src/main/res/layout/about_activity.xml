@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <include layout="@layout/toolbar" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="民宿系统"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="39dp"
+            android:layout_marginBottom="39dp"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:drawablePadding="8dp"/>
+</LinearLayout>
+        <hotel.convenient.com.view.LinearLayoutMenu
+            android:id="@+id/about_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menuTitle="版本号"
+            app:msgSize="12sp"
+            app:msgColor="@color/black_text_color"
+            app:menuMsg="V1.0.0"
+            app:titleColor="@color/deep_black_text_color_more"
+            app:titleSize="15sp"
+            app:lineUp="gap"
+            app:lineDown="gone"
+           />
+    <hotel.convenient.com.view.LinearLayoutMenu
+        android:id="@+id/wei_xin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menuTitle="官方微信"
+        app:msgSize="12sp"
+        app:msgColor="@color/black_text_color"
+        app:menuMsg="qingjinglingshui"
+        app:titleColor="@color/deep_black_text_color_more"
+        app:titleSize="15sp"
+        app:lineUp="gap"
+        app:lineDown="gone"
+        />
+    <hotel.convenient.com.view.LinearLayoutMenu
+        android:id="@+id/website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menuTitle="官方网址"
+        app:msgSize="12sp"
+        app:msgColor="@color/black_text_color"
+        app:menuMsg="http://www.mingsu.com"
+        app:titleColor="@color/deep_black_text_color_more"
+        app:titleSize="15sp"
+        app:lineUp="gap"
+        app:lineDown="gone"
+        />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/about"
+        android:textColor="@color/gray_background"
+        android:textSize="14sp"
+        android:layout_gravity="center_horizontal|bottom"
+        android:gravity="bottom"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        />
+</LinearLayout>
+

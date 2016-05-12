@@ -75,12 +75,13 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
         HttpUtils.get(rq, new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
-               JSONObject jsonObject= (JSONObject) JSONObject.parse(result);
-               if(jsonObject.getInteger("code")==0) {
+               if(resultJson.isSuccess()) {
+                   JSONObject jsonObject= JSONObject.parseObject(result);
                     JSONObject dataJson = jsonObject.getJSONObject("data");
                     personData = JSONObject.parseObject(dataJson.toJSONString(), Dealer.class);
                     setData(personData);
                 }
+                PersonCenterActivity.this.showShortToast(resultJson.getMsg());
             }
         });
     }
@@ -209,14 +210,18 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
             }
             
             file = FileUtils.saveBitmap2file(this,bitmap, "head.jpg");
-            RequestParams requestParams = new RequestParams(HostUrl.HOST+HostUrl.URL_SET_HEAD_IAMGE);
+            RequestParams requestParams = new RequestParams(HostUrl.HOST+HostUrl.URL_SET_HEAD_IMAGE);
             requestParams.addBodyParameterOrFile("head_image",file);
             final Bitmap finalBitmap = bitmap;
             HttpUtils.postFile(requestParams, new SimpleCallback() {
                 @Override
                 public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                     if (resultJson.isSuccess()) {
+//                        PreferenceUtils.setHeadUrl(this,);
+                        Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
+                        PreferenceUtils.setHeadUrl(PersonCenterActivity.this, HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image());
                         iv_header.setImageBitmap(finalBitmap);
+                        showShortToast(resultJson.getMsg());
                     } else {
                         showShortToast("网络错误,头像上传失败");
                     } 

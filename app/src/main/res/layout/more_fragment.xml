@@ -52,7 +52,7 @@
             app:lineUp="gone"
             app:lineDown="gone"
             app:img="@drawable/icon_kefu"
-            app:menuMsg="400-133-8998"
+            app:menuMsg="400-888-8888"
             />
 
 </LinearLayout>

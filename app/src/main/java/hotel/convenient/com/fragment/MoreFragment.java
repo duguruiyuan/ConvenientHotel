@@ -8,6 +8,8 @@ import android.view.View;
 import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
+import hotel.convenient.com.activity.AboutActivity;
+import hotel.convenient.com.activity.InformationListActivity;
 import hotel.convenient.com.base.BaseFragment;
 import hotel.convenient.com.view.AlertDialog;
 import hotel.convenient.com.view.LinearLayoutMenu;
@@ -41,7 +43,7 @@ public class MoreFragment extends BaseFragment{
 //                mBaseActivity.skipActivity( AnnounceListActivity.class,false);
                 break;
             case R.id.miv_innermess:
-//                mBaseActivity.skipActivity(InnerLetterListActivity.class,false);
+                mBaseActivity.skipActivity(InformationListActivity.class,false);
                 break;
             case R.id.tv_phone:
                 final String phone = rl_server_phone.getMsg();
@@ -59,7 +61,7 @@ public class MoreFragment extends BaseFragment{
                 }).show();
                 break;
             case R.id.miv_about:
-//                mBaseActivity.skipActivity( AboutActivity.class,false);false
+                mBaseActivity.skipActivity( AboutActivity.class,false);
                 break;
         }
     }
