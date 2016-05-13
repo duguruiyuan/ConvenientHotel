@@ -87,7 +87,7 @@ public class LoginActivity extends BaseActivity {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                     PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password,
-                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image());
+                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image(),false);
                     showShortToast("登录成功!");
                     skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,skip_page);
                 } else {
@@ -112,7 +112,7 @@ public class LoginActivity extends BaseActivity {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                     PreferenceUtils.setLoginFlag(context, data.getPhonenumber(),data.getNickname(),password,
-                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image());
+                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image(),false);
                 } else {
                     ToastUtil.showShortToast(resultJson.getMsg());
                     ToastUtil.showShortToast("登录超时");

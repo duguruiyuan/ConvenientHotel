@@ -27,6 +27,7 @@ import hotel.convenient.com.fragment.DealerFragment;
 import hotel.convenient.com.fragment.GeneralTabsFragment;
 import hotel.convenient.com.fragment.MainFragment;
 import hotel.convenient.com.fragment.MoreFragment;
+import hotel.convenient.com.fragment.MyTabFragment;
 import hotel.convenient.com.fragment.NotDealerFragment;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
@@ -47,11 +48,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
-    private DealerFragment mDealerFragment; //商家页
-    private DealerFragment mUserFragment; //用户页
-    private GeneralTabsFragment generalTabsFragment;//我的
+    
+    private MyTabFragment generalTabsFragment;//我的
     private MoreFragment mMoreFragment; //更多页
-    private NotDealerFragment notDealerFragment;//未成为商家
     @Bind(R.id.tv_main)
     TextView tv_main;
     @Bind(R.id.tv_dealer)
@@ -77,23 +76,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         setTitle("首页");
         tv_main.setBackgroundResource(R.mipmap.home_p);
         mMainFragment = new MainFragment();
-        mDealerFragment = new DealerFragment();
         mMoreFragment = new MoreFragment();
-        notDealerFragment = new NotDealerFragment();
-        mUserFragment = new DealerFragment();
         fragments.add(mMainFragment);
-        generalTabsFragment = new GeneralTabsFragment();
-        List<String> titles = new ArrayList<>();
-        List<Fragment> tabsFragments = new ArrayList<>();
-        titles.add("我租到的房间");
-        titles.add("我发布的房间");
-        tabsFragments.add(mUserFragment);
-        if (PreferenceUtils.isLogin(this)) {
-            tabsFragments.add(mDealerFragment);
-        } else {
-            tabsFragments.add(notDealerFragment);
-        }
-        generalTabsFragment.setData(titles,tabsFragments);
+        generalTabsFragment = new MyTabFragment();
         fragments.add(generalTabsFragment);
         fragments.add(mMoreFragment);
         viewPager.setAdapter(new MainViewPagerAdapter(getSupportFragmentManager(), fragments));
@@ -288,6 +273,13 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             viewPager.setCurrentItem(intExtra);
         }
         setHeadViewInfo();
+        
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtils.e("onResume");
         showRedPoint();
     }
 
@@ -330,20 +322,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.ll_dealer:
-                if (PreferenceUtils.isLogin(this)) {
-                    if (!(generalTabsFragment.getFragments().get(1) instanceof DealerFragment)) {
-                        generalTabsFragment.getFragments().remove(1);
-                        generalTabsFragment.getFragments().add(1,mDealerFragment);
-                        generalTabsFragment.initAdapter();
-                    } 
-                } else {
-                    if (!(generalTabsFragment.getFragments().get(1) instanceof NotDealerFragment)) {
-                        generalTabsFragment.getFragments().remove(1);
-                        generalTabsFragment.getFragments().add(1,notDealerFragment);
-                        generalTabsFragment.initAdapter();
-                        showShortToast("您还未成为商家!点击成为商家");
-                    } 
-                }
                 viewPager.setCurrentItem(1);
                 break;
             case R.id.ll_more:

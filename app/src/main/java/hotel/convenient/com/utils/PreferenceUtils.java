@@ -9,36 +9,38 @@ import android.content.SharedPreferences;
 public class PreferenceUtils {
    
     public static final String LOGIN_FLAG = "login_flag";
-    public static final String ISLOGIN = "isLogin";
+    public static final String IS_LOGIN = "isLogin";
     public static final String USERNAME = "username";
     public static final String PHONE = "phone";
     public static final String PASSWORD = "password";
-    public static final String IDCARD = "idCard";
+    public static final String ID_CARD = "idCard";
     public static final String LAT = "lat";
     public static final String LNG = "lng";
     public static final String LOCATION = "location";
-    public static final String HEADURL = "headImageUrl";
+    public static final String HEAD_URL = "headImageUrl";
+    public static final String IS_DEALER = "isDealer";
     /**
      * 设置登录状态为已登录
      * @param context 
      */
-    public static void setLoginFlag(Context context,String phone,String nickname, String password,String idCard,String headImageUrl){
+    public static void setLoginFlag(Context context,String phone,String nickname, String password,String idCard,String headImageUrl,boolean isDealer){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putBoolean(ISLOGIN, true);
+        edit.putBoolean(IS_LOGIN, true);
         edit.putString(USERNAME, nickname);
         edit.putString(PHONE, phone);
-        edit.putString(IDCARD, idCard);
-        edit.putString(HEADURL, headImageUrl);
+        edit.putString(ID_CARD, idCard);
+        edit.putString(HEAD_URL, headImageUrl);
         password = MD5Utils.convertMD5(password);//简单加密  并不是md5加密
         edit.putString(PASSWORD,password);
+        edit.putBoolean(IS_DEALER,isDealer);
         edit.commit();
     }
     public static void setIDCard(Context context,String username,String idCard){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString(USERNAME, username);
-        edit.putString(IDCARD, idCard);
+        edit.putString(ID_CARD, idCard);
         edit.commit();
     }
 
@@ -51,7 +53,7 @@ public class PreferenceUtils {
     public static void setLatlng(Context context,String lat,String lng){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOCATION, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putBoolean(ISLOGIN, true);
+        edit.putBoolean(IS_LOGIN, true);
         edit.putString(LAT, lat);
         edit.putString(LNG, lng);
         edit.commit();
@@ -88,7 +90,16 @@ public class PreferenceUtils {
      */
     public static boolean isLogin(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean(ISLOGIN,false);
+        return sharedPreferences.getBoolean(IS_LOGIN,false);
+    }
+    /**
+     * 是否登录
+     * @param context
+     * @return
+     */
+    public static boolean isDealer(Context context){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(IS_DEALER,false);
     }
 
     /**
@@ -107,7 +118,7 @@ public class PreferenceUtils {
      */
     public static String getIdCard(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(IDCARD, "");
+        return sharedPreferences.getString(ID_CARD, "");
     }
     /**
      * 得到头像地址
@@ -116,7 +127,7 @@ public class PreferenceUtils {
      */
     public static String getHeadUrl(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
-        return sharedPreferences.getString(HEADURL, "");
+        return sharedPreferences.getString(HEAD_URL, "");
     }
     /**
      * 设置头像地址
@@ -126,7 +137,7 @@ public class PreferenceUtils {
     public static void setHeadUrl(Context context,String headUrl){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putString(HEADURL, headUrl);
+        edit.putString(HEAD_URL, headUrl);
         edit.commit();
     }
     /**
