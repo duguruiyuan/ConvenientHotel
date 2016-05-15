@@ -25,10 +25,14 @@ public class MyTabFragment extends GeneralTabsFragment {
         titles.add("我租到的房间");
         titles.add("我发布的房间");
         tabsFragments.add(mUserFragment);
-        if (PreferenceUtils.isLogin(mBaseActivity)) {
-            tabsFragments.add(mDealerFragment);
-        } else {
+        if (mBaseActivity == null) {
             tabsFragments.add(notDealerFragment);
+        } else {
+            if (PreferenceUtils.isLogin(getContext())) {
+                tabsFragments.add(mDealerFragment);
+            } else {
+                tabsFragments.add(notDealerFragment);
+            }
         }
     }
 

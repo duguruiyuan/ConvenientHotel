@@ -90,6 +90,9 @@ public class PreferenceUtils {
      */
     public static boolean isLogin(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences(LOGIN_FLAG, Context.MODE_PRIVATE);
+        if(sharedPreferences==null){
+            return false;
+        }
         return sharedPreferences.getBoolean(IS_LOGIN,false);
     }
     /**
