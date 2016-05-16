@@ -71,17 +71,28 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
     public void initData(Bundle savedInstanceState) {
         setTitle("个人资料");
         showBackPressed();//显示返回按钮
+        
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getPersonData();
+    }
+
+    private void getPersonData() {
         RequestParams rq=new RequestParams(HostUrl.HOST+HostUrl.URL_GET_USER_INFO);
         HttpUtils.get(rq, new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
-               if(resultJson.isSuccess()) {
-                   JSONObject jsonObject= JSONObject.parseObject(result);
+                if (resultJson.isSuccess()) {
+                    JSONObject jsonObject = JSONObject.parseObject(result);
                     JSONObject dataJson = jsonObject.getJSONObject("data");
                     personData = JSONObject.parseObject(dataJson.toJSONString(), Dealer.class);
                     setData(personData);
+                } else {
+                    PersonCenterActivity.this.showShortToast(resultJson.getMsg());
                 }
-                PersonCenterActivity.this.showShortToast(resultJson.getMsg());
             }
         });
     }
@@ -96,7 +107,7 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
         tv_account_name.setText(personData.getNickname());
         tv_add_time.setText(personData.getRegister_time());
         ll_telephone.setMsg(personData.getPhonenumber());
-        String url = HostUrl.HOST + "/" + personData.getImg_dir() + personData.getHead_image();
+        String url = HostUrl.HOST +  personData.getImg_dir() + personData.getHead_image();
         LogUtils.e("url:"+url);
         ImageUtils.setImage(iv_header, url,R.drawable.mei_zi);
         if(isEmpty(personData.getName())){
@@ -217,9 +228,8 @@ public class PersonCenterActivity extends BaseActivity implements View.OnClickLi
                 @Override
                 public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
                     if (resultJson.isSuccess()) {
-//                        PreferenceUtils.setHeadUrl(this,);
                         Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
-                        PreferenceUtils.setHeadUrl(PersonCenterActivity.this, HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image());
+                        PreferenceUtils.setHeadUrl(PersonCenterActivity.this, HostUrl.HOST + data.getImg_dir() + data.getHead_image());
                         iv_header.setImageBitmap(finalBitmap);
                         showShortToast(resultJson.getMsg());
                     } else {

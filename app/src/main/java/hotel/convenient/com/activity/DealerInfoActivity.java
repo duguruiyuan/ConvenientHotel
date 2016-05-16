@@ -153,7 +153,7 @@ public class DealerInfoActivity extends BaseActivity{
             case R.id.confirm_order:
                 if (PreferenceUtils.isLogin(this)) {
                     if( isEmpty(App.getInstanceApp().getDealer().getId_card())){
-                        showAlertDialog("成为商家需先实名认证!", new DialogInterface.OnClickListener() {
+                        showAlertDialog("预约入住需先实名认证!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 skipActivity(CheckRealNameActivity.class,false);
@@ -161,7 +161,7 @@ public class DealerInfoActivity extends BaseActivity{
                         });
                         return;
                     }else if(isEmpty(App.getInstanceApp().getDealer().getBank_card())){
-                        showAlertDialog("成为商家需先实名认证!", new DialogInterface.OnClickListener() {
+                        showAlertDialog("预约入住需先实名认证!", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 skipActivity(AccountBankCardActivity.class,false);

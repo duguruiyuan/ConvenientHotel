@@ -6,7 +6,14 @@ public class RoomOrder {
 	private long startTime;
 	private long endTime;
 	private int day;
+	private int userId;
 
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
 	public RoomOrder(int publishId, long startTime, long endTime, int day) {
 		this.publishId = publishId;
 		this.startTime = startTime;

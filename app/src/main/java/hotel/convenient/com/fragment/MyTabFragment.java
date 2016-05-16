@@ -1,11 +1,6 @@
 package hotel.convenient.com.fragment;
 
-import android.support.v4.app.Fragment;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import hotel.convenient.com.utils.PreferenceUtils;
+import hotel.convenient.com.app.App;
 
 /**
  * Created by cwy on 2016/5/13 10:34
@@ -14,31 +9,40 @@ import hotel.convenient.com.utils.PreferenceUtils;
 public class MyTabFragment extends GeneralTabsFragment {
     private DealerFragment mDealerFragment; //商家页
     private UserRecordFragment mUserFragment; //用户页
-    List<Fragment> tabsFragments = new ArrayList<>();
     private NotDealerFragment notDealerFragment;//未成为商家
 
-    private List<String> titles = new ArrayList<>();
     public MyTabFragment() {
         super();
         mDealerFragment = new DealerFragment();
         mUserFragment = new UserRecordFragment();
+        notDealerFragment = new NotDealerFragment();
+        notDealerFragment.setiBecomeDealer(new NotDealerFragment.IBecomeDealer() {
+            @Override
+            public void becomeDealer() {
+                App.getInstanceApp().getDealer().setType(1);
+                fragments.remove(1);
+                fragments.add(mDealerFragment);
+                initAdapter();
+            }
+        });
         titles.add("我租到的房间");
         titles.add("我发布的房间");
-        tabsFragments.add(mUserFragment);
-        if (mBaseActivity == null) {
-            tabsFragments.add(notDealerFragment);
+        setTabsFragments();
+    }
+    void setTabsFragments(){
+        fragments.clear();
+        fragments.add(mUserFragment);
+        if (App.getInstanceApp().getDealer() != null && App.getInstanceApp().getDealer().getType()==1 ) {
+            fragments.add(mDealerFragment);
         } else {
-            if (PreferenceUtils.isLogin(getContext())) {
-                tabsFragments.add(mDealerFragment);
-            } else {
-                tabsFragments.add(notDealerFragment);
-            }
+            fragments.add(notDealerFragment);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        setTabsFragments();
         initAdapter();
     }
 

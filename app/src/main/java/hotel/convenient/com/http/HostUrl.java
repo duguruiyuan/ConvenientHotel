@@ -106,4 +106,8 @@ public class HostUrl {
      * 站内信设置为已读
      */
     public static final String URL_SET_STATUS_MESSAGE_TO_READ = "/dealer/read_message";
+    /**
+     * 站内信设置为已读
+     */
+    public static final String URL_BECOME_DEALER = "/dealer/become_dealer";
 }

@@ -19,7 +19,15 @@ public class Dealer {
 	private String bank_card;
 	private String email;
 	private String status;
-	
+	private int type;
+
+
+	public int getType() {
+		return type;
+	}
+	public void setType(int type) {
+		this.type = type;
+	}
 	public Dealer(String password, String phonenumber) {
 		super();
 		this.password = password;

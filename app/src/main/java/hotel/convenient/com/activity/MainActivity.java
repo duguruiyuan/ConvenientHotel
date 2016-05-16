@@ -22,13 +22,12 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
 import hotel.convenient.com.adapter.MainViewPagerAdapter;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.base.BaseActivity;
-import hotel.convenient.com.fragment.DealerFragment;
-import hotel.convenient.com.fragment.GeneralTabsFragment;
+import hotel.convenient.com.domain.Dealer;
 import hotel.convenient.com.fragment.MainFragment;
 import hotel.convenient.com.fragment.MoreFragment;
 import hotel.convenient.com.fragment.MyTabFragment;
-import hotel.convenient.com.fragment.NotDealerFragment;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
@@ -48,7 +47,6 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private MainFragment mMainFragment; //主页
-    
     private MyTabFragment generalTabsFragment;//我的
     private MoreFragment mMoreFragment; //更多页
     @Bind(R.id.tv_main)
@@ -210,11 +208,20 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         String url = PreferenceUtils.getHeadUrl(this);
         LogUtils.e("url:"+url);
         ImageUtils.setImage(headImage,url,R.drawable.mei_zi);
-        if(PreferenceUtils.isLogin(this)){
+        Dealer dealer = App.getInstanceApp().getDealer();
+        if(PreferenceUtils.isLogin(this)&&dealer!=null){
             username.setText(PreferenceUtils.getNickname(this));
             phone.setText(PreferenceUtils.getPhone(this));
             navigationView.getMenu().getItem(3).setVisible(true);
-            navigationView.getMenu().getItem(1).setVisible(true);
+           
+            if (dealer.getType() == 1) {
+                navigationView.getMenu().getItem(1).setVisible(true);
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(0).setVisible(true);
+            } else {
+                navigationView.getMenu().getItem(1).setVisible(true);
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(0).setVisible(false);
+            } 
+            
             navigationView.getMenu().getItem(4).setVisible(false);
         }else{
             username.setText("游客");
@@ -272,15 +279,14 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         if(intExtra!=-1){
             viewPager.setCurrentItem(intExtra);
         }
-        setHeadViewInfo();
-        
+//        setHeadViewInfo();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        LogUtils.e("onResume");
         showRedPoint();
+        setHeadViewInfo();
     }
 
     private void showRedPoint() {
