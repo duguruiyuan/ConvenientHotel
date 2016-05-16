@@ -20,7 +20,7 @@ import hotel.convenient.com.http.SimplePageCallback;
 
 /**
  * 首页列表
- * Created by Gyb on 2015/11/20.
+ * Created by cwy on 2015/11/20.
  */
 public class MainListFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
 

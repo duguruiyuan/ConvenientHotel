@@ -12,7 +12,7 @@ import hotel.convenient.com.R;
 
 /**
  * 通用的上拉刷新 下拉加载recyclerView的适配器  抽象类
- * Created by Gyb on 2015/12/17 10:20
+ * Created by cwy on 2015/12/17 10:20
  */
 public abstract class CommonRecyclerViewAdapter<T extends RecyclerView.ViewHolder,A> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected OnItemClickListener mOnItemClickListener;

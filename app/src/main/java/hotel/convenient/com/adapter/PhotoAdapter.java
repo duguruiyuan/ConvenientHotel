@@ -13,7 +13,7 @@ import hotel.convenient.com.activity.PhotoActivity;
 import hotel.convenient.com.utils.ImageUtils;
 
 /**
- * Created by Gyb on 2016/4/13 13:51
+ * Created by cwy on 2016/4/13 13:51
  */
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
 

@@ -13,7 +13,7 @@ import hotel.convenient.com.utils.ToastUtil;
 
 /**
  * 分页用的 回调接口   只在json特定的时候使用
- * Created by Gyb on 2016/1/8 15:19
+ * Created by cwy on 2016/1/8 15:19
  */
 public abstract class SimplePageCallback extends SimpleCallback {
     RecyclerViewFragment fragment;

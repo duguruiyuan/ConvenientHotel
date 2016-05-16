@@ -15,7 +15,7 @@ import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.view.CircleImageView;
 
 /**
- * Created by Gyb on 2016/3/6 23:57
+ * Created by cwy on 2016/3/6 23:57
  */
 public class DealerRecyclerAdapter extends CommonRecyclerViewAdapter<DealerRecyclerAdapter.PublishHolder,Publish> {
 

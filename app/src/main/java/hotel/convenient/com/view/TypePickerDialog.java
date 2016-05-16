@@ -17,7 +17,7 @@ import hotel.convenient.com.wheel.WheelView;
 import hotel.convenient.com.wheel.adapter.ArrayWheelAdapter;
 
 /**
- * Created by Gyb on 2016/2/18 15:50
+ * Created by cwy on 2016/2/18 15:50
  */
 public class TypePickerDialog extends View implements OnWheelChangedListener {
     /**

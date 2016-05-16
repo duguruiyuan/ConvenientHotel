@@ -15,7 +15,7 @@ import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.ToastUtil;
 
 /**
- * Created by Gyb on 2016/3/28 17:16
+ * Created by cwy on 2016/3/28 17:16
  */
 public abstract class SimpleCallback extends CommonCallback {
 

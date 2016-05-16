@@ -41,7 +41,7 @@ import hotel.convenient.com.view.CircleImageView;
 import hotel.convenient.com.view.MainViewPager;
 
 /**
- * Created by Gonyb on 2016/2/27.
+ * Created by cwy on 2016/2/27.
  */
 public class MainActivity extends BaseActivity  implements ViewPager.OnPageChangeListener{
     @Bind(R.id.vp_main_fragment)

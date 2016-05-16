@@ -8,7 +8,7 @@ import com.squareup.picasso.RequestCreator;
 import hotel.convenient.com.R;
 
 /**
- * Created by Gyb on 2015/11/24 16:27
+ * Created by cwy on 2015/11/24 16:27
  */
 public class ImageUtils {
     /**

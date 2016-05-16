@@ -38,7 +38,7 @@ import hotel.convenient.com.view.LinearLayoutMenu;
 
 /**
  * 登录的activity
- * Created by Gyb on 2015/11/30 10:00
+ * Created by cwy on 2015/11/30 10:00
  */
 public class PersonCenterActivity extends BaseActivity implements View.OnClickListener{
     @Bind(R.id.ll_telephone)

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 通用的tab适配器
- * Created by Gyb on 2015/12/11 11:34
+ * Created by cwy on 2015/12/11 11:34
  */
 public class GeneralTabViewPagerAdapter extends FragmentStatePagerAdapter {
     private List<String> titles;

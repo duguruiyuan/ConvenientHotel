@@ -23,7 +23,7 @@ import hotel.convenient.com.view.AlertDialog;
 import hotel.convenient.com.view.LinearLayoutMenu;
 
 /**
- * Created by Gyb on 2015/11/20.
+ * Created by cwy on 2015/11/20.
  */
 public class MoreFragment extends BaseFragment{
     @Bind(R.id.miv_news)

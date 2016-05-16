@@ -6,7 +6,7 @@ import hotel.convenient.com.app.App;
 
 
 /**
- * Created by Gyb on 2016/3/30 14:38
+ * Created by cwy on 2016/3/30 14:38
  */
 public class ToastUtil {
     private static Toast toast; //保证不重复使用toast

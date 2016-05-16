@@ -8,7 +8,7 @@ import java.util.List;
 import hotel.convenient.com.utils.PreferenceUtils;
 
 /**
- * Created by Gonyb on 2016/5/13 10:34
+ * Created by cwy on 2016/5/13 10:34
  */
 
 public class MyTabFragment extends GeneralTabsFragment {

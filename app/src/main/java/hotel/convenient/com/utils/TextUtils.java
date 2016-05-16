@@ -1,7 +1,7 @@
 package hotel.convenient.com.utils;
 
 /**
- * Created by Gyb on 2016/2/2 17:40
+ * Created by cwy on 2016/2/2 17:40
  */
 public class TextUtils {
     public static boolean checkMoney(String money){

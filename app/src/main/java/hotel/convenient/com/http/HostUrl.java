@@ -1,12 +1,12 @@
 package hotel.convenient.com.http;
 
 /**
- * Created by Gyb on 2015/11/30 15:45
+ * Created by cwy on 2015/11/30 15:45
  */
 public class HostUrl {
 //    public static final String HOST = "http://192.168.0.110:8080/tij2";
-    public static final String HOST = "http://192.168.1.102:8080/tij2";
-//    public static final String HOST = "http://172.16.7.211:8080/tij2";
+//    public static final String HOST = "http://192.168.1.102:8080/tij2";
+    public static final String HOST = "http://172.16.7.211:8080/tij2";
     /**
      * 1：登陆接口
      方式: post

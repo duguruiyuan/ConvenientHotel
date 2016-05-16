@@ -7,7 +7,7 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 
 /**
- * Created by Gyb on 2015/11/30 15:38
+ * Created by cwy on 2015/11/30 15:38
  */
 public abstract class CommonCallback implements Callback{
     public static final int CODE_SUCCESS = 0;   //成功

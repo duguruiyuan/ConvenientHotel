@@ -10,7 +10,7 @@ import android.view.View;
 import hotel.convenient.com.utils.DensityUtils;
 
 /**
- * Created by Gyb on 2015/11/24 17:12
+ * Created by cwy on 2015/11/24 17:12
  */
 public class ImagePickView extends View {
     private int count=-1;

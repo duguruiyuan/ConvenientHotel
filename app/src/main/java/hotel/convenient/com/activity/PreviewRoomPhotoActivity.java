@@ -14,7 +14,7 @@ import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.view.DividerGridItemDecoration;
 
 /**
- * Created by Gyb on 2016/4/12 14:37
+ * Created by cwy on 2016/4/12 14:37
  */
 public class PreviewRoomPhotoActivity extends BaseActivity {
     @Bind(R.id.recycler)

@@ -14,7 +14,7 @@ import hotel.convenient.com.R;
 import hotel.convenient.com.utils.LogUtils;
 
 /**
- * Created by Gyb on 2015/11/23.
+ * Created by cwy on 2015/11/23.
  */
 public abstract class BaseFragment extends Fragment {
     private boolean injected = false;

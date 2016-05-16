@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSONObject;
 import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
@@ -21,7 +22,7 @@ import hotel.convenient.com.utils.ImageUtils;
 
 
 /**
- * Created by Gyb on 2016/1/6 18:02
+ * Created by cwy on 2016/1/6 18:02
  */
 public class AccountBankCardActivity extends BaseActivity {
     @Bind(R.id.bank_name)
@@ -99,6 +100,11 @@ public class AccountBankCardActivity extends BaseActivity {
      void setBindBankOnclick(View view){
         switch (view.getId()) {
             case R.id.ll_normal_bank_card:
+                if(isEmpty(App.getInstanceApp().getDealer().getId_card())){
+                    showShortToast("请先进行实名认证");
+                    skipActivity(CheckRealNameActivity.class,false);
+                    return;
+                }
                 getBankInfoByHttp();
                 break;
         }

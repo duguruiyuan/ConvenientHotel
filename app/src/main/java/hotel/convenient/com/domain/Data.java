@@ -3,7 +3,7 @@ package hotel.convenient.com.domain;
 import java.util.List;
 
 /**
- * Created by Gyb on 2016/1/8 15:23
+ * Created by cwy on 2016/1/8 15:23
  */
 public class Data<T> {
     private int count;

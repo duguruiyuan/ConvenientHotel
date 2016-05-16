@@ -13,7 +13,7 @@ import android.widget.RelativeLayout;
 import hotel.convenient.com.R;
 
 /**
- * Created by Gyb on 2016/2/29.
+ * Created by cwy on 2016/2/29.
  */
 public class ImageViewCanDelete extends RelativeLayout {
     private ImageView img;

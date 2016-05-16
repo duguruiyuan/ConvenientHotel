@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Gyb on 2015/12/28 14:15
+ * Created by cwy on 2015/12/28 14:15
  */
 public class RollViewPager extends ViewPager {
     private List<ImageView> list = new ArrayList<>();

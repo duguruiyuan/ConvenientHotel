@@ -49,7 +49,7 @@ import hotel.convenient.com.view.LinearLayoutEditTextView;
 import hotel.convenient.com.view.TypePickerDialog;
 
 /**
- * Created by Gyb on 2016/2/28.
+ * Created by cwy on 2016/2/28.
  */
 public class PublishActivity extends BaseActivity implements OnCityInfoListener,TypePickerDialog.OnTypeInfoListener,ImageViewCanDelete.OnDeleteClick,View.OnClickListener{
     private LinearLayoutEditTextView name;

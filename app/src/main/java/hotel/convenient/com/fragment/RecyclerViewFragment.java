@@ -18,7 +18,7 @@ import hotel.convenient.com.base.BaseFragment;
 
 /**
  * 通用的recyclerView fragment 可以下拉刷新 上拉加载  需要自定义adapter
- * Created by Gyb on 2015/12/10 16:53
+ * Created by cwy on 2015/12/10 16:53
  */
 public abstract class RecyclerViewFragment<T> extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     @Bind(R.id.swipe_refresh_widget)

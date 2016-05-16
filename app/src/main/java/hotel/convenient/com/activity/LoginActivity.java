@@ -12,6 +12,7 @@ import com.alibaba.fastjson.JSONObject;
 import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Dealer;
 import hotel.convenient.com.http.HostUrl;
@@ -25,7 +26,7 @@ import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
  * 登录的activity
- * Created by Gyb on 2015/11/30 10:00
+ * Created by cwy on 2015/11/30 10:00
  */
 public class LoginActivity extends BaseActivity {
     @Bind(R.id.login_confirm)
@@ -89,6 +90,7 @@ public class LoginActivity extends BaseActivity {
                     PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password,
                             data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image(),false);
                     showShortToast("登录成功!");
+                    App.getInstanceApp().setDealer(data);
                     skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,skip_page);
                 } else {
                     showShortToast(resultJson.getMsg());
@@ -113,6 +115,7 @@ public class LoginActivity extends BaseActivity {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                     PreferenceUtils.setLoginFlag(context, data.getPhonenumber(),data.getNickname(),password,
                             data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image(),false);
+                    App.getInstanceApp().setDealer(data);
                 } else {
                     ToastUtil.showShortToast(resultJson.getMsg());
                     ToastUtil.showShortToast("登录超时");

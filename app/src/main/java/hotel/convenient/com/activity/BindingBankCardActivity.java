@@ -10,20 +10,23 @@ import java.util.List;
 
 import butterknife.Bind;
 import hotel.convenient.com.R;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Bank;
 import hotel.convenient.com.domain.BankCard;
+import hotel.convenient.com.domain.Dealer;
 import hotel.convenient.com.http.HostUrl;
 import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.view.BankPickerDialog;
 import hotel.convenient.com.view.CityPickerDialog;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
- * Created by Gyb on 2016/2/18 17:25
+ * Created by cwy on 2016/2/18 17:25
  */
 public class BindingBankCardActivity extends BaseActivity implements CityPickerDialog.OnCityInfoListener,BankPickerDialog.OnBankInfoListener,View.OnClickListener{
     private LinearLayoutEditTextView name;
@@ -59,11 +62,12 @@ public class BindingBankCardActivity extends BaseActivity implements CityPickerD
     private SimpleCallback simpleCallbackByBind = new SimpleCallback() {
             @Override
             public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                showShortToast(resultJson.getMsg());
                 if (resultJson.getCode() == CODE_SUCCESS) {
-                    showShortToast(resultJson.getMsg());
+                    Dealer dealer = JSONObject.parseObject(JSONObject.parseObject(result).getString("data"), Dealer.class);
                     BindingBankCardActivity.this.finish();
-                } else {
-                    showShortToast(resultJson.getMsg());
+                    App.getInstanceApp().setDealer(dealer);
+                    LogUtils.e(dealer.getBank_card()+" : "+dealer.getNickname());
                 } 
             }
     };

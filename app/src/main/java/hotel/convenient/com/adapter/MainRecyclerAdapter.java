@@ -15,7 +15,7 @@ import hotel.convenient.com.utils.ImageUtils;
 import hotel.convenient.com.utils.LogUtils;
 
 /**
- * Created by Gyb on 2016/3/6 23:57
+ * Created by cwy on 2016/3/6 23:57
  */
 public class MainRecyclerAdapter extends CommonRecyclerViewAdapter<MainRecyclerAdapter.PublishHolder,Publish> {
 

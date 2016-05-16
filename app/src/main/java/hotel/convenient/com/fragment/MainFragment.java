@@ -24,7 +24,7 @@ import hotel.convenient.com.view.CityPickerDialog;
 import hotel.convenient.com.view.DateLinearLayout;
 
 /**
- * Created by Gyb on 2016/3/31 14:33
+ * Created by cwy on 2016/3/31 14:33
  */
 public class MainFragment extends BaseFragment implements BDLocationListener,MainListFragment.GetLocation {
     MainListFragment mainListFragment;

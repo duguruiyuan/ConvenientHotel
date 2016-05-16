@@ -18,7 +18,7 @@ import hotel.convenient.com.utils.DensityUtils;
 
 
 /**
- * Created by Gyb on 2015/12/9 14:14
+ * Created by cwy on 2015/12/9 14:14
  */
 public class LinearLayoutMenu extends LinearLayout {
     public static final int DOWN_FILL = 0;

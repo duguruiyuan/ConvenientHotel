@@ -6,7 +6,7 @@ import hotel.convenient.com.BuildConfig;
 
 
 /**
- * Created by Gyb on 2015/11/23.               
+ * Created by cwy on 2015/11/23.               
  */
 public class LogUtils {
     public static final int size = 3500;// log打印的msg大小大概为4k  超过4k 的msg需要分割打印

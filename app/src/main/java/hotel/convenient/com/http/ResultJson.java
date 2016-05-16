@@ -2,7 +2,7 @@ package hotel.convenient.com.http;
 
 /**
  * 接收网络返回的json数据进行封装
- * Created by Gyb on 2015/12/2 11:23
+ * Created by cwy on 2015/12/2 11:23
  */
 public class ResultJson<T>{
     private String msg;

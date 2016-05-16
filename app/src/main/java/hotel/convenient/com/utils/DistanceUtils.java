@@ -1,7 +1,7 @@
 package hotel.convenient.com.utils;
 
 /**
- * Created by Gyb on 2016/3/21 15:08
+ * Created by cwy on 2016/3/21 15:08
  */
 public class DistanceUtils {
     private static final double EARTH_RADIUS = 6378.137;//地球半径

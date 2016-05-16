@@ -10,6 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.Dealer;
 import hotel.convenient.com.http.HostUrl;
@@ -21,7 +22,7 @@ import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
- * Created by Gyb on 2015/12/10 15:22
+ * Created by cwy on 2015/12/10 15:22
  */
 public class CheckRealNameActivity extends BaseActivity{
     @Bind(R.id.id_card)
@@ -39,6 +40,8 @@ public class CheckRealNameActivity extends BaseActivity{
             if(resultJson.isSuccess()){
                 Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                 PreferenceUtils.setIDCard(CheckRealNameActivity.this,data.getNickname(),data.getId_card());
+                App.getInstanceApp().getDealer().setId_card(data.getId_card());
+                App.getInstanceApp().getDealer().setNickname(data.getNickname());
                 finish();
             }
             showShortToast(resultJson.getMsg());

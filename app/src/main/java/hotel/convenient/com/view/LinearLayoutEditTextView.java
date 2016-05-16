@@ -28,7 +28,7 @@ import hotel.convenient.com.utils.DensityUtils;
 
 /**
  * 自定义输入框  通用
- * Created by Gyb on 2015/12/11 16:06
+ * Created by cwy on 2015/12/11 16:06
  */
 public class LinearLayoutEditTextView extends LinearLayout {
     private EditText input_value;  //输入框

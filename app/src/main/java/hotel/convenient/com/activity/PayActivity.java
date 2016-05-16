@@ -19,7 +19,7 @@ import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
 
 /**
- * Created by Gyb on 2016/5/7 22:29
+ * Created by cwy on 2016/5/7 22:29
  */
 public class PayActivity extends BaseActivity {
     @Bind(R.id.msg)

@@ -1,5 +1,6 @@
 package hotel.convenient.com.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.baidu.mapapi.model.LatLng;
 import butterknife.Bind;
 import butterknife.OnClick;
 import hotel.convenient.com.R;
+import hotel.convenient.com.app.App;
 import hotel.convenient.com.base.BaseActivity;
 import hotel.convenient.com.domain.ChooseDealerInfo;
 import hotel.convenient.com.domain.Publish;
@@ -38,7 +40,7 @@ import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.view.DateLinearLayout;
 
 /**
- * Created by Gonyb on 2016/04/10.
+ * Created by cwy on 2016/04/10.
  */
 public class DealerInfoActivity extends BaseActivity{
     private Toolbar toolbar;
@@ -150,6 +152,23 @@ public class DealerInfoActivity extends BaseActivity{
         switch (view.getId()){
             case R.id.confirm_order:
                 if (PreferenceUtils.isLogin(this)) {
+                    if( isEmpty(App.getInstanceApp().getDealer().getId_card())){
+                        showAlertDialog("成为商家需先实名认证!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                skipActivity(CheckRealNameActivity.class,false);
+                            }
+                        });
+                        return;
+                    }else if(isEmpty(App.getInstanceApp().getDealer().getBank_card())){
+                        showAlertDialog("成为商家需先实名认证!", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                skipActivity(AccountBankCardActivity.class,false);
+                            }
+                        });
+                        return;
+                    }
                     sendOrderInfoToHttp();
                 } else {
                     showShortToast("您还未登陆");

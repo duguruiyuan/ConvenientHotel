@@ -20,7 +20,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 /**
- * Created by Gyb on 2016/3/6 22:58
+ * Created by cwy on 2016/3/6 22:58
  */
 public class CircleImageView extends ImageView {
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;

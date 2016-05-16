@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Gyb on 2016/3/28 17:53
+ * Created by cwy on 2016/3/28 17:53
  */
 public class RequestParams {
     private String url;

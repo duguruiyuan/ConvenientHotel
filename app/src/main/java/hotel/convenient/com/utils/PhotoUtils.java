@@ -10,7 +10,7 @@ import hotel.convenient.com.BuildConfig;
 import hotel.convenient.com.base.BaseActivity;
 
 /**
- * Created by Gyb on 2016/3/9 17:57
+ * Created by cwy on 2016/3/9 17:57
  */
 public class PhotoUtils {
     public static final String IMAGE_TYPE = "image/*";

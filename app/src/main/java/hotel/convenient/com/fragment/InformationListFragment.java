@@ -16,7 +16,7 @@ import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.SimplePageCallback;
 
 /**
- * Created by Gyb on 2016/1/29 14:32
+ * Created by cwy on 2016/1/29 14:32
  */
 public class InformationListFragment extends RecyclerViewFragment<Information> {
     private SimplePageCallback simpleCallback;

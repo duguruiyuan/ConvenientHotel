@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Created by Gyb on 2016/2/2 15:10
+ * Created by cwy on 2016/2/2 15:10
  */
 public class DigestUtils {
     static MessageDigest getDigest(String algorithm){

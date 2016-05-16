@@ -11,7 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * Created by Gyb on 2015/12/30 10:45
+ * Created by cwy on 2015/12/30 10:45
  */
 public class FileUtils {
     public static final String DIR_CACHE = "CacheDir";

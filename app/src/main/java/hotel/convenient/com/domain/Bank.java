@@ -2,7 +2,7 @@ package hotel.convenient.com.domain;
 
 
 /**
- * Created by Gyb on 2016/2/19 14:34
+ * Created by cwy on 2016/2/19 14:34
  */
 public class Bank {
 

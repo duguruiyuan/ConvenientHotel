@@ -22,7 +22,7 @@ import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.utils.ToastUtil;
 
 /**
- * Created by Gyb on 2015/11/20.
+ * Created by cwy on 2015/11/20.
  */
 public class DealerFragment extends RecyclerViewFragment<Publish> implements RecyclerViewFragment.RecyclerRefreshListener,CommonRecyclerViewAdapter.OnItemClickListener{
 

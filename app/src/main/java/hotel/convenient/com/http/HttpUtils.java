@@ -16,7 +16,7 @@ import java.net.CookieManager;
 import java.util.Map;
 
 /**
- * Created by Gyb on 2016/3/28 17:43
+ * Created by cwy on 2016/3/28 17:43
  */
 public class HttpUtils {
     private static final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");

@@ -14,7 +14,7 @@ import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.view.ZoomImageView;
 
 /**
- * Created by Gyb on 2016/4/13 17:13
+ * Created by cwy on 2016/4/13 17:13
  */
 public class PhotoActivity extends BaseActivity {
     @Bind(R.id.viewPager)

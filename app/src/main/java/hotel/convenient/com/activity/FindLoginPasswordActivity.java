@@ -13,7 +13,7 @@ import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
 
 /**
- * Created by Gyb on 2015/11/27 11:29
+ * Created by cwy on 2015/11/27 11:29
  */
 public class FindLoginPasswordActivity extends BaseActivity {
     @Bind(R.id.mobile_phone)

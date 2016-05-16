@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.GregorianCalendar;
 
 /**
- * Created by Gyb on 2016/4/8 15:58
+ * Created by cwy on 2016/4/8 15:58
  */
 public class ChooseDealerInfo  implements Serializable{
     private GregorianCalendar startCalendar;

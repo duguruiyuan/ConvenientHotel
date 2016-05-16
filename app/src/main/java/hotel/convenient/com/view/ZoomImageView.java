@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import hotel.convenient.com.utils.LogUtils;
 
 /**
- * Created by Gyb on 2016/4/13 15:45
+ * Created by cwy on 2016/4/13 15:45
  */
 public class ZoomImageView extends ImageView implements ViewTreeObserver.OnGlobalLayoutListener, ScaleGestureDetector.OnScaleGestureListener, View.OnTouchListener {
 

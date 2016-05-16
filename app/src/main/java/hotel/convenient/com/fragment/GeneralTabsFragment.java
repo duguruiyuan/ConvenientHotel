@@ -17,7 +17,7 @@ import hotel.convenient.com.utils.LogUtils;
 
 /**
  * 通用的tab  fragment
- * Created by Gyb on 2015/12/11 11:31
+ * Created by cwy on 2015/12/11 11:31
  */
 public class GeneralTabsFragment extends BaseFragment {
     @Bind(R.id.tabs)

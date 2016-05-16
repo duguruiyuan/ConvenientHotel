@@ -9,7 +9,7 @@ import hotel.convenient.com.fragment.InformationListFragment;
 
 /**
  * 站内信
- * Created by Gyb on 2015/12/9 16:14
+ * Created by cwy on 2015/12/9 16:14
  */
 public class InformationListActivity extends BaseActivity {
 

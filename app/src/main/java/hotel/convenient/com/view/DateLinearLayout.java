@@ -19,7 +19,7 @@ import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.ToastUtil;
 
 /**
- * Created by Gyb on 2016/4/12 10:13
+ * Created by cwy on 2016/4/12 10:13
  */
 public class DateLinearLayout extends LinearLayout implements View.OnClickListener{
     private TextView start_date;

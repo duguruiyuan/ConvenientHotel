@@ -10,7 +10,7 @@ import hotel.convenient.com.R;
 import hotel.convenient.com.base.BaseActivity;
 
 /**
- * Created by Gyb on 2016/5/7 23:47
+ * Created by cwy on 2016/5/7 23:47
  */
 public class ResultActivity extends BaseActivity{
     @Bind(R.id.msg)
