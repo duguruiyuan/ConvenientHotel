@@ -34,25 +34,9 @@ public class GeneralTabsFragment extends BaseFragment {
         return R.layout.general_tab_fragment;
     }
 
-    /**
-     * 给这两个参数赋值
-     * @param titles  tab的标题
-     * @param fragments   tab显示的内容
-     */
-    public void setData(List<String> titles, List<Fragment> fragments){
-        this.titles = titles;
-        this.fragments = fragments;
-        if(titles==null||titles.size()==0){
-            LogUtils.e("tabFragment未填充正确数据 需要自己添加");
-            return;
-        }
-    }
-
-    public List<String> getTitles() {
-        return titles;
-    }
-    public List<Fragment> getFragments() {
-        return fragments;
+    public void setCurrentTab(int item){
+        mTab.setScrollPosition(0,item,true);
+        viewPager.setCurrentItem(item);
     }
     @Override
     public void initData(View view, Bundle savedInstanceState) {

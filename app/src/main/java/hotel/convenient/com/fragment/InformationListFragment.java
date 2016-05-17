@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import java.util.List;
 
+import hotel.convenient.com.activity.InformationListActivity;
 import hotel.convenient.com.adapter.CommonRecyclerViewAdapter;
 import hotel.convenient.com.adapter.InformationListAdapter;
 import hotel.convenient.com.domain.Information;
@@ -22,7 +23,14 @@ public class InformationListFragment extends RecyclerViewFragment<Information> {
     private SimplePageCallback simpleCallback;
     @Override
     public CommonRecyclerViewAdapter createAdapter(List<Information> list) {
-        InformationListAdapter innerMessListAdapter=new InformationListAdapter(list);
+        final InformationListAdapter innerMessListAdapter=new InformationListAdapter(list);
+        innerMessListAdapter.setOnItemClickListener(new CommonRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Information information = innerMessListAdapter.getList().get(position);
+                ((InformationListActivity)getActivity()).startActivityByType(information.getType());
+            }
+        });
         return innerMessListAdapter;
     }
 

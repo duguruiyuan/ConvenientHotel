@@ -20,6 +20,7 @@ import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.utils.LogUtils;
 import hotel.convenient.com.utils.PreferenceUtils;
 import hotel.convenient.com.utils.ToastUtil;
 import hotel.convenient.com.view.LinearLayoutEditTextView;
@@ -88,7 +89,7 @@ public class LoginActivity extends BaseActivity {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                     PreferenceUtils.setLoginFlag(LoginActivity.this, data.getPhonenumber(),data.getNickname(),password,
-                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image(),false);
+                            data.getId_card(),HostUrl.HOST + data.getImg_dir() + data.getHead_image(),false);
                     showShortToast("登录成功!");
                     App.getInstanceApp().setDealer(data);
                     skipActivity(MainActivity.class,true,MainActivity.FLAG_SKIP,skip_page);
@@ -114,8 +115,9 @@ public class LoginActivity extends BaseActivity {
                 if (resultJson.getCode() == CODE_SUCCESS) {
                     Dealer data = JSONObject.parseObject(JSONObject.parseObject(result).getJSONObject("data").toString(), Dealer.class);
                     PreferenceUtils.setLoginFlag(context, data.getPhonenumber(),data.getNickname(),password,
-                            data.getId_card(),HostUrl.HOST + "/" + data.getImg_dir() + data.getHead_image(),false);
+                            data.getId_card(),HostUrl.HOST  + data.getImg_dir() + data.getHead_image(),false);
                     App.getInstanceApp().setDealer(data);
+                    LogUtils.e("data保存成功 dealer:"+data+" type="+data.getType());
                 } else {
                     ToastUtil.showShortToast(resultJson.getMsg());
                     ToastUtil.showShortToast("登录超时");

@@ -55,6 +55,10 @@ public class HostUrl {
      */
     public static final String URL_GET_PUBLISH_INFO = "/dealer/get_publish_info";
     /**
+     * 获取用户租房列表
+     */
+    public static final String URL_GET_USER_RECORD = "/dealer/get_user_record";
+    /**
      * 获取离我最近的发布房间列表
      */
     public static final String URL_GET_PUBLISH_INFO_LAT_LNG = "/dealer/get_room_info_by_lat_lng";

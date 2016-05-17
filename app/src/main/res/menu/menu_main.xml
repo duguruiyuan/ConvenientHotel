@@ -18,6 +18,10 @@
                     android:icon="@drawable/card"
                     android:title="发布房间"/>
                 <item
+                    android:id="@+id/action_become_dealer"
+                    android:icon="@drawable/card"
+                    android:title="成为商家"/>
+                <item
                     android:id="@+id/drawer_my_bankcard"
                     android:icon="@android:drawable/ic_dialog_map"
                     android:title="我的银行卡"/>

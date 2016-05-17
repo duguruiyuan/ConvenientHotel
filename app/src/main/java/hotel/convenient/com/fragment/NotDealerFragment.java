@@ -3,6 +3,7 @@ package hotel.convenient.com.fragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import butterknife.Bind;
@@ -17,6 +18,7 @@ import hotel.convenient.com.http.HttpUtils;
 import hotel.convenient.com.http.RequestParams;
 import hotel.convenient.com.http.ResultJson;
 import hotel.convenient.com.http.SimpleCallback;
+import hotel.convenient.com.utils.ToastUtil;
 
 /**
  * Created by cwy on 2016/4/15 10:50
@@ -67,18 +69,32 @@ public class NotDealerFragment extends BaseFragment {
                     });
                     return;
                 }
-                HttpUtils.get(new RequestParams(HostUrl.HOST + HostUrl.URL_BECOME_DEALER), new SimpleCallback() {
+                final EditText editText = new EditText(getContext());
+                mBaseActivity.showAlertDialog("请为您的商铺取一个名称", new DialogInterface.OnClickListener() {
                     @Override
-                    public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
-                        if(resultJson.isSuccess()){
-                            mBaseActivity.showShortToast(resultJson.getMsg());
-                            //通知更换成dealerFragment
-                            if(iBecomeDealer!=null){
-                                iBecomeDealer.becomeDealer();
-                            }
+                    public void onClick(DialogInterface dialog, int which) {
+                        RequestParams params = new RequestParams(HostUrl.HOST + HostUrl.URL_BECOME_DEALER);
+                        String trim = editText.getText().toString().trim();
+                        if(mBaseActivity.isEmpty(trim)){
+                            ToastUtil.showShortToast("店铺名不能为空!");
+                            return;
                         }
+                        params.addBodyParameter("dealer_name", trim);
+                        HttpUtils.post(params, new SimpleCallback() {
+                            @Override
+                            public <T> void simpleSuccess(String url, String result, ResultJson<T> resultJson) {
+                                mBaseActivity.showShortToast(resultJson.getMsg());
+                                if(resultJson.isSuccess()){
+                                    //通知更换成dealerFragment
+                                    if(iBecomeDealer!=null){
+                                        iBecomeDealer.becomeDealer();
+                                    }
+                                }
+                            }
+                        });
                     }
-                });
+                },editText);
+                
                 break;
         }
     }

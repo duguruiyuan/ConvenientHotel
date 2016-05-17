@@ -132,11 +132,11 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
         }
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,getToolbar(),R.string.draw_open,R.string.draw_close){
             public void onDrawerClosed(View view){
-                invalidateOptionsMenu(); // creates call to                                                    // onPrepareOptionsMenu()            }
-                /** Called when a drawer has settled in a completely open state. */
+                invalidateOptionsMenu(); 
             }
             public void onDrawerOpened(View drawerView){
-                invalidateOptionsMenu(); // creates call to                                                    // onPrepareOptionsMenu()            }
+                invalidateOptionsMenu();
+                setHeadViewInfo();
             }
         };
         mDrawerToggle.syncState(); //初始化状态
@@ -167,6 +167,9 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                         break;
                     case R.id.drawer_more:
                         viewPager.setCurrentItem(2);
+                        break;
+                    case R.id.action_become_dealer:
+                        viewPager.setCurrentItem(1);
                         break;
                 }
 //                item.setChecked(true);
@@ -213,16 +216,16 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             username.setText(PreferenceUtils.getNickname(this));
             phone.setText(PreferenceUtils.getPhone(this));
             navigationView.getMenu().getItem(3).setVisible(true);
-           
-            if (dealer.getType() == 1) {
-                navigationView.getMenu().getItem(1).setVisible(true);
-                navigationView.getMenu().getItem(1).getSubMenu().getItem(0).setVisible(true);
-            } else {
-                navigationView.getMenu().getItem(1).setVisible(true);
-                navigationView.getMenu().getItem(1).getSubMenu().getItem(0).setVisible(false);
-            } 
-            
             navigationView.getMenu().getItem(4).setVisible(false);
+            navigationView.getMenu().getItem(1).setVisible(true);
+
+            if (dealer.getType() == 1) {
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(0).setVisible(true);
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(1).setVisible(false);
+            } else {
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(0).setVisible(false);
+                navigationView.getMenu().getItem(1).getSubMenu().getItem(1).setVisible(true);
+            } 
         }else{
             username.setText("游客");
             phone.setText("");
@@ -258,7 +261,7 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
             case 1:
                 setTitle("我的");
                 break;
-            case 3:
+            case 2:
                 setTitle("更多");
                 break;
             default:
@@ -274,12 +277,15 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        LogUtils.e("onNewIntent");
-        int intExtra = getIntent().getIntExtra(FLAG_SKIP, -1);
+        int intExtra = intent.getIntExtra(FLAG_SKIP, -1);
+        int tab = intent.getIntExtra("tab", 0);
+        LogUtils.e("onNewIntent 跳转页面"+intExtra+" tab"+tab);
         if(intExtra!=-1){
             viewPager.setCurrentItem(intExtra);
+            if(intExtra==1){
+                generalTabsFragment.setCurrentTab(tab);
+            }
         }
-//        setHeadViewInfo();
     }
 
     @Override
@@ -328,7 +334,12 @@ public class MainActivity extends BaseActivity  implements ViewPager.OnPageChang
                 viewPager.setCurrentItem(0);
                 break;
             case R.id.ll_dealer:
-                viewPager.setCurrentItem(1);
+                if (PreferenceUtils.isLogin(this)) {
+                    viewPager.setCurrentItem(1);
+                    generalTabsFragment.onResume();
+                } else {
+                    skipActivity(LoginActivity.class,false,"data",1);
+                }
                 break;
             case R.id.ll_more:
                 if (PreferenceUtils.isLogin(this)) {
